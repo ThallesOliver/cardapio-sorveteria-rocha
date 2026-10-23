@@ -115,7 +115,7 @@ window.CATEGORIAS = [
     nota: "Feitos com fruta de verdade.",
     foto: { src: "fotos/fruta.jpg", alt: "Picolés de fruta coloridos sobre fundo amarelo" },
     itens: [
-      { id: "picole-fruta", nome: "Picolé de fruta", desc: "Sabores do dia:", preco: 6, cor: "#CFE6A2", tags: ["fruta", "sem-lactose"], opcoes: { sabores: { de: "PICOLES_FRUTA", min: 1, max: 1 } } }
+      { id: "picole-fruta", nome: "Picolé de fruta", desc: "Sabores de hoje:", preco: 6, cor: "#CFE6A2", tags: ["fruta", "sem-lactose"], opcoes: { sabores: { de: "PICOLES_FRUTA", min: 1, max: 1 } } }
     ]
   },
   {
@@ -123,7 +123,7 @@ window.CATEGORIAS = [
     nome: "Picolés cremosos",
     foto: { src: "fotos/cremosos.jpg", alt: "Picolés recheados com cobertura de chocolate empilhados" },
     itens: [
-      { id: "picole-cremoso", nome: "Picolé cremoso", desc: "Sabores do dia:", preco: 8, cor: "#C9965A", tags: ["cremoso", "zero"], opcoes: { sabores: { de: "PICOLES_CREMOSOS", min: 1, max: 1 } } },
+      { id: "picole-cremoso", nome: "Picolé cremoso", desc: "Sabores de hoje:", preco: 8, cor: "#C9965A", tags: ["cremoso", "zero"], opcoes: { sabores: { de: "PICOLES_CREMOSOS", min: 1, max: 1 } } },
       { id: "picole-recheado", nome: "Picolé recheado de coco queimado", desc: "Casquinha de chocolate e recheio cremoso", preco: 10, cor: "#8A5A35", tags: ["cremoso", "classico"], destaque: true }
     ]
   },

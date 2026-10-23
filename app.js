@@ -59,13 +59,29 @@
   function secaoSabores() {
     const lista = window.SABORES.filter((s) => (filtro === "todos" || s.tags.includes(filtro)) && bate(s.nome));
     if (!lista.length) return "";
-    return `<section class="secao" id="cat-sabores" aria-labelledby="h-sabores">
-      <h2 id="h-sabores">Sabores de massa</h2>
-      <p class="nota">Servidos em bolas, potes, taças e milkshakes.</p>
+    const disp = lista.filter((s) => !s.esgotado).length;
+    const corpo = `<p class="nota">Servidos em bolas, potes, taças e milkshakes.</p>
       <ul class="sabores">${lista.map((s) => `<li class="sabor${s.esgotado ? " off" : ""}">
         <span class="ponto" style="--c:${s.cor}" aria-hidden="true"></span>
         <span><span class="nome">${esc(s.nome)}</span>${s.esgotado ? "<small>Esgotado hoje</small>" : s.estacao ? "<small>Da estação</small>" : ""}</span>
-      </li>`).join("")}</ul>
+      </li>`).join("")}</ul>`;
+    return painel("sabores", "Sabores de massa", `${disp} ${disp === 1 ? "sabor" : "sabores"} hoje`, lista.slice(0, 6).map((s) => s.cor), corpo);
+  }
+
+  /* Um painel do leque: cabeçalho que abre e fecha + conteúdo */
+  const abertos = new Set();
+  function painel(id, nome, resumo, cores, corpo) {
+    const aberto = abertos.has(id) || !!termo || filtro !== "todos";
+    const bolinhas = cores.length ? `<span class="leque-cores" aria-hidden="true">${cores.map((c) => `<i style="--c:${c}"></i>`).join("")}</span>` : "";
+    return `<section class="secao${aberto ? " aberto" : ""}" id="cat-${id}">
+      <h2 class="leque-titulo">
+        <button type="button" class="leque-cab" id="cab-${id}" data-painel="${id}" aria-expanded="${aberto}" aria-controls="corpo-${id}">
+          ${bolinhas}
+          <span class="leque-texto"><span class="leque-nome">${esc(nome)}</span><span class="leque-resumo">${esc(resumo)}</span></span>
+          <svg class="leque-seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+      </h2>
+      <div class="leque-corpo" id="corpo-${id}" role="region" aria-labelledby="cab-${id}"${aberto ? "" : " inert"}><div class="leque-dentro">${corpo}</div></div>
     </section>`;
   }
 
@@ -87,7 +103,7 @@
     if (it.esgotado) selos.push('<span class="esgotado">Esgotado hoje</span>');
     const s = it.opcoes?.sabores;
     const lista = s && s.de !== "SABORES"
-      ? `<p class="lista-sabores">${LISTAS[s.de].map((x) => x.esgotado ? `<span class="off">${esc(x.nome)}</span>` : esc(x.nome)).join(", ")}</p>`
+      ? `<ul class="picoles">${LISTAS[s.de].map((x, i) => `<li class="picole${x.esgotado ? " off" : ""}" style="--c:${x.cor};--i:${i}"><i aria-hidden="true"></i>${esc(x.nome)}${x.esgotado ? " <small>(esgotado)</small>" : ""}</li>`).join("")}</ul>`
       : "";
     const d = descricao(it);
     return `<li class="item${it.esgotado ? " off" : ""}">
@@ -111,6 +127,17 @@
     </div>`;
   }
 
+  function resumoCat(cat, itens) {
+    const menor = Math.min(...itens.map((i) => i.preco));
+    const s = itens.map((i) => i.opcoes?.sabores).find((x) => x && x.de !== "SABORES");
+    const extra = s ? ` · ${LISTAS[s.de].filter((x) => !x.esgotado).length} sabores` : ` · ${itens.length} ${itens.length === 1 ? "opção" : "opções"}`;
+    return `a partir de ${brl(menor)}${extra}`;
+  }
+  function coresCat(itens) {
+    const s = itens.map((i) => i.opcoes?.sabores).find((x) => x && x.de !== "SABORES");
+    return (s ? LISTAS[s.de].map((x) => x.cor) : itens.map((i) => i.cor)).slice(0, 6);
+  }
+
   function render() {
     let html = secaoSabores();
     let total = html ? 1 : 0;
@@ -118,27 +145,36 @@
       const itens = cat.itens.filter(itemVisivel);
       if (!itens.length) return "";
       total++;
-      return `<section class="secao" id="cat-${cat.id}" aria-labelledby="h-${cat.id}">
-        <h2 id="h-${cat.id}">${esc(cat.nome)}</h2>
-        ${cat.nota ? `<p class="nota">${esc(cat.nota)}</p>` : ""}
+      const corpo = `${cat.nota ? `<p class="nota">${esc(cat.nota)}</p>` : ""}
         ${cat.foto ? `<img class="secao-foto" onerror="this.remove()" src="${esc(cat.foto.src)}" alt="${esc(cat.foto.alt)}" width="1200" height="760" loading="lazy">` : ""}
         <ul class="itens">${itens.map(itemHTML).join("")}</ul>
-        ${extrasHTML(cat)}
-      </section>`;
+        ${extrasHTML(cat)}`;
+      return painel(cat.id, cat.nome, resumoCat(cat, itens), coresCat(itens), corpo);
     }).join("");
     $("#secoes").innerHTML = html;
     $("#vazio").hidden = total > 0;
-    if (typeof observar === "function") observar();
   }
 
   function renderCats() {
-    const cats = [{ id: "sabores", nome: "Sabores" }, ...window.CATEGORIAS];
-    $("#cats").innerHTML = cats.map((c) => `<a href="#cat-${c.id}" data-cat="${c.id}">${esc(c.nome)}</a>`).join("");
     const f = [["todos", "Todos"], ...Object.entries(TAGS)];
     $("#filtros").innerHTML = f.map(([k, v]) => `<button type="button" data-filtro="${k}" aria-pressed="${k === filtro}">${v}</button>`).join("");
   }
 
   document.addEventListener("click", (e) => {
+    const cab = e.target.closest("[data-painel]");
+    if (cab) {
+      const id = cab.dataset.painel, sec = cab.closest(".secao"), corpo = sec.querySelector(".leque-corpo");
+      const abrir = !sec.classList.contains("aberto");
+      sec.classList.toggle("aberto", abrir);
+      cab.setAttribute("aria-expanded", abrir);
+      corpo.inert = !abrir;
+      abrir ? abertos.add(id) : abertos.delete(id);
+      if (abrir) setTimeout(() => {
+        const r = sec.getBoundingClientRect();
+        if (r.top < 0 || r.top > innerHeight * 0.6) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 80);
+      return;
+    }
     const f = e.target.closest("[data-filtro]");
     if (!f) return;
     filtro = f.dataset.filtro;
@@ -146,23 +182,6 @@
     render();
   });
   $("#busca").addEventListener("input", (e) => { termo = norm(e.target.value.trim()); render(); });
-
-  // Destaca a categoria visível. Só rola a barra de categorias na horizontal; nunca mexe na rolagem da página.
-  const nav = $("#cats");
-  let catAtiva = "";
-  const obs = new IntersectionObserver((ents) => {
-    const vis = ents.find((en) => en.isIntersecting);
-    if (!vis) return;
-    const id = vis.target.id.replace("cat-", "");
-    if (id === catAtiva) return;
-    catAtiva = id;
-    nav.querySelectorAll("a").forEach((a) => {
-      const on = a.dataset.cat === id;
-      a.classList.toggle("ativo", on);
-      if (on) nav.scrollTo({ left: a.offsetLeft - (nav.clientWidth - a.offsetWidth) / 2, behavior: "smooth" });
-    });
-  }, { rootMargin: "-40% 0px -55% 0px" });
-  const observar = () => { obs.disconnect(); catAtiva = ""; document.querySelectorAll(".secao").forEach((s) => obs.observe(s)); };
 
   /* ---------- Início ---------- */
   $("#link-mapa").href = $("#link-mapa2").href = C.mapsUrl;
