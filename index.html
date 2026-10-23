@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sorveteria Rocha — Cardápio</title>
+<meta name="description" content="Cardápio da Sorveteria Rocha, desde 1947 no Centro Histórico de São Sebastião. Sabores, preços e horário de funcionamento.">
+<meta name="theme-color" content="#1D3A66">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cardapio-sorveteria-rocha.vercel.app/">
+<meta property="og:title" content="Sorveteria Rocha — Cardápio">
+<meta property="og:description" content="Desde 1947. Sabores, preços e horário de funcionamento.">
+<meta property="og:image" content="https://cardapio-sorveteria-rocha.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="icone.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%231D3A66'/><text x='32' y='45' font-family='Georgia,serif' font-size='40' text-anchor='middle' fill='white'>R</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="faixa" aria-hidden="true"></div>
+
+<header class="topo">
+  <p class="sobre-marca">Sorveteria</p>
+  <h1 class="marca">Rocha</h1>
+  <p class="desde">Desde 1947, no Centro Histórico de São Sebastião</p>
+  <hr class="filete">
+  <div class="topo-info">
+    <span class="status" id="status">…</span>
+    <a class="link-mapa" id="link-mapa" href="#" target="_blank" rel="noopener">Como chegar</a>
+  </div>
+</header>
+
+<nav class="cats" id="cats" aria-label="Categorias"></nav>
+
+<div class="ferramentas">
+  <label class="busca">
+    <span class="sr">Buscar no cardápio</span>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+    <input id="busca" type="search" placeholder="Buscar sabor ou produto" autocomplete="off">
+  </label>
+  <div class="filtros" id="filtros" role="group" aria-label="Filtrar por tipo"></div>
+</div>
+
+<main id="menu">
+  <div id="secoes"></div>
+  <p class="vazio" id="vazio" hidden>Nada encontrado. Tente outro sabor ou limpe o filtro.</p>
+
+  <section class="historia" aria-labelledby="t-hist">
+    <hr class="filete">
+    <h2 id="t-hist">A receita da família</h2>
+    <p>A Rocha nasceu no litoral norte paulista e passou de geração em geração com a mesma receita: fruta de verdade e nada de corante.</p>
+  </section>
+</main>
+
+<footer class="rodape">
+  <div class="rodape-in">
+    <div>
+      <p class="marca-p">Rocha</p>
+      <p id="endereco"></p>
+      <p class="links">
+        <a id="link-mapa2" href="#" target="_blank" rel="noopener">Google Maps</a>
+        <a id="link-insta" href="#" target="_blank" rel="noopener">Instagram</a>
+      </p>
+    </div>
+    <div>
+      <h3>Horário de funcionamento</h3>
+      <dl class="horarios" id="horarios"></dl>
+    </div>
+  </div>
+</footer>
+
+<script src="dados.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
