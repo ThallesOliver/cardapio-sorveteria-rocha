@@ -1,4 +1,4 @@
-# Cardápio — Sorveteria Rocha
+# Cardápio — Sorvetes Rocha
 
 Cardápio digital da Sorveteria Rocha, desde 1947 no Centro Histórico de São Sebastião (SP).
 
@@ -30,6 +30,7 @@ Os sabores e preços que estão no arquivo hoje são exemplos e precisam ser tro
 
 ## Publicação na Vercel
 
+- Fotos: ficam na pasta `fotos/` (capa, fotos das categorias e galeria).
 - Install command: `python3 -m pip install --quiet --break-system-packages pillow`
 - Build command: `python3 build.py`
 - Output directory: `public`

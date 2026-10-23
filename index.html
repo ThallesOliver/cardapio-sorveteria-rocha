@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sorveteria Rocha — Cardápio</title>
-<meta name="description" content="Cardápio da Sorveteria Rocha, desde 1947 no Centro Histórico de São Sebastião. Sabores, preços e horário de funcionamento.">
-<meta name="theme-color" content="#111111">
+<title>Sorvetes Rocha — Cardápio</title>
+<meta name="description" content="Cardápio dos Sorvetes Rocha, desde 1947. Sabores, preços e horário de funcionamento.">
+<meta name="theme-color" content="#F6C31C">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://cardapio-sorveteria-rocha.vercel.app/">
-<meta property="og:title" content="Sorveteria Rocha — Cardápio">
+<meta property="og:title" content="Sorvetes Rocha — Cardápio">
 <meta property="og:description" content="Desde 1947. Sabores, preços e horário de funcionamento.">
 <meta property="og:image" content="https://cardapio-sorveteria-rocha.vercel.app/og.png">
 <meta property="og:image:width" content="1200">
@@ -16,26 +16,38 @@
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="apple-touch-icon" href="icone.png">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23F5C518'/><text x='32' y='45' font-family='Georgia,serif' font-size='40' text-anchor='middle' fill='%23151515'>R</text></svg>">
+<link rel="icon" href="icone.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Libre+Caslon+Display&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<div class="faixa" aria-hidden="true"></div>
-
 <header class="topo">
-  <p class="sobre-marca">Sorveteria</p>
-  <h1 class="marca">Rocha</h1>
-  <p class="desde">Desde 1947, no Centro Histórico de São Sebastião</p>
-  <hr class="filete">
+  <h1 class="sr">Sorvetes Rocha, desde 1947</h1>
+  <svg class="selo" viewBox="0 0 440 280" role="img" aria-label="Sorvetes Rocha, desde 1947">
+    <path class="selo-fundo" d="M30 70H60L75 55H150Q158 30 185 26H255Q282 30 290 55H365L380 70H410L425 85V195L410 210H380L365 225H290Q282 250 255 254H185Q158 250 150 225H75L60 210H30L15 195V85Z"/>
+    <path class="selo-borda" d="M30 70H60L75 55H150Q158 30 185 26H255Q282 30 290 55H365L380 70H410L425 85V195L410 210H380L365 225H290Q282 250 255 254H185Q158 250 150 225H75L60 210H30L15 195V85Z" transform="translate(13.2 8.4) scale(.94)"/>
+    <g class="selo-icone" transform="translate(220 52)">
+      <circle cx="-7" cy="-4" r="6"/><circle cx="7" cy="-4" r="6"/><circle cx="0" cy="-13" r="6"/>
+      <path d="M-11 1L0 24L11 1Z"/><path d="M-6 6L5 12M-3 12L3 15M6 6L-5 12"/>
+    </g>
+    <line class="selo-linha" x1="78" y1="100" x2="150" y2="100"/><line class="selo-linha" x1="290" y1="100" x2="362" y2="100"/>
+    <text class="selo-sub" x="220" y="106">SORVETES</text>
+    <text class="selo-nome" x="220" y="178">ROCHA</text>
+    <line class="selo-linha" x1="110" y1="196" x2="330" y2="196"/>
+    <text class="selo-sub selo-desde" x="220" y="224">DESDE 1947</text>
+  </svg>
   <div class="topo-info">
     <span class="status" id="status">…</span>
     <a class="link-mapa" id="link-mapa" href="#" target="_blank" rel="noopener">Como chegar</a>
   </div>
 </header>
+
+<figure class="capa">
+  <img src="fotos/capa.jpg" width="1400" height="900" alt="Picolés de fruta coloridos dos Sorvetes Rocha sobre fundo azul">
+</figure>
 
 <nav class="cats" id="cats" aria-label="Categorias"></nav>
 
@@ -52,6 +64,17 @@
   <div id="secoes"></div>
   <p class="vazio" id="vazio" hidden>Nada encontrado. Tente outro sabor ou limpe o filtro.</p>
 
+  <section class="galeria" aria-labelledby="t-galeria">
+    <h2 id="t-galeria">Feitos aqui, desde 1947</h2>
+    <p class="nota">Arraste para ver mais.</p>
+    <ul class="fotos">
+      <li><img src="fotos/galeria-1.jpg" width="720" height="900" loading="lazy" alt="Picolés coloridos enfileirados sobre fundo azul"></li>
+      <li><img src="fotos/galeria-2.jpg" width="720" height="900" loading="lazy" alt="Picolés de fruta sobre fundo amarelo"></li>
+      <li><img src="fotos/galeria-3.jpg" width="720" height="900" loading="lazy" alt="Picolé recheado com cobertura de chocolate"></li>
+      <li><img src="fotos/galeria-4.jpg" width="720" height="900" loading="lazy" alt="Embalagens dos picolés Rocha: chocolate zero, coco zero, coco, groselha e uva"></li>
+    </ul>
+  </section>
+
   <section class="historia" aria-labelledby="t-hist">
     <hr class="filete">
     <h2 id="t-hist">A receita da família</h2>
@@ -62,7 +85,7 @@
 <footer class="rodape">
   <div class="rodape-in">
     <div>
-      <p class="marca-p">Rocha</p>
+      <p class="marca-p">Sorvetes Rocha</p>
       <p id="endereco"></p>
       <p class="links">
         <a id="link-mapa2" href="#" target="_blank" rel="noopener">Google Maps</a>

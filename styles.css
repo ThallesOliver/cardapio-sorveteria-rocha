@@ -1,17 +1,20 @@
 :root {
-  --preto: #151515;
-  --preto-fundo: #111111;
-  --amarelo: #F5C518;
+  --carvao: #2D2928;       /* selo da marca */
+  --carvao-fundo: #231F1E;
+  --amarelo: #F6C31C;      /* fundo amarelo das fotos */
   --amarelo-escuro: #8A6A00;
+  --azul: #1E6BD6;         /* fundo azul das fotos */
   --papel: #FAFAF8;
   --branco: #FFFFFF;
-  --tinta: #1C2230;
-  --suave: #646B78;
-  --linha: #E3E5EA;
-  --pontos: #B9BEC8;
+  --creme: #F7F3EC;
+  --tinta: #1E1B1A;
+  --suave: #6A6461;
+  --linha: #E6E3DF;
+  --pontos: #BDB7B2;
   --vinho: #9B2335;
   --verde: #2F6B4F;
-  --serif: "Libre Caslon Display", "Libre Caslon Text", Georgia, serif;
+  --serif: "Libre Caslon Display", Georgia, serif;
+  --marca: "Playfair Display", Georgia, serif;
   --texto: "Figtree", system-ui, -apple-system, sans-serif;
 }
 
@@ -31,32 +34,34 @@ body {
 }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 button, input { font: inherit; color: inherit; }
-:focus-visible { outline: 2px solid var(--amarelo-escuro); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--azul); outline-offset: 3px; }
 a { color: inherit; }
+img { display: block; max-width: 100%; height: auto; }
 
-/* Faixa listrada fina no topo: lembra o toldo da sorveteria */
-.faixa {
-  height: 8px;
-  background: repeating-linear-gradient(90deg, var(--amarelo) 0 16px, var(--preto) 16px 32px);
-}
-
-/* ---------- Cabeçalho ---------- */
-.topo { max-width: 640px; margin: 0 auto; padding: 48px 20px 28px; text-align: center; }
-.sobre-marca { margin: 0; color: var(--suave); font-size: 15px; letter-spacing: .04em; }
-.marca {
-  margin: 2px 0 6px;
-  font-family: var(--serif); font-weight: 400;
-  font-size: clamp(64px, 19vw, 96px); line-height: 1;
-  color: var(--preto); letter-spacing: -.01em;
-}
-.desde { margin: 0; font-family: var(--serif); font-size: 17px; color: var(--tinta); }
-.filete { width: 56px; height: 3px; margin: 20px auto; background: var(--amarelo); border: 0; border-radius: 2px; }
-.topo-info { display: flex; justify-content: center; align-items: center; gap: 18px; flex-wrap: wrap; font-size: 15px; }
-.status { display: inline-flex; align-items: center; gap: 8px; color: var(--tinta); }
-.status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--pontos); }
-.status.aberto::before { background: #2DA160; }
+/* ---------- Cabeçalho amarelo com o selo ---------- */
+.topo { background: var(--amarelo); padding: 36px 20px 26px; text-align: center; }
+.selo { display: block; width: min(300px, 78vw); height: auto; margin: 0 auto; filter: drop-shadow(0 6px 14px rgba(45, 41, 40, .22)); }
+.selo-fundo { fill: var(--carvao); }
+.selo-borda { fill: none; stroke: var(--creme); stroke-width: 2; }
+.selo-icone circle, .selo-icone path { fill: none; stroke: var(--creme); stroke-width: 2; stroke-linejoin: round; }
+.selo-linha { stroke: var(--creme); stroke-width: 1.5; }
+.selo-sub { font-family: var(--texto); font-weight: 600; font-size: 17px; letter-spacing: 5px; fill: var(--creme); text-anchor: middle; }
+.selo-desde { font-size: 13px; letter-spacing: 3px; }
+.selo-nome { font-family: var(--marca); font-weight: 900; font-size: 74px; letter-spacing: 3px; fill: var(--creme); text-anchor: middle; }
+.topo-info { display: flex; justify-content: center; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 18px; font-size: 15px; color: var(--carvao); }
+.status { display: inline-flex; align-items: center; gap: 8px; font-weight: 500; }
+.status::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--carvao); box-shadow: 0 0 0 2px rgba(255,255,255,.6); }
+.status.aberto::before { background: #1E8E4E; }
 .status.fechado::before { background: var(--vinho); }
-.link-mapa { color: var(--preto); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.link-mapa { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1.5px; }
+
+/* ---------- Foto de capa ---------- */
+.capa { margin: 0; background: var(--azul); }
+.capa img { width: 100%; aspect-ratio: 14 / 9; object-fit: cover; }
+@media (min-width: 680px) {
+  .capa { background: var(--amarelo); padding: 0 20px 28px; }
+  .capa img { max-width: 640px; margin: 0 auto; border-radius: 10px; aspect-ratio: 16 / 9; }
+}
 
 /* ---------- Navegação por categoria ---------- */
 .cats {
@@ -64,17 +69,18 @@ a { color: inherit; }
   display: flex; gap: 22px; overflow-x: auto;
   padding: 0 20px;
   background: var(--branco);
-  border-top: 1px solid var(--linha); border-bottom: 1px solid var(--linha);
+  border-bottom: 1px solid var(--linha);
+  box-shadow: 0 1px 0 rgba(0,0,0,.02);
   scrollbar-width: none; overscroll-behavior-x: contain;
 }
 .cats::-webkit-scrollbar { display: none; }
 @media (min-width: 680px) { .cats { justify-content: center; } }
 .cats a {
-  flex: none; padding: 14px 0 12px;
+  flex: none; padding: 14px 0 11px;
   color: var(--suave); font-size: 15px; font-weight: 500; text-decoration: none;
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
 }
-.cats a.ativo { color: var(--preto); font-weight: 600; border-bottom: 3px solid var(--amarelo); padding-bottom: 11px; }
+.cats a.ativo { color: var(--carvao); font-weight: 700; border-bottom-color: var(--amarelo); }
 
 /* ---------- Busca e filtros ---------- */
 .ferramentas { max-width: 640px; margin: 0 auto; padding: 20px 20px 0; }
@@ -83,7 +89,7 @@ a { color: inherit; }
   height: 46px; padding: 0 14px;
   background: var(--branco); border: 1px solid var(--linha); border-radius: 8px;
 }
-.busca:focus-within { border-color: var(--preto); }
+.busca:focus-within { border-color: var(--carvao); }
 .busca svg { width: 18px; height: 18px; fill: none; stroke: var(--suave); stroke-width: 2; stroke-linecap: round; flex: none; }
 .busca input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font-size: 16px; }
 .filtros { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
@@ -91,17 +97,18 @@ a { color: inherit; }
   padding: 5px 12px; border: 1px solid var(--linha); border-radius: 999px;
   background: var(--branco); color: var(--suave); font-size: 14px; cursor: pointer;
 }
-.filtros button[aria-pressed="true"] { border-color: var(--amarelo); background: var(--amarelo); color: var(--preto); font-weight: 600; }
+.filtros button[aria-pressed="true"] { border-color: var(--amarelo); background: var(--amarelo); color: var(--carvao); font-weight: 700; }
 
 /* ---------- Seções ---------- */
 main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .secao { padding-top: 44px; }
-.secao h2 {
+.secao h2, .galeria h2 {
   margin: 0 0 4px;
-  font-family: var(--serif); font-weight: 400; font-size: 30px; line-height: 1.15; color: var(--preto);
+  font-family: var(--serif); font-weight: 400; font-size: 30px; line-height: 1.15; color: var(--carvao);
 }
 .nota { margin: 0 0 16px; color: var(--suave); font-size: 15px; }
-.secao h2 + .itens, .secao h2 + .sabores { margin-top: 16px; }
+.secao h2 + .itens, .secao h2 + .sabores, .secao h2 + .secao-foto { margin-top: 16px; }
+.secao-foto { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; margin-bottom: 8px; background: var(--linha); }
 
 /* Itens no formato de cardápio impresso: nome, pontilhado e preço */
 .itens { list-style: none; margin: 0; padding: 0; }
@@ -110,9 +117,9 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .linha { display: flex; align-items: baseline; gap: 8px; }
 .item-nome { font-weight: 600; font-size: 17px; }
 .pontos { flex: 1; min-width: 16px; border-bottom: 1px dotted var(--pontos); transform: translateY(-4px); }
-.preco { font-weight: 600; font-size: 17px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.preco { font-weight: 700; font-size: 17px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .item-desc { margin: 2px 0 0; color: var(--suave); font-size: 14.5px; }
-.selos { margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; color: var(--amarelo-escuro); font-weight: 600; }
+.selos { margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; color: var(--amarelo-escuro); font-weight: 700; }
 .selos .esgotado { color: var(--vinho); }
 .item.off .item-nome, .item.off .preco { color: var(--suave); text-decoration: line-through; }
 .lista-sabores { margin: 2px 0 0; font-size: 14.5px; color: var(--tinta); }
@@ -123,34 +130,45 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .sabores { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 28px; }
 @media (min-width: 560px) { .sabores { columns: 3; } }
 .sabor { break-inside: avoid; display: flex; align-items: baseline; gap: 10px; padding: 7px 0; font-size: 16px; }
-.ponto { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(28,34,48,.18); transform: translateY(1px); }
+.ponto { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(30,27,26,.2); transform: translateY(1px); }
 .sabor small { display: block; font-size: 12.5px; color: var(--verde); }
 .sabor.off .nome { color: var(--suave); text-decoration: line-through; }
 .sabor.off small { color: var(--vinho); }
 
 /* Adicionais e acompanhamentos */
 .extras { margin-top: 18px; padding: 16px 18px; border: 1px solid var(--linha); border-radius: 8px; background: var(--branco); }
-.extras h3 { margin: 0 0 2px; font-family: var(--serif); font-weight: 400; font-size: 19px; color: var(--preto); }
+.extras h3 { margin: 0 0 2px; font-family: var(--serif); font-weight: 400; font-size: 19px; color: var(--carvao); }
 .extras-nota { margin: 0 0 8px; color: var(--suave); font-size: 14px; }
 .extras ul { list-style: none; margin: 8px 0 0; padding: 0; }
 .extras li { display: flex; align-items: baseline; gap: 8px; padding: 3px 0; font-size: 15px; }
 .extras li .pontos { transform: translateY(-3px); }
 .extras li .valor { color: var(--suave); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
+/* ---------- Galeria de fotos ---------- */
+.galeria { padding-top: 56px; }
+.fotos {
+  list-style: none; margin: 0 -20px; padding: 0 20px 6px;
+  display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+}
+.fotos::-webkit-scrollbar { display: none; }
+.fotos li { flex: none; width: 68%; max-width: 240px; scroll-snap-align: start; }
+.fotos img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 10px; background: var(--linha); }
+
 /* ---------- História ---------- */
-.historia { max-width: 460px; margin: 64px auto 0; padding: 0 0 56px; text-align: center; }
-.historia h2 { margin: 0 0 10px; font-family: var(--serif); font-weight: 400; font-size: 24px; color: var(--preto); }
+.historia { max-width: 460px; margin: 56px auto 0; padding: 0 0 56px; text-align: center; }
+.filete { width: 56px; height: 3px; margin: 0 auto 20px; background: var(--amarelo); border: 0; border-radius: 2px; }
+.historia h2 { margin: 0 0 10px; font-family: var(--serif); font-weight: 400; font-size: 24px; color: var(--carvao); }
 .historia p { margin: 0; color: var(--suave); font-size: 15.5px; }
 
 /* ---------- Rodapé ---------- */
-.rodape { background: var(--preto-fundo); color: #C8C8C8; border-top: 6px solid var(--amarelo); }
+.rodape { background: var(--carvao-fundo); color: #CFC8C3; border-top: 6px solid var(--amarelo); }
 .rodape-in { max-width: 640px; margin: 0 auto; padding: 40px 20px 44px; display: grid; gap: 24px; }
 @media (min-width: 560px) { .rodape-in { grid-template-columns: 1fr 1fr; } }
-.rodape .marca-p { margin: 0 0 8px; font-family: var(--serif); font-weight: 400; font-size: 34px; color: var(--amarelo); line-height: 1; }
+.rodape .marca-p { margin: 0 0 8px; font-family: var(--marca); font-weight: 900; font-size: 28px; color: var(--amarelo); line-height: 1.1; }
 .rodape p { margin: 0 0 4px; font-size: 15px; }
-.rodape h3 { margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--amarelo); letter-spacing: .04em; }
+.rodape h3 { margin: 0 0 8px; font-size: 13px; font-weight: 700; color: var(--amarelo); letter-spacing: .04em; }
 .horarios { display: grid; grid-template-columns: auto 1fr; gap: 3px 18px; margin: 0; font-size: 15px; }
-.horarios dt { color: #C8C8C8; }
+.horarios dt { color: #CFC8C3; }
 .horarios dd { margin: 0; font-variant-numeric: tabular-nums; color: var(--branco); }
 .horarios .hoje { font-weight: 700; color: var(--amarelo); }
 .links { display: flex; gap: 18px; margin-top: 14px !important; }

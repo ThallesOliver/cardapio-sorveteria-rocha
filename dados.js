@@ -4,7 +4,7 @@
    ========================================================= */
 
 window.CONFIG = {
-  nome: "Sorveteria Rocha",
+  nome: "Sorvetes Rocha",
   slogan: "A original desde 1947",
   instagram: "https://www.instagram.com/sorveteriarocha.original/",
   endereco: "Av. Dr. Altino Arantes, Centro Histórico — São Sebastião/SP",
@@ -52,12 +52,16 @@ window.PICOLES_FRUTA = [
   { id: "p-morango", nome: "Morango", cor: "#F08CA0" },
   { id: "p-maracuja", nome: "Maracujá", cor: "#F1C232" },
   { id: "p-uva", nome: "Uva", cor: "#8E5A9B" },
+  { id: "p-groselha", nome: "Groselha", cor: "#D7263D" },
   { id: "p-manga", nome: "Manga", cor: "#F4A53A" },
   { id: "p-tamarindo", nome: "Tamarindo", cor: "#8B5A2B" }
 ];
 
 window.PICOLES_CREMOSOS = [
+  { id: "p-coco", nome: "Coco", cor: "#F6F2E7" },
   { id: "p-coco-queimado", nome: "Coco queimado", cor: "#C9965A" },
+  { id: "p-coco-zero", nome: "Coco zero açúcar", cor: "#F6F2E7" },
+  { id: "p-chocolate-zero", nome: "Chocolate zero açúcar", cor: "#5A3420" },
   { id: "p-milho", nome: "Milho verde", cor: "#F3D46B" },
   { id: "p-abacate", nome: "Abacate", cor: "#B8D08A" },
   { id: "p-leite-ninho", nome: "Leite ninho", cor: "#FAF5E8" },
@@ -90,7 +94,8 @@ window.ADICIONAIS_ACAI = [
      - de "PICOLES_...": os sabores aparecem listados embaixo do item
      - repetir: true = conta como bolas (pode repetir o sabor)
    opcoes.adicionais: "ADICIONAIS_SORVETE" | "ADICIONAIS_ACAI" (a lista aparece no fim da categoria)
-   opcoes.gratis: quantos acompanhamentos de preço 0 já vêm inclusos (açaí) */
+   opcoes.gratis: quantos acompanhamentos de preço 0 já vêm inclusos (açaí)
+   foto: { src, alt } mostra uma foto no topo da categoria (arquivos na pasta fotos/) */
 window.CATEGORIAS = [
   {
     id: "massa",
@@ -108,6 +113,7 @@ window.CATEGORIAS = [
     id: "fruta",
     nome: "Picolés de fruta",
     nota: "Feitos com fruta de verdade.",
+    foto: { src: "fotos/fruta.jpg", alt: "Picolés de fruta coloridos sobre fundo amarelo" },
     itens: [
       { id: "picole-fruta", nome: "Picolé de fruta", desc: "Sabores do dia:", preco: 6, cor: "#CFE6A2", tags: ["fruta", "sem-lactose"], opcoes: { sabores: { de: "PICOLES_FRUTA", min: 1, max: 1 } } }
     ]
@@ -115,8 +121,9 @@ window.CATEGORIAS = [
   {
     id: "cremosos",
     nome: "Picolés cremosos",
+    foto: { src: "fotos/cremosos.jpg", alt: "Picolés recheados com cobertura de chocolate empilhados" },
     itens: [
-      { id: "picole-cremoso", nome: "Picolé cremoso", desc: "Sabores do dia:", preco: 8, cor: "#C9965A", tags: ["cremoso"], opcoes: { sabores: { de: "PICOLES_CREMOSOS", min: 1, max: 1 } } },
+      { id: "picole-cremoso", nome: "Picolé cremoso", desc: "Sabores do dia:", preco: 8, cor: "#C9965A", tags: ["cremoso", "zero"], opcoes: { sabores: { de: "PICOLES_CREMOSOS", min: 1, max: 1 } } },
       { id: "picole-recheado", nome: "Picolé recheado de coco queimado", desc: "Casquinha de chocolate e recheio cremoso", preco: 10, cor: "#8A5A35", tags: ["cremoso", "classico"], destaque: true }
     ]
   },
