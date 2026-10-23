@@ -17,7 +17,8 @@ os.makedirs(OUT, exist_ok=True)
 for a in ARQUIVOS:
     shutil.copy(a, os.path.join(OUT, a))
 for p in PASTAS:
-    shutil.copytree(p, os.path.join(OUT, p), dirs_exist_ok=True)
+    if os.path.isdir(p):
+        shutil.copytree(p, os.path.join(OUT, p), dirs_exist_ok=True)
 
 os.makedirs("/tmp/fontes", exist_ok=True)
 for nome, url in FONTES.items():

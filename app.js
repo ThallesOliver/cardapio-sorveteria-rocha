@@ -121,7 +121,7 @@
       return `<section class="secao" id="cat-${cat.id}" aria-labelledby="h-${cat.id}">
         <h2 id="h-${cat.id}">${esc(cat.nome)}</h2>
         ${cat.nota ? `<p class="nota">${esc(cat.nota)}</p>` : ""}
-        ${cat.foto ? `<img class="secao-foto" src="${esc(cat.foto.src)}" alt="${esc(cat.foto.alt)}" width="1200" height="760" loading="lazy">` : ""}
+        ${cat.foto ? `<img class="secao-foto" onerror="this.remove()" src="${esc(cat.foto.src)}" alt="${esc(cat.foto.alt)}" width="1200" height="760" loading="lazy">` : ""}
         <ul class="itens">${itens.map(itemHTML).join("")}</ul>
         ${extrasHTML(cat)}
       </section>`;
@@ -169,5 +169,10 @@
   $("#link-insta").href = C.instagram;
   $("#endereco").textContent = C.endereco;
   renderCats(); render(); status();
+  // Se as fotos da galeria não carregarem, esconde a seção inteira
+  window.addEventListener("load", () => {
+    const g = $(".galeria");
+    if (g && !g.querySelector(".fotos li:not([hidden])")) g.hidden = true;
+  });
   setInterval(status, 60000);
 })();
