@@ -1,6 +1,6 @@
 # Cardápio — Sorvetes Rocha
 
-Cardápio digital da Sorveteria Rocha, desde 1947 no Centro Histórico de São Sebastião (SP).
+Cardápio digital dos Sorvetes Rocha (@rocha.sorvetes), desde 1947 na Av. Dr. Altino Arantes, 90, Centro Histórico de São Sebastião (SP).
 
 No ar em: https://cardapio-sorveteria-rocha.vercel.app
 

@@ -63,7 +63,7 @@
     const corpo = `<p class="nota">Servidos em bolas, potes, taças e milkshakes.</p>
       <ul class="sabores">${lista.map((s) => `<li class="sabor${s.esgotado ? " off" : ""}">
         <span class="ponto" style="--c:${s.cor}" aria-hidden="true"></span>
-        <span><span class="nome">${esc(s.nome)}</span>${s.esgotado ? "<small>Esgotado hoje</small>" : s.estacao ? "<small>Da estação</small>" : ""}</span>
+        <span><span class="nome">${esc(s.nome)}</span>${s.esgotado ? "<small>Esgotado hoje</small>" : s.destaque ? "<small class=\"mais\">O mais pedido</small>" : s.estacao ? "<small>Da estação</small>" : ""}</span>
       </li>`).join("")}</ul>`;
     return painel("sabores", "Sabores de massa", `${disp} ${disp === 1 ? "sabor" : "sabores"} hoje`, lista.slice(0, 6).map((s) => s.cor), corpo);
   }
@@ -187,6 +187,7 @@
   $("#link-mapa").href = $("#link-mapa2").href = C.mapsUrl;
   $("#link-insta").href = C.instagram;
   $("#endereco").textContent = C.endereco;
+  if (C.telefone) { const t = $("#telefone"); t.textContent = C.telefone; t.href = "tel:+55" + C.telefone.replace(/\D/g, ""); t.parentElement.hidden = false; }
   renderCats(); render(); status();
   // Se as fotos da galeria não carregarem, esconde a seção inteira
   window.addEventListener("load", () => {

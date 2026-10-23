@@ -6,9 +6,10 @@
 window.CONFIG = {
   nome: "Sorvetes Rocha",
   slogan: "A original desde 1947",
-  instagram: "https://www.instagram.com/sorveteriarocha.original/",
-  endereco: "Av. Dr. Altino Arantes, Centro Histórico — São Sebastião/SP",
-  mapsUrl: "https://www.google.com/maps/search/?api=1&query=Sorveteria+Rocha+Av.+Dr.+Altino+Arantes+S%C3%A3o+Sebasti%C3%A3o+SP",
+  instagram: "https://www.instagram.com/rocha.sorvetes/",
+  telefone: "(12) 3892-3629",
+  endereco: "Av. Dr. Altino Arantes, 90 — Centro Histórico, São Sebastião/SP",
+  mapsUrl: "https://www.google.com/maps/search/?api=1&query=Sorveteria+Rocha+Av.+Dr.+Altino+Arantes+90+S%C3%A3o+Sebasti%C3%A3o+SP",
   // Horário por dia da semana (0 = domingo). null = fechado.
   horarios: {
     0: ["11:00", "22:00"],
@@ -25,8 +26,10 @@ window.CONFIG = {
 /* Sabores de massa (bolas, potes, milkshake).
    tags: fruta, cremoso, classico, sem-lactose, zero
    estacao: true mostra o selo "Da estação"
-   esgotado: true mostra o sabor riscado com "Esgotado hoje" */
+   esgotado: true mostra o sabor riscado com "Esgotado hoje"
+   destaque: true mostra o selo "Mais pedido" */
 window.SABORES = [
+  { id: "palha-italiana", nome: "Palha italiana", cor: "#9C6B3F", tags: ["cremoso", "classico"], destaque: true },
   { id: "coco-queimado", nome: "Coco queimado", cor: "#C9965A", tags: ["cremoso", "classico"] },
   { id: "coco-branco", nome: "Coco branco", cor: "#F6F2E7", tags: ["cremoso", "classico"] },
   { id: "milho-verde", nome: "Milho verde", cor: "#F3D46B", tags: ["cremoso", "classico"] },
@@ -36,6 +39,8 @@ window.SABORES = [
   { id: "manga", nome: "Manga", cor: "#F4A53A", tags: ["fruta", "sem-lactose"], estacao: true },
   { id: "limao", nome: "Limão", cor: "#CFE6A2", tags: ["fruta", "sem-lactose"] },
   { id: "graviola", nome: "Graviola", cor: "#EEF0E0", tags: ["fruta"] },
+  { id: "jabuticaba", nome: "Jabuticaba", cor: "#3B1F3A", tags: ["fruta"] },
+  { id: "jaca", nome: "Jaca", cor: "#E9C46A", tags: ["fruta"] },
   { id: "uva", nome: "Uva", cor: "#8E5A9B", tags: ["fruta", "sem-lactose"] },
   { id: "ameixa", nome: "Ameixa", cor: "#7A3457", tags: ["cremoso", "classico"] },
   { id: "creme", nome: "Creme holandês", cor: "#F3E2B3", tags: ["cremoso"] },
