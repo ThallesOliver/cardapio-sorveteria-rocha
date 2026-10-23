@@ -35,4 +35,6 @@ Os sabores e preços que estão no arquivo hoje são exemplos e precisam ser tro
 - Build command: `python3 build.py`
 - Output directory: `public`
 
+As configurações acima também estão em `vercel.json`.
+
 Para ver localmente sem a imagem de prévia, basta abrir `index.html` no navegador.

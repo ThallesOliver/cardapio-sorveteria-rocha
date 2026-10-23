@@ -1,0 +1,5 @@
+{
+  "installCommand": "python3 -m pip install --quiet --break-system-packages pillow",
+  "buildCommand": "python3 build.py",
+  "outputDirectory": "public"
+}
