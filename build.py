@@ -10,7 +10,7 @@ FONTES = {
     "Caslon.ttf": BASE + "librecaslondisplay/LibreCaslonDisplay-Regular.ttf",
     "Figtree.ttf": BASE + "figtree/Figtree%5Bwght%5D.ttf",
 }
-MARINHO = (29, 58, 102); PAPEL = (250, 250, 248); OURO = (168, 123, 42)
+PRETO = (21, 21, 21); PAPEL = (250, 250, 248); AMARELO = (245, 197, 24)
 TINTA = (28, 34, 48); SUAVE = (100, 107, 120); BRANCO = (255, 255, 255)
 
 os.makedirs(OUT, exist_ok=True)
@@ -39,7 +39,7 @@ def centro(d, w, y, texto, f, cor):
 
 def faixa(d, w, alto, listra):
     for i, x in enumerate(range(0, w + listra, listra)):
-        d.rectangle([x, 0, x + listra, alto], fill=MARINHO if i % 2 == 0 else BRANCO)
+        d.rectangle([x, 0, x + listra, alto], fill=AMARELO if i % 2 == 0 else PRETO)
 
 
 # ---------- og.png (1200x630) ----------
@@ -48,16 +48,16 @@ og = Image.new("RGB", (W, H), PAPEL)
 d = ImageDraw.Draw(og)
 faixa(d, W, 18, 36)
 centro(d, W, 150, "Sorveteria", sans(36, 500), SUAVE)
-centro(d, W, 205, "Rocha", ImageFont.truetype(SERIF, 190), MARINHO)
+centro(d, W, 205, "Rocha", ImageFont.truetype(SERIF, 190), PRETO)
 centro(d, W, 405, "Desde 1947, no Centro Histórico de São Sebastião", ImageFont.truetype(SERIF, 38), TINTA)
-d.line([(W // 2 - 40, 480), (W // 2 + 40, 480)], fill=OURO, width=2)
+d.rounded_rectangle([W // 2 - 40, 478, W // 2 + 40, 482], radius=2, fill=AMARELO)
 centro(d, W, 515, "Cardápio, sabores do dia e horário", sans(32, 500), SUAVE)
 og.save(os.path.join(OUT, "og.png"), optimize=True)
 
 # ---------- icone.png (180x180, tela inicial do celular) ----------
-ic = Image.new("RGB", (180, 180), MARINHO)
+ic = Image.new("RGB", (180, 180), AMARELO)
 d = ImageDraw.Draw(ic)
-centro(d, 180, 38, "R", ImageFont.truetype(SERIF, 130), BRANCO)
+centro(d, 180, 38, "R", ImageFont.truetype(SERIF, 130), PRETO)
 ic.save(os.path.join(OUT, "icone.png"), optimize=True)
 
 print("site montado em", OUT, "com og.png e icone.png")
