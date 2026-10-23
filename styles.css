@@ -55,14 +55,6 @@ img { display: block; max-width: 100%; height: auto; }
 .status.fechado::before { background: var(--vinho); }
 .link-mapa { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1.5px; }
 
-/* ---------- Foto de capa ---------- */
-.capa { margin: 0; background: var(--azul); }
-.capa img { width: 100%; aspect-ratio: 14 / 9; object-fit: cover; }
-@media (min-width: 680px) {
-  .capa { background: var(--amarelo); padding: 0 20px 28px; }
-  .capa img { max-width: 640px; margin: 0 auto; border-radius: 10px; aspect-ratio: 16 / 9; }
-}
-
 /* ---------- Busca e filtros ---------- */
 .ferramentas { max-width: 640px; margin: 0 auto; padding: 20px 20px 0; }
 .busca {
