@@ -39,6 +39,7 @@
     <line class="selo-linha" x1="110" y1="196" x2="330" y2="196"/>
     <text class="selo-sub selo-desde" x="220" y="224">DESDE 1947</text>
   </svg>
+  <p class="topo-sub">Sorvetes e picolés artesanais · Centro Histórico de São Sebastião</p>
   <div class="topo-info">
     <span class="status" id="status">…</span>
     <a class="link-mapa" id="link-mapa" href="#" target="_blank" rel="noopener">Como chegar</a>
@@ -55,13 +56,15 @@
 </div>
 
 <main id="menu">
-  <p class="leque-dica">Toque numa categoria para ver os sabores e preços.</p>
+  <div class="cardapio-cab">
+    <h2>Cardápio</h2>
+    <p>Toque numa categoria para ver sabores e preços.</p>
+  </div>
   <div id="secoes"></div>
   <p class="vazio" id="vazio" hidden>Nada encontrado. Tente outro sabor ou limpe o filtro.</p>
 
   <section class="galeria" aria-labelledby="t-galeria">
-    <h2 id="t-galeria">Feitos aqui, desde 1947</h2>
-    <p class="nota">Arraste para ver mais.</p>
+    <h2 id="t-galeria">Da nossa produção</h2>
     <ul class="fotos">
       <li><img onerror="this.parentElement.hidden=true" src="fotos/galeria-1.jpg" width="720" height="900" alt="Picolés coloridos enfileirados sobre fundo azul"></li>
       <li><img onerror="this.parentElement.hidden=true" src="fotos/galeria-2.jpg" width="720" height="900" alt="Picolés de fruta sobre fundo amarelo"></li>
@@ -79,20 +82,26 @@
 
 <footer class="rodape">
   <div class="rodape-in">
-    <div>
+    <div class="rodape-marca">
       <p class="marca-p">Sorvetes Rocha</p>
+      <p class="rodape-desde">Desde 1947</p>
+    </div>
+    <div>
+      <h3>Endereço</h3>
       <p id="endereco"></p>
-      <p hidden>Telefone: <a id="telefone" href="#"></a></p>
-      <p class="links">
-        <a id="link-mapa2" href="#" target="_blank" rel="noopener">Google Maps</a>
-        <a id="link-insta" href="#" target="_blank" rel="noopener">Instagram</a>
-      </p>
+      <p><a id="link-mapa2" href="#" target="_blank" rel="noopener">Abrir no Google Maps</a></p>
+    </div>
+    <div>
+      <h3>Contato</h3>
+      <p><a id="telefone" href="#"></a></p>
+      <p><a id="link-insta" href="#" target="_blank" rel="noopener">@rocha.sorvetes</a></p>
     </div>
     <div>
       <h3>Horário de funcionamento</h3>
       <dl class="horarios" id="horarios"></dl>
     </div>
   </div>
+  <p class="rodape-fim">© <span id="ano"></span> Sorvetes Rocha · Preços e sabores sujeitos à disponibilidade.</p>
 </footer>
 
 <script src="dados.js"></script>

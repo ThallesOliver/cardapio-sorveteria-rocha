@@ -48,12 +48,13 @@ img { display: block; max-width: 100%; height: auto; }
 .selo-sub { font-family: var(--texto); font-weight: 600; font-size: 17px; letter-spacing: 5px; fill: var(--creme); text-anchor: middle; }
 .selo-desde { font-size: 13px; letter-spacing: 3px; }
 .selo-nome { font-family: var(--marca); font-weight: 900; font-size: 74px; letter-spacing: 3px; fill: var(--creme); text-anchor: middle; }
-.topo-info { display: flex; justify-content: center; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 18px; font-size: 15px; color: var(--carvao); }
-.status { display: inline-flex; align-items: center; gap: 8px; font-weight: 500; }
+.topo-sub { margin: 16px auto 0; max-width: 34ch; font-size: 15px; line-height: 1.4; color: var(--carvao); }
+.topo-info { display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 16px; font-size: 14.5px; color: var(--carvao); }
+.status { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: rgba(255,255,255,.55); font-weight: 600; }
 .status::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--carvao); box-shadow: 0 0 0 2px rgba(255,255,255,.6); }
 .status.aberto::before { background: #1E8E4E; }
 .status.fechado::before { background: var(--vinho); }
-.link-mapa { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1.5px; }
+.link-mapa { padding: 7px 14px; border-radius: 999px; background: var(--carvao); color: var(--creme); font-weight: 600; text-decoration: none; }
 
 /* ---------- Busca e filtros ---------- */
 .ferramentas { max-width: 640px; margin: 0 auto; padding: 20px 20px 0; }
@@ -65,10 +66,11 @@ img { display: block; max-width: 100%; height: auto; }
 .busca:focus-within { border-color: var(--carvao); }
 .busca svg { width: 18px; height: 18px; fill: none; stroke: var(--suave); stroke-width: 2; stroke-linecap: round; flex: none; }
 .busca input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font-size: 16px; }
-.filtros { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.filtros { display: flex; gap: 6px; margin: 12px -20px 0; padding: 0 20px 2px; overflow-x: auto; scrollbar-width: none; }
+.filtros::-webkit-scrollbar { display: none; }
 .filtros button {
   padding: 5px 12px; border: 1px solid var(--linha); border-radius: 999px;
-  background: var(--branco); color: var(--suave); font-size: 14px; cursor: pointer;
+  flex: none; background: var(--branco); color: var(--suave); font-size: 14px; cursor: pointer; white-space: nowrap;
 }
 .filtros button[aria-pressed="true"] { border-color: var(--amarelo); background: var(--amarelo); color: var(--carvao); font-weight: 700; }
 
@@ -79,7 +81,9 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .galeria h2 { margin: 0 0 4px; font-family: var(--serif); font-weight: 400; font-size: 30px; line-height: 1.15; color: var(--carvao); }
 
 /* ---------- Leque: categorias que abrem e fecham ---------- */
-.leque-dica { margin: 22px 0 10px; color: var(--suave); font-size: 14.5px; }
+.cardapio-cab { margin: 30px 0 14px; }
+.cardapio-cab h2 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: 32px; line-height: 1.1; color: var(--carvao); }
+.cardapio-cab p { margin: 4px 0 0; color: var(--suave); font-size: 14.5px; }
 #secoes { display: flex; flex-direction: column; gap: 10px; }
 .secao {
   background: var(--branco); border: 1px solid var(--linha); border-radius: 14px;
@@ -95,9 +99,9 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .leque-cab:focus-visible { outline: 2px solid var(--azul); outline-offset: -2px; }
 
 /* bolinhas em leque: se abrem quando a categoria abre */
-.leque-cores { position: relative; flex: none; width: 46px; height: 46px; }
+.leque-cores { position: relative; flex: none; width: 52px; height: 52px; border-radius: 50%; background: var(--papel); box-shadow: inset 0 0 0 1px var(--linha); }
 .leque-cores i {
-  position: absolute; left: 50%; bottom: 4px; width: 14px; height: 26px; margin-left: -7px;
+  position: absolute; left: 50%; bottom: 11px; width: 12px; height: 24px; margin-left: -6px;
   border-radius: 7px 7px 3px 3px; background: var(--c); box-shadow: inset 0 0 0 1px rgba(30,27,26,.15);
   transform-origin: 50% 100%; transition: transform .35s cubic-bezier(.3,1.4,.5,1);
 }
@@ -133,8 +137,8 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 @media (prefers-reduced-motion: reduce) { .picole { transition: none; opacity: 1; transform: none; } }
 
 .leque-texto { flex: 1; min-width: 0; display: flex; flex-direction: column; }
-.leque-nome { font-family: var(--serif); font-size: 24px; line-height: 1.15; color: var(--carvao); }
-.leque-resumo { margin-top: 3px; font-family: var(--texto); font-size: 14px; color: var(--suave); }
+.leque-nome { font-family: var(--serif); font-size: 23px; line-height: 1.15; color: var(--carvao); }
+.leque-resumo { margin-top: 3px; font-family: var(--texto); font-weight: 400; font-size: 14px; color: var(--suave); }
 .leque-seta {
   flex: none; width: 34px; height: 34px; padding: 7px; border-radius: 50%;
   background: var(--papel); fill: none; stroke: var(--carvao); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
@@ -202,15 +206,15 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 
 /* ---------- Rodapé ---------- */
 .rodape { background: var(--carvao-fundo); color: #CFC8C3; border-top: 6px solid var(--amarelo); }
-.rodape-in { max-width: 640px; margin: 0 auto; padding: 40px 20px 44px; display: grid; gap: 24px; }
-@media (min-width: 560px) { .rodape-in { grid-template-columns: 1fr 1fr; } }
-.rodape .marca-p { margin: 0 0 8px; font-family: var(--marca); font-weight: 900; font-size: 28px; color: var(--amarelo); line-height: 1.1; }
-.rodape p { margin: 0 0 4px; font-size: 15px; }
+.rodape-in { max-width: 640px; margin: 0 auto; padding: 40px 20px 28px; display: grid; gap: 26px; }
+@media (min-width: 560px) { .rodape-in { grid-template-columns: 1fr 1fr; column-gap: 40px; } }
+.rodape .marca-p { margin: 0; font-family: var(--marca); font-weight: 900; font-size: 30px; color: var(--amarelo); line-height: 1.1; }
+.rodape-desde { margin: 2px 0 0 !important; font-size: 13px !important; letter-spacing: .12em; text-transform: uppercase; color: #9F9792; }
+.rodape p { margin: 0 0 4px; font-size: 15px; line-height: 1.5; }
 .rodape h3 { margin: 0 0 8px; font-size: 13px; font-weight: 700; color: var(--amarelo); letter-spacing: .04em; }
+.rodape a { color: var(--branco); font-weight: 600; text-underline-offset: 3px; }
 .horarios { display: grid; grid-template-columns: auto 1fr; gap: 3px 18px; margin: 0; font-size: 15px; }
 .horarios dt { color: #CFC8C3; }
 .horarios dd { margin: 0; font-variant-numeric: tabular-nums; color: var(--branco); }
 .horarios .hoje { font-weight: 700; color: var(--amarelo); }
-.links { display: flex; gap: 18px; margin-top: 14px !important; }
-.rodape #telefone { color: var(--branco); font-weight: 600; text-underline-offset: 3px; }
-.links a { color: var(--branco); font-weight: 600; text-underline-offset: 3px; }
+.rodape-fim { max-width: 640px; margin: 0 auto !important; padding: 16px 20px 28px; border-top: 1px solid rgba(255,255,255,.1); font-size: 13px !important; color: #9F9792; }

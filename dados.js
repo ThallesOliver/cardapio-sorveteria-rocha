@@ -27,16 +27,16 @@ window.CONFIG = {
    tags: fruta, cremoso, classico, sem-lactose, zero
    estacao: true mostra o selo "Da estação"
    esgotado: true mostra o sabor riscado com "Esgotado hoje"
-   destaque: true mostra o selo "Mais pedido" */
+   casa: true mostra o selo "Especialidade da casa" */
 window.SABORES = [
-  { id: "palha-italiana", nome: "Palha italiana", cor: "#9C6B3F", tags: ["cremoso", "classico"], destaque: true },
+  { id: "palha-italiana", nome: "Palha italiana", cor: "#9C6B3F", tags: ["cremoso", "classico"], casa: true },
   { id: "coco-queimado", nome: "Coco queimado", cor: "#C9965A", tags: ["cremoso", "classico"] },
   { id: "coco-branco", nome: "Coco branco", cor: "#F6F2E7", tags: ["cremoso", "classico"] },
   { id: "milho-verde", nome: "Milho verde", cor: "#F3D46B", tags: ["cremoso", "classico"] },
   { id: "abacaxi", nome: "Abacaxi", cor: "#F4E07A", tags: ["fruta", "sem-lactose", "classico"] },
   { id: "maracuja", nome: "Maracujá", cor: "#F1C232", tags: ["fruta", "classico"] },
   { id: "morango", nome: "Morango", cor: "#F08CA0", tags: ["fruta"] },
-  { id: "manga", nome: "Manga", cor: "#F4A53A", tags: ["fruta", "sem-lactose"], estacao: true },
+  { id: "manga", nome: "Manga", cor: "#F4A53A", tags: ["fruta", "sem-lactose"] },
   { id: "limao", nome: "Limão", cor: "#CFE6A2", tags: ["fruta", "sem-lactose"] },
   { id: "graviola", nome: "Graviola", cor: "#EEF0E0", tags: ["fruta"] },
   { id: "jabuticaba", nome: "Jabuticaba", cor: "#3B1F3A", tags: ["fruta"] },
@@ -47,7 +47,7 @@ window.SABORES = [
   { id: "flocos", nome: "Flocos", cor: "#EFE8DA", tags: ["cremoso"] },
   { id: "chocolate", nome: "Chocolate", cor: "#6B3E26", tags: ["cremoso"] },
   { id: "doce-de-leite", nome: "Doce de leite", cor: "#C98A4B", tags: ["cremoso"] },
-  { id: "pistache", nome: "Pistache", cor: "#B5C98A", tags: ["cremoso"], esgotado: true },
+  { id: "pistache", nome: "Pistache", cor: "#B5C98A", tags: ["cremoso"] },
   { id: "chocolate-zero", nome: "Chocolate zero açúcar", cor: "#5A3420", tags: ["cremoso", "zero"] }
 ];
 
@@ -104,11 +104,11 @@ window.ADICIONAIS_ACAI = [
 window.CATEGORIAS = [
   {
     id: "massa",
-    nome: "Sorvete de massa",
-    nota: "Monte com os sabores do dia, listados acima.",
+    nome: "Copos e casquinhas",
+    nota: "Escolha entre os sabores de massa do dia.",
     itens: [
       { id: "copo1", nome: "Copinho 1 bola", preco: 9, cor: "#F3D46B", opcoes: { sabores: { de: "SABORES", min: 1, max: 1, repetir: true }, adicionais: "ADICIONAIS_SORVETE" } },
-      { id: "copo2", nome: "Copinho 2 bolas", preco: 15, cor: "#C9965A", destaque: true, opcoes: { sabores: { de: "SABORES", min: 2, max: 2, repetir: true }, adicionais: "ADICIONAIS_SORVETE" } },
+      { id: "copo2", nome: "Copinho 2 bolas", preco: 15, cor: "#C9965A", opcoes: { sabores: { de: "SABORES", min: 2, max: 2, repetir: true }, adicionais: "ADICIONAIS_SORVETE" } },
       { id: "copo3", nome: "Copo 3 bolas", preco: 20, cor: "#F08CA0", opcoes: { sabores: { de: "SABORES", min: 3, max: 3, repetir: true }, adicionais: "ADICIONAIS_SORVETE" } },
       { id: "casq1", nome: "Casquinha 1 bola", preco: 10, cor: "#F4E07A", opcoes: { sabores: { de: "SABORES", min: 1, max: 1, repetir: true } } },
       { id: "casq2", nome: "Cascão 2 bolas", preco: 17, cor: "#C98A4B", opcoes: { sabores: { de: "SABORES", min: 2, max: 2, repetir: true } } }
@@ -129,17 +129,17 @@ window.CATEGORIAS = [
     foto: { src: "fotos/cremosos.jpg", alt: "Picolés recheados com cobertura de chocolate empilhados" },
     itens: [
       { id: "picole-cremoso", nome: "Picolé cremoso", desc: "Sabores de hoje:", preco: 8, cor: "#C9965A", tags: ["cremoso", "zero"], opcoes: { sabores: { de: "PICOLES_CREMOSOS", min: 1, max: 1 } } },
-      { id: "picole-recheado", nome: "Picolé recheado de coco queimado", desc: "Casquinha de chocolate e recheio cremoso", preco: 10, cor: "#8A5A35", tags: ["cremoso", "classico"], destaque: true }
+      { id: "picole-recheado", nome: "Picolé recheado de coco queimado", desc: "Casquinha de chocolate e recheio cremoso", preco: 10, cor: "#8A5A35", tags: ["cremoso", "classico"] }
     ]
   },
   {
     id: "potes",
     nome: "Potes para levar",
-    nota: "Até 3 sabores por pote.",
+    nota: "Com os sabores de massa do dia.",
     itens: [
       { id: "pote1", nome: "Pote 1 litro", preco: 32, cor: "#F6F2E7", opcoes: { sabores: { de: "SABORES", min: 1, max: 2 } } },
       { id: "pote15", nome: "Pote 1,5 litro", preco: 42, cor: "#F3D46B", opcoes: { sabores: { de: "SABORES", min: 1, max: 3 } } },
-      { id: "pote2", nome: "Pote 2 litros", preco: 52, cor: "#C9965A", destaque: true, opcoes: { sabores: { de: "SABORES", min: 1, max: 3 } } }
+      { id: "pote2", nome: "Pote 2 litros", preco: 52, cor: "#C9965A", opcoes: { sabores: { de: "SABORES", min: 1, max: 3 } } }
     ]
   },
   {
@@ -155,7 +155,7 @@ window.CATEGORIAS = [
     id: "especiais",
     nome: "Taças e especiais",
     itens: [
-      { id: "taca-rocha", nome: "Taça Rocha", desc: "3 bolas, calda quente, chantilly e castanha de caju", preco: 27, cor: "#1F4E8C", destaque: true, opcoes: { sabores: { de: "SABORES", min: 3, max: 3, repetir: true } } },
+      { id: "taca-rocha", nome: "Taça Rocha", desc: "3 bolas, calda quente, chantilly e castanha de caju", preco: 27, cor: "#1F4E8C", opcoes: { sabores: { de: "SABORES", min: 3, max: 3, repetir: true } } },
       { id: "banana-split", nome: "Banana split", desc: "Banana, 3 bolas, caldas e chantilly", preco: 29, cor: "#F2E3A0", opcoes: { sabores: { de: "SABORES", min: 3, max: 3, repetir: true } } },
       { id: "sundae", nome: "Sundae", desc: "2 bolas com calda à escolha", preco: 19, cor: "#6B3E26", opcoes: { sabores: { de: "SABORES", min: 2, max: 2, repetir: true }, adicionais: "ADICIONAIS_SORVETE" } }
     ]
