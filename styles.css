@@ -78,7 +78,6 @@ img { display: block; max-width: 100%; height: auto; }
 main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .nota { margin: 0 0 16px; color: var(--suave); font-size: 15px; }
 .secao-foto { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; margin: 4px 0 8px; background: var(--linha); }
-.galeria h2 { margin: 0 0 4px; font-family: var(--serif); font-weight: 400; font-size: 30px; line-height: 1.15; color: var(--carvao); }
 
 /* ---------- Leque: categorias que abrem e fecham ---------- */
 .cardapio-cab { margin: 30px 0 14px; }
@@ -187,16 +186,6 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .extras li { display: flex; align-items: baseline; gap: 8px; padding: 3px 0; font-size: 15px; }
 .extras li .pontos { transform: translateY(-3px); }
 .extras li .valor { color: var(--suave); font-variant-numeric: tabular-nums; white-space: nowrap; }
-
-/* ---------- Galeria de fotos ---------- */
-.galeria { padding-top: 56px; }
-.fotos {
-  list-style: none; margin: 0 -20px; padding: 0 20px 6px;
-  display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
-}
-.fotos::-webkit-scrollbar { display: none; }
-.fotos li { flex: none; width: 68%; max-width: 240px; scroll-snap-align: start; }
-.fotos img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 10px; background: var(--linha); }
 
 /* ---------- História ---------- */
 .historia { max-width: 460px; margin: 56px auto 0; padding: 0 0 56px; text-align: center; }

@@ -190,10 +190,5 @@
   if (C.telefone) { const t = $("#telefone"); t.textContent = C.telefone; t.href = "tel:+55" + C.telefone.replace(/\D/g, ""); }
   $("#ano").textContent = new Date().getFullYear();
   renderCats(); render(); status();
-  // Se as fotos da galeria não carregarem, esconde a seção inteira
-  window.addEventListener("load", () => {
-    const g = $(".galeria");
-    if (g && !g.querySelector(".fotos li:not([hidden])")) g.hidden = true;
-  });
   setInterval(status, 60000);
 })();
