@@ -55,6 +55,7 @@
   const bola = (c1, c2, c3) => `<path d="M14 25l10 16 10-16z" fill="#E2B474" stroke="#9C6B3F" stroke-width="1.2"/><path d="M17 29l12 4M19 34l8-6" stroke="#9C6B3F" stroke-width="1"/><circle cx="24" cy="18" r="10" fill="${c1}"/><path d="M14 20q2.5 4 5 1t5 1 5-1 5 1v-2H14z" fill="${c1}"/><circle cx="20" cy="15" r="2" fill="${c2}"/><circle cx="27" cy="13.5" r="1.6" fill="${c3}"/><circle cx="26" cy="19" r="1.3" fill="${c2}"/>`;
   const ICONES = {
     "massa-agua": bola("#F1C232", "#8E5A9B", "#D7263D"),
+    "massa-leite": bola("#C98A4B", "#F4B3C0", "#6B3E26"),
     "massa-zero": bola("#F6F2E7", "#6B3E26", "#F4B3C0"),
     "massa-premium": bola("#3A2A22", "#F6C31C", "#B5C98A") + '<path d="M24 2l1.6 3.4 3.6.4-2.7 2.4.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.4 3.6-.4z" fill="#F6C31C" stroke="#8A6A00" stroke-width=".8"/>',
     especiais: '<path d="M17 6a7 7 0 0 1 14 0v20H17z" fill="#6B3E26"/><path d="M17 15c3 2 5-1 7 1s4-1 7 1v-5H17z" fill="#F3E2B3"/><path d="M17 13c2.5 1.5 5-1 7 .5s4.5-1.2 7 .3" fill="none" stroke="#4E2A1A" stroke-width="1.4"/><rect x="22" y="26" width="4" height="12" rx="2" fill="#D9B98A"/>',

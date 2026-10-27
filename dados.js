@@ -136,11 +136,9 @@ window.CATEGORIAS = [
   {
     id: "massa-leite",
     grupo: "Sorvetes de massa",
-    capa: "fotos/capa-massa.jpg",
     nome: "Massa cremosa",
     rotulo: "Base de leite",
     nota: "No copinho ou no cascão, com 1 ou 2 bolas. Peça também a cobertura de chocolate.",
-    foto: { src: "fotos/massa.jpg", alt: "Bola de sorvete com calda de chocolate e farofa de amendoim" },
     sabores: [
       { nome: "Africano", cor: "#5A3420" },
       { nome: "Amarena", cor: "#A3243B" },
@@ -228,7 +226,8 @@ window.CATEGORIAS = [
       { src: "fotos/taca-colorida.jpg", alt: "Taça de sorvete com chantilly, calda de morango e banana" },
       { src: "fotos/petit-gateau.jpg", alt: "Petit gâteau com bola de sorvete e calda de chocolate", legenda: "Petit gâteau" },
       { src: "fotos/milk-shake.jpg", alt: "Milk shake com chantilly e calda de chocolate" },
-      { src: "fotos/tacas.jpg", alt: "Taça de sorvete com calda e farofa de amendoim" }
+      { src: "fotos/tacas.jpg", alt: "Taça de sorvete com calda e farofa de amendoim" },
+      { src: "fotos/massa.jpg", alt: "Brownie com bola de sorvete, calda de chocolate e farofa de amendoim", legenda: "Brownie com sorvete" }
     ],
     itens: [
       { nome: "Colegial" },
