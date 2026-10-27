@@ -77,14 +77,14 @@ img { display: block; max-width: 100%; height: auto; }
 /* ---------- Seções ---------- */
 main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .nota { margin: 0 0 16px; color: var(--suave); font-size: 15px; }
-/* Fotos das categorias: aproximam ao abrir e se movem de leve ao rolar */
-.foto-moldura { overflow: hidden; border-radius: 10px; margin: 4px 0 8px; background: var(--linha); aspect-ratio: 16 / 9; }
+/* Fotos das categorias: todas no mesmo formato (4:5), inteiras, sem corte */
+.foto-moldura { overflow: hidden; border-radius: 10px; margin: 4px auto 10px; max-width: 420px; background: var(--linha); aspect-ratio: 4 / 5; }
 .secao-foto {
   display: block; width: 100%; height: 100%; object-fit: cover;
-  transform: translateY(var(--py, 0)) scale(1.16); opacity: 0;
-  transition: transform 1.4s cubic-bezier(.2,.7,.2,1), opacity .6s ease;
+  opacity: 0; transform: translateY(10px);
+  transition: transform .7s cubic-bezier(.2,.7,.2,1), opacity .6s ease;
 }
-.secao.aberto .secao-foto { transform: translateY(var(--py, 0)) scale(1.1); opacity: 1; transition-delay: .1s; }
+.secao.aberto .secao-foto { opacity: 1; transform: none; transition-delay: .1s; }
 
 /* Leque de picolés: fechados um atrás do outro, abrem girando a partir do palito */
 .leque-palco { margin: 2px 0 6px; overflow: hidden; }
@@ -107,10 +107,10 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
   70% { transform: translateY(-4%) rotate(-3deg); }
   100% { transform: none; }
 }
-.carrossel { margin: 4px 0 10px; }
+.carrossel { margin: 4px auto 10px; max-width: 420px; }
 .carrossel-trilho { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 10px; overscroll-behavior-x: contain; }
 .carrossel-trilho::-webkit-scrollbar { display: none; }
-.carrossel .slide { flex: 0 0 100%; margin: 0; aspect-ratio: 1 / 1; scroll-snap-align: start; position: relative; }
+.carrossel .slide { flex: 0 0 100%; margin: 0; max-width: none; aspect-ratio: 4 / 5; scroll-snap-align: start; position: relative; }
 .slide figcaption { position: absolute; left: 10px; bottom: 10px; padding: 4px 12px; border-radius: 999px; background: rgba(35,31,30,.78); color: #fff; font-size: 13px; font-weight: 600; }
 .carrossel-pontos { display: flex; justify-content: center; gap: 4px; margin-top: 8px; }
 .carrossel-pontos button { width: 26px; height: 26px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }

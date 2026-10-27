@@ -79,7 +79,7 @@
     return `<div class="leque-palco" role="img" aria-label="${esc(l.alt)}"><div class="leque-base">${pecas}</div></div>`;
   }
 
-  const fotoHTML = (f) => `<img class="secao-foto" src="${esc(f.src)}" alt="${esc(f.alt)}" loading="lazy"${f.pos ? ` style="object-position:${f.pos}"` : ""}>`;
+  const fotoHTML = (f) => `<img class="secao-foto" src="${esc(f.src)}" alt="${esc(f.alt)}" width="1000" height="1250" loading="lazy">`;
   function carrosselHTML(cat) {
     const n = cat.fotos.length;
     return `<div class="carrossel" data-carrossel>
@@ -168,7 +168,6 @@
       cab.setAttribute("aria-expanded", abrir);
       corpo.inert = !abrir;
       abrir ? abertos.add(id) : abertos.delete(id);
-      if (abrir) setTimeout(parallax, 60);
       if (abrir) setTimeout(() => {
         const r = sec.getBoundingClientRect();
         if (r.top < 0 || r.top > innerHeight * 0.6) sec.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -207,21 +206,6 @@
       irPara(c, (atual(t) + 1) % n);
     });
   }, 4000);
-
-  /* Fotos com leve movimento ao rolar a página */
-  const calmo = matchMedia("(prefers-reduced-motion: reduce)");
-  let pedido = 0;
-  function parallax() {
-    pedido = 0;
-    if (calmo.matches) return;
-    document.querySelectorAll(".secao.aberto .secao-foto").forEach((img) => {
-      const r = img.parentNode.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > innerHeight) return;
-      const p = (r.top + r.height / 2) / innerHeight - 0.5;
-      img.style.setProperty("--py", (p * -9).toFixed(2) + "%");
-    });
-  }
-  addEventListener("scroll", () => { if (!pedido) pedido = requestAnimationFrame(parallax); }, { passive: true });
 
   /* ---------- Início ---------- */
   $("#link-mapa").href = $("#link-mapa2").href = C.mapsUrl;

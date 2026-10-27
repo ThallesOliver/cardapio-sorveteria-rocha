@@ -27,8 +27,8 @@ window.CONFIG = {
        tags: "sem-lactose", "vegano", "zero"
        esgotado: true mostra o sabor riscado
    - itens: lista de produtos { nome, desc }
-   - foto: { src, alt, pos } foto no topo da categoria (pasta fotos/); pos = enquadramento
-   - fotos: [ { src, alt, pos, legenda } ] várias fotos em carrossel
+   - foto: { src, alt } foto no topo da categoria (pasta fotos/), no formato 4:5 (ex.: 1000x1250)
+   - fotos: [ { src, alt, legenda } ] várias fotos em carrossel, também 4:5
    - leque: { pasta, alt } picolés recortados (fotos/<pasta>-1..5.webp) que abrem em leque
    - nota: frase curta abaixo do título */
 window.CATEGORIAS = [
@@ -125,10 +125,10 @@ window.CATEGORIAS = [
     nome: "Taças",
     rotulo: "Montadas na hora",
     fotos: [
-      { src: "fotos/taca-sundae.jpg", alt: "Taça de sorvete de chocolate com chantilly, calda e farofa de amendoim", pos: "50% 45%" },
-      { src: "fotos/taca-colorida.jpg", alt: "Taça de sorvete com chantilly, calda de morango e banana", pos: "50% 55%" },
-      { src: "fotos/petit-gateau.jpg", alt: "Petit gâteau com bola de sorvete e calda de chocolate", pos: "50% 72%", legenda: "Petit gâteau" },
-      { src: "fotos/milk-shake.jpg", alt: "Milk shake com chantilly e calda de chocolate", pos: "50% 48%", legenda: "Milk shake" },
+      { src: "fotos/taca-sundae.jpg", alt: "Taça de sorvete de chocolate com chantilly, calda e farofa de amendoim" },
+      { src: "fotos/taca-colorida.jpg", alt: "Taça de sorvete com chantilly, calda de morango e banana" },
+      { src: "fotos/petit-gateau.jpg", alt: "Petit gâteau com bola de sorvete e calda de chocolate", legenda: "Petit gâteau" },
+      { src: "fotos/milk-shake.jpg", alt: "Milk shake com chantilly e calda de chocolate", legenda: "Milk shake" },
       { src: "fotos/tacas.jpg", alt: "Taça de sorvete com calda e farofa de amendoim" }
     ],
     itens: [
@@ -165,7 +165,7 @@ window.CATEGORIAS = [
     id: "viagem",
     nome: "Para viagem",
     rotulo: "Para casa ou para a praia",
-    foto: { src: "fotos/picoles-embalados.jpg", alt: "Picolés Rocha embalados: Chocolate Zero, Coco Zero, Coco, Groselha e Uva", pos: "50% 50%" },
+    foto: { src: "fotos/picoles-embalados.jpg", alt: "Picolés Rocha embalados: Chocolate Zero, Coco Zero, Coco, Groselha e Uva" },
     itens: [
       { nome: "Caixa com 12 picolés", desc: "Monte com os sabores que quiser" },
       { nome: "Isopor de sorvete", desc: "Tamanhos P, M e G" }
