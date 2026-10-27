@@ -51,16 +51,27 @@
     viagem: ["#F6C31C", "#F4B3C0", "#F1C232", "#6B3E26"]
   };
 
+  // Desenhos para categorias sem foto
+  const ICONES = {
+    especiais: '<path d="M17 6a7 7 0 0 1 14 0v20H17z" fill="#6B3E26"/><path d="M17 15c3 2 5-1 7 1s4-1 7 1v-5H17z" fill="#F3E2B3"/><path d="M17 13c2.5 1.5 5-1 7 .5s4.5-1.2 7 .3" fill="none" stroke="#4E2A1A" stroke-width="1.4"/><rect x="22" y="26" width="4" height="12" rx="2" fill="#D9B98A"/>',
+    acai: '<ellipse cx="24" cy="21" rx="15" ry="4" fill="#4B1F3E"/><circle cx="18" cy="18" r="3" fill="#F6C31C"/><circle cx="24" cy="16.5" r="3" fill="#F25C6E"/><circle cx="30" cy="18" r="3" fill="#F3E2B3"/><path d="M8 21h32a16 14 0 0 1-32 0z" fill="#8E5A9B"/><path d="M8 21h32" stroke="#2D2928" stroke-width="1.6"/><rect x="18" y="34" width="12" height="4" rx="2" fill="#5B1E3A"/>',
+    bebidas: '<path d="M14 16h20l-2.5 20a3 3 0 0 1-3 2.6h-9a3 3 0 0 1-3-2.6z" fill="#F7F3EC" stroke="#2D2928" stroke-width="1.6"/><path d="M15.2 24h17.6l-1.2 9H16.4z" fill="#8A5A35"/><path d="M34 20h2.5a4 4 0 0 1 0 8H33" fill="none" stroke="#2D2928" stroke-width="1.6"/><path d="M20 12c0-2 2-2 2-4M26 12c0-2 2-2 2-4" stroke="#C9965A" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
+  };
+
   /* Um painel do leque: cabeçalho que abre e fecha + conteúdo */
   const abertos = new Set();
-  function painel(id, nome, resumo, cores, corpo) {
+  function painel(cat, resumo, qtdTexto, cores, corpo) {
+    const id = cat.id;
     const aberto = abertos.has(id) || !!termo || filtro !== "todos";
-    const bolinhas = cores.length ? `<span class="leque-cores" aria-hidden="true">${cores.map((c) => `<i style="--c:${c}"></i>`).join("")}</span>` : "";
+    const capa = cat.capa
+      ? `<span class="leque-capa" aria-hidden="true"><img src="${esc(cat.capa)}" alt="" loading="lazy"></span>`
+      : ICONES[id] ? `<span class="leque-capa desenho" aria-hidden="true"><svg viewBox="0 0 48 48">${ICONES[id]}</svg></span>`
+      : `<span class="leque-cores" aria-hidden="true">${cores.map((c) => `<i style="--c:${c}"></i>`).join("")}</span>`;
     return `<section class="secao${aberto ? " aberto" : ""}" id="cat-${id}">
       <h2 class="leque-titulo">
         <button type="button" class="leque-cab" id="cab-${id}" data-painel="${id}" aria-expanded="${aberto}" aria-controls="corpo-${id}">
-          ${bolinhas}
-          <span class="leque-texto"><span class="leque-nome">${esc(nome)}</span><span class="leque-resumo">${esc(resumo)}</span></span>
+          ${capa}
+          <span class="leque-texto"><span class="leque-nome">${esc(cat.nome)}</span><span class="leque-resumo">${esc(resumo)}<span class="leque-qtd"> · ${esc(qtdTexto)}</span></span></span>
           <svg class="leque-seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
         </button>
       </h2>
@@ -112,6 +123,7 @@
 
   function render() {
     let total = 0;
+    let grupoAtual = "";
     const html = window.CATEGORIAS.map((cat) => {
       const doNome = bate(cat.nome + " " + (cat.rotulo || ""));
       let corpo, resumo, cores;
@@ -119,14 +131,14 @@
         const lista = cat.sabores.filter((s) => (filtro === "todos" || (s.tags || []).includes(filtro)) && (doNome || bate(s.nome)));
         if (!lista.length) return "";
         const disp = lista.filter((s) => !s.esgotado).length;
-        resumo = `${cat.rotulo ? cat.rotulo + " · " : ""}${qtd(disp, "sabor", "sabores")}`;
+        resumo = cat.rotulo || ""; var conta = qtd(disp, "sabor", "sabores");
         cores = lista.slice(0, 6).map((s) => s.cor);
         corpo = saboresHTML(cat, lista);
       } else {
         if (filtro !== "todos") return "";
         const itens = cat.itens.filter((it) => doNome || bate(it.nome + " " + (it.desc || "")));
         if (!itens.length) return "";
-        resumo = `${cat.rotulo ? cat.rotulo + " · " : ""}${qtd(itens.length, "opção", "opções")}`;
+        resumo = cat.rotulo || ""; var conta = qtd(itens.length, "opção", "opções");
         cores = CORES[cat.id] || [];
         corpo = itensHTML(itens);
       }
@@ -135,7 +147,9 @@
         ${cat.leque ? lequeHTML(cat.leque) : ""}
         ${cat.foto ? `<div class="foto-moldura">${fotoHTML(cat.foto)}</div>` : ""}
         ${cat.fotos ? carrosselHTML(cat) : ""}`;
-      return painel(cat.id, cat.nome, resumo, cores, topo + corpo);
+      const cab = cat.grupo && cat.grupo !== grupoAtual ? `<h3 class="grupo">${esc(cat.grupo)}</h3>` : "";
+      grupoAtual = cat.grupo || grupoAtual;
+      return cab + painel(cat, resumo, conta, cores, topo + corpo);
     }).join("");
     $("#secoes").innerHTML = html;
     $("#vazio").hidden = total > 0;

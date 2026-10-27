@@ -30,10 +30,14 @@ window.CONFIG = {
    - foto: { src, alt } foto no topo da categoria (pasta fotos/), no formato 4:5 (ex.: 1000x1250)
    - fotos: [ { src, alt, legenda } ] várias fotos em carrossel, também 4:5
    - leque: { pasta, alt } picolés recortados (fotos/<pasta>-1..5.webp) que abrem em leque
-   - nota: frase curta abaixo do título */
+   - nota: frase curta abaixo do título
+   - grupo: título que separa blocos de categorias
+   - capa: miniatura redonda no cabeçalho (sem capa, usa um desenho) */
 window.CATEGORIAS = [
   {
     id: "agua",
+    grupo: "Picolés",
+    capa: "fotos/capa-agua.webp",
     nome: "Picolés de fruta",
     rotulo: "Base de água",
     nota: "Feitos com fruta, à base de água. Todos sem lactose e veganos.",
@@ -54,6 +58,8 @@ window.CATEGORIAS = [
   },
   {
     id: "leite",
+    grupo: "Picolés",
+    capa: "fotos/capa-leite.webp",
     nome: "Picolés cremosos",
     rotulo: "Base de leite",
     nota: "Cremosos, feitos à base de leite.",
@@ -88,8 +94,10 @@ window.CATEGORIAS = [
   },
   {
     id: "zero",
+    grupo: "Picolés",
+    capa: "fotos/capa-zero.jpg",
     nome: "Picolés zero açúcar",
-    rotulo: "Sem adição de açúcar",
+    rotulo: "Sem açúcar",
     foto: { src: "fotos/picoles-zero.jpg", alt: "Picolés Rocha Chocolate Zero e Coco Zero na embalagem" },
     sabores: [
       { nome: "Chocolate zero açúcar", cor: "#5A3420", tags: ["zero"] },
@@ -98,8 +106,9 @@ window.CATEGORIAS = [
   },
   {
     id: "especiais",
+    grupo: "Picolés",
     nome: "Picolés especiais",
-    rotulo: "Cobertos e recheados",
+    rotulo: "Com cobertura",
     sabores: [
       { nome: "Skimo", cor: "#4E2A1A" },
       { nome: "Skimenta", cor: "#7FC8A9" },
@@ -109,8 +118,10 @@ window.CATEGORIAS = [
   },
   {
     id: "massa",
+    grupo: "Sorvetes e sobremesas",
+    capa: "fotos/capa-massa.jpg",
     nome: "Sorvete de massa",
-    rotulo: "No copinho ou no cascão",
+    rotulo: "Copinho ou cascão",
     nota: "Pergunte no balcão os sabores de massa do dia.",
     foto: { src: "fotos/massa.jpg", alt: "Bola de sorvete com calda de chocolate e farofa de amendoim" },
     itens: [
@@ -122,6 +133,8 @@ window.CATEGORIAS = [
   },
   {
     id: "tacas",
+    grupo: "Sorvetes e sobremesas",
+    capa: "fotos/capa-tacas.jpg",
     nome: "Taças",
     rotulo: "Montadas na hora",
     fotos: [
@@ -143,6 +156,7 @@ window.CATEGORIAS = [
   },
   {
     id: "acai",
+    grupo: "Sorvetes e sobremesas",
     nome: "Açaí",
     rotulo: "Na tigela ou no copo",
     itens: [
@@ -152,8 +166,9 @@ window.CATEGORIAS = [
   },
   {
     id: "bebidas",
+    grupo: "Bebidas e para levar",
     nome: "Café e bebidas",
-    rotulo: "Para acompanhar",
+    rotulo: "Quente ou gelado",
     itens: [
       { nome: "Café" },
       { nome: "Água", desc: "Sem gás ou com gás" },
@@ -163,8 +178,10 @@ window.CATEGORIAS = [
   },
   {
     id: "viagem",
+    grupo: "Bebidas e para levar",
+    capa: "fotos/capa-viagem.jpg",
     nome: "Para viagem",
-    rotulo: "Para casa ou para a praia",
+    rotulo: "Para casa ou praia",
     foto: { src: "fotos/picoles-embalados.jpg", alt: "Picolés Rocha embalados: Chocolate Zero, Coco Zero, Coco, Groselha e Uva" },
     itens: [
       { nome: "Caixa com 12 picolés", desc: "Monte com os sabores que quiser" },

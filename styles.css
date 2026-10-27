@@ -39,7 +39,12 @@ a { color: inherit; }
 img { display: block; max-width: 100%; height: auto; }
 
 /* ---------- Cabeçalho amarelo com o selo ---------- */
-.topo { background: var(--amarelo); padding: 36px 20px 26px; text-align: center; }
+.topo { position: relative; background: var(--amarelo); padding: 36px 20px 22px; text-align: center; }
+/* calda escorrendo na borda do cabeçalho */
+.topo::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 22px; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 26'%3E%3Cpath fill='%23F6C31C' d='M0 0h120v6c-6 0-8 3-8 8a5 5 0 0 1-10 0c0-6-3-8-9-8-5 0-7 2-7 5s-2 4-4 4-4-1-4-4c0-3-3-5-8-5s-8 3-8 11a6 6 0 0 1-12 0c0-8-3-11-9-11-4 0-6 2-6 4a3 3 0 0 1-6 0c0-2-3-4-8-4-6 0-1 0-1 0z'/%3E%3C/svg%3E") repeat-x 0 0 / 120px 22px;
+}
 .selo { display: block; width: min(300px, 78vw); height: auto; margin: 0 auto; filter: drop-shadow(0 6px 14px rgba(45, 41, 40, .22)); }
 .selo-fundo { fill: var(--carvao); }
 .selo-borda { fill: none; stroke: var(--creme); stroke-width: 2; }
@@ -57,7 +62,7 @@ img { display: block; max-width: 100%; height: auto; }
 .link-mapa { padding: 7px 14px; border-radius: 999px; background: var(--carvao); color: var(--creme); font-weight: 600; text-decoration: none; }
 
 /* ---------- Busca e filtros ---------- */
-.ferramentas { max-width: 640px; margin: 0 auto; padding: 20px 20px 0; }
+.ferramentas { max-width: 640px; margin: 0 auto; padding: 32px 20px 0; }
 .busca {
   display: flex; align-items: center; gap: 10px;
   height: 46px; padding: 0 14px;
@@ -133,10 +138,19 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .secao.aberto { border-color: var(--amarelo); box-shadow: 0 6px 20px rgba(45, 41, 40, .08); }
 .leque-titulo { margin: 0; }
 .leque-cab {
-  width: 100%; display: flex; align-items: center; gap: 14px;
-  padding: 16px 16px; border: 0; background: none; cursor: pointer; text-align: left;
+  width: 100%; display: flex; align-items: center; gap: 12px;
+  padding: 14px 14px; border: 0; background: none; cursor: pointer; text-align: left;
   border-radius: 14px; -webkit-tap-highlight-color: transparent;
 }
+.leque-capa { flex: none; width: 56px; height: 56px; border-radius: 50%; overflow: hidden; background: var(--creme); box-shadow: 0 0 0 1px var(--linha), 0 3px 8px rgba(45,41,40,.10); transition: transform .35s cubic-bezier(.3,1.4,.5,1); }
+.leque-capa img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.leque-capa.desenho { display: grid; place-items: center; background: #FDF1C7; }
+.leque-capa.desenho svg { width: 36px; height: 36px; }
+.leque-cab:hover .leque-capa, .secao.aberto .leque-capa { transform: rotate(-6deg) scale(1.04); }
+.leque-qtd { color: var(--amarelo-escuro); font-weight: 600; white-space: nowrap; }
+.grupo { margin: 22px 2px 2px; display: flex; align-items: center; gap: 12px; font-family: var(--texto); font-size: 12.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--amarelo-escuro); }
+.grupo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
+#secoes > .grupo:first-child { margin-top: 4px; }
 .leque-cab:focus-visible { outline: 2px solid var(--azul); outline-offset: -2px; }
 
 /* bolinhas em leque: se abrem quando a categoria abre */
@@ -178,7 +192,7 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 @media (prefers-reduced-motion: reduce) { .picole { transition: none; opacity: 1; transform: none; } }
 
 .leque-texto { flex: 1; min-width: 0; display: flex; flex-direction: column; }
-.leque-nome { font-family: var(--serif); font-size: 23px; line-height: 1.15; color: var(--carvao); }
+.leque-nome { font-family: var(--serif); font-size: 22px; line-height: 1.15; color: var(--carvao); }
 .leque-resumo { margin-top: 3px; font-family: var(--texto); font-weight: 400; font-size: 14px; color: var(--suave); }
 .leque-seta {
   flex: none; width: 34px; height: 34px; padding: 7px; border-radius: 50%;
@@ -208,6 +222,7 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 /* ---------- História ---------- */
 .historia { max-width: 460px; margin: 56px auto 0; padding: 0 0 56px; text-align: center; }
 .filete { width: 56px; height: 3px; margin: 0 auto 20px; background: var(--amarelo); border: 0; border-radius: 2px; }
+.historia-ano { margin: 0 0 2px; font-family: 'Playfair Display', var(--serif); font-weight: 900; font-size: 64px; line-height: 1; color: var(--amarelo); -webkit-text-stroke: 1.5px var(--carvao); letter-spacing: .02em; }
 .historia h2 { margin: 0 0 10px; font-family: var(--serif); font-weight: 400; font-size: 24px; color: var(--carvao); }
 .historia p { margin: 0; color: var(--suave); font-size: 15.5px; }
 
