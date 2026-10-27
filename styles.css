@@ -340,16 +340,52 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .historia p { margin: 0; color: var(--suave); font-size: 15.5px; }
 
 /* ---------- Rodapé ---------- */
-.rodape { background: var(--carvao-fundo); color: #CFC8C3; border-top: 6px solid var(--amarelo); }
-.rodape-in { max-width: 640px; margin: 0 auto; padding: 40px 20px 28px; display: grid; gap: 26px; }
-@media (min-width: 560px) { .rodape-in { grid-template-columns: 1fr 1fr; column-gap: 40px; } }
-.rodape .marca-p { margin: 0; font-family: var(--marca); font-weight: 900; font-size: 30px; color: var(--amarelo); line-height: 1.1; }
-.rodape-desde { margin: 2px 0 0 !important; font-size: 13px !important; letter-spacing: .12em; text-transform: uppercase; color: #9F9792; }
-.rodape p { margin: 0 0 4px; font-size: 15px; line-height: 1.5; }
-.rodape h3 { margin: 0 0 8px; font-size: 13px; font-weight: 700; color: var(--amarelo); letter-spacing: .04em; }
-.rodape a { color: var(--branco); font-weight: 600; text-underline-offset: 3px; }
-.horarios { display: grid; grid-template-columns: auto 1fr; gap: 3px 18px; margin: 0; font-size: 15px; }
-.horarios dt { color: #CFC8C3; }
-.horarios dd { margin: 0; font-variant-numeric: tabular-nums; color: var(--branco); }
-.horarios .hoje { font-weight: 700; color: var(--amarelo); }
-.rodape-fim { max-width: 640px; margin: 0 auto !important; padding: 16px 20px 28px; border-top: 1px solid rgba(255,255,255,.1); font-size: 13px !important; color: #9F9792; }
+.rodape { position: relative; background: var(--carvao-fundo); color: #CFC8C3; margin-top: 30px; }
+/* calda clara escorrendo para dentro do rodapé (gotas montadas em topo.js) */
+.rodape-calda { position: absolute; left: 0; right: 0; top: -1px; height: 0; pointer-events: none; }
+.rodape-calda i { position: absolute; top: 0; width: var(--w); height: var(--h); margin-left: calc(var(--w) / -2); background: var(--papel); border-radius: 0 0 999px 999px; transform-origin: 50% 0; animation: escorre var(--t) ease-in-out infinite alternate; animation-delay: var(--d); }
+.rodape-calda::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--papel); }
+.rodape-in { max-width: 640px; margin: 0 auto; padding: 64px 20px 30px; display: grid; gap: 28px; }
+.rodape-marca { text-align: center; }
+.rodape-marca img { display: block; margin: 0 auto; width: min(220px, 60vw); height: auto; filter: drop-shadow(0 0 1px rgba(247,243,236,.5)) drop-shadow(0 8px 18px rgba(0,0,0,.5)); transition: transform .4s cubic-bezier(.3,1.5,.5,1); }
+.rodape-marca img:hover { transform: rotate(-3deg) scale(1.04); }
+.rodape-marca p { margin: 12px auto 0; max-width: 32ch; font-size: 15px; color: #B9B1AC; }
+.rodape-acoes { display: grid; gap: 10px; }
+@media (min-width: 560px) { .rodape-acoes { grid-template-columns: repeat(3, 1fr); } }
+.acao {
+  display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 14px; text-decoration: none;
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); color: var(--branco);
+  transition: transform .25s cubic-bezier(.3,1.5,.5,1), background .25s, border-color .25s;
+}
+.acao:hover, .acao:active { transform: translateY(-3px); background: rgba(246,195,28,.12); border-color: rgba(246,195,28,.5); }
+.acao svg { flex: none; width: 40px; height: 40px; padding: 9px; border-radius: 50%; background: var(--amarelo); fill: none; stroke: var(--carvao); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .35s cubic-bezier(.3,1.6,.5,1); }
+.acao:hover svg, .acao:active svg { transform: rotate(-12deg) scale(1.1); }
+.acao span { display: flex; flex-direction: column; min-width: 0; }
+.acao b { font-size: 15.5px; }
+.acao small { font-size: 13px; color: #B9B1AC; line-height: 1.35; }
+.rodape-horas { padding: 18px; border-radius: 16px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); }
+.rodape h3 { margin: 0 0 4px; font-family: var(--serif); font-weight: 400; font-size: 22px; color: var(--branco); }
+.horas-resumo { margin: 0 0 14px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.horas-resumo::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.horas-resumo.aberto { color: #5FD38D; } .horas-resumo.aberto::before { animation: pisca-v 1.8s ease-in-out infinite; }
+.horas-resumo.fechado { color: #F28B82; }
+@keyframes pisca-v { 50% { box-shadow: 0 0 0 5px rgba(95,211,141,.2); } }
+.horarios { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.horarios li { display: grid; grid-template-columns: 92px 1fr auto; align-items: center; gap: 12px; padding: 7px 8px; border-radius: 10px; font-size: 14.5px; transition: background .2s; }
+.horarios li:hover { background: rgba(255,255,255,.05); }
+.horarios .dia { color: #CFC8C3; }
+.horarios .dia em { font-style: normal; font-size: 11px; font-weight: 700; padding: 1px 6px; margin-left: 4px; border-radius: 999px; background: var(--amarelo); color: var(--carvao); }
+.horarios .hora { font-variant-numeric: tabular-nums; color: var(--branco); white-space: nowrap; }
+.horarios li.hoje { background: rgba(246,195,28,.1); }
+.horarios li.hoje .dia, .horarios li.hoje .hora { color: var(--amarelo); font-weight: 700; }
+.linha-tempo { position: relative; height: 6px; border-radius: 999px; background: rgba(255,255,255,.08); }
+.barra { position: absolute; top: 0; bottom: 0; left: var(--a); width: calc(var(--b) - var(--a)); border-radius: 999px; background: linear-gradient(90deg, #F6C31C, #F4A53A); transform-origin: 0 50%; transform: scaleX(0); transition: transform .9s cubic-bezier(.2,.8,.2,1); transition-delay: calc(.2s + var(--i) * 70ms); }
+.hoje .barra { box-shadow: 0 0 10px rgba(246,195,28,.6); }
+.agora { position: absolute; top: 50%; left: var(--p); width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: var(--branco); border: 2px solid var(--carvao-fundo); box-shadow: 0 0 0 3px rgba(255,255,255,.25); animation: pisca-b 1.6s ease-in-out infinite; }
+@keyframes pisca-b { 50% { box-shadow: 0 0 0 7px rgba(255,255,255,.08); } }
+.rodape-horas.visivel .barra { transform: scaleX(1); }
+.surge { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+.surge.visivel { opacity: 1; transform: none; }
+.rodape-acoes.surge.visivel { transition-delay: .1s; } .rodape-horas.surge.visivel { transition-delay: .2s; }
+@media (prefers-reduced-motion: reduce) { .surge { opacity: 1; transform: none; transition: none; } .barra { transform: none; transition: none; } .rodape-calda i, .agora, .horas-resumo::before { animation: none; } }
+.rodape-fim { text-align: center; max-width: 640px; margin: 0 auto !important; padding: 16px 20px 28px; border-top: 1px solid rgba(255,255,255,.1); font-size: 13px !important; color: #9F9792; }

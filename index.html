@@ -70,24 +70,32 @@
 </main>
 
 <footer class="rodape">
+  <div class="rodape-calda" aria-hidden="true"></div>
   <div class="rodape-in">
-    <div class="rodape-marca">
-      <p class="marca-p">Sorvetes Rocha</p>
-      <p class="rodape-desde">Desde 1947</p>
+    <div class="rodape-marca surge">
+      <img src="fotos/logo-selo.webp" alt="Sorvetes Rocha, desde 1947" width="900" height="566" loading="lazy">
+      <p>Sorvetes e picolés artesanais, com receita da família desde 1947.</p>
     </div>
-    <div>
-      <h3>Endereço</h3>
-      <p id="endereco"></p>
-      <p><a id="link-mapa2" href="#" target="_blank" rel="noopener">Abrir no Google Maps</a></p>
+
+    <div class="rodape-acoes surge">
+      <a class="acao" id="link-mapa2" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>
+        <span><b>Como chegar</b><small id="endereco"></small></span>
+      </a>
+      <a class="acao" id="telefone" href="#">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg>
+        <span><b>Ligar</b><small id="telefone-num"></small></span>
+      </a>
+      <a class="acao" id="link-insta" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
+        <span><b>Instagram</b><small>@rocha.sorvetes</small></span>
+      </a>
     </div>
-    <div>
-      <h3>Contato</h3>
-      <p><a id="telefone" href="#"></a></p>
-      <p><a id="link-insta" href="#" target="_blank" rel="noopener">@rocha.sorvetes</a></p>
-    </div>
-    <div>
+
+    <div class="rodape-horas surge">
       <h3>Horário de funcionamento</h3>
-      <dl class="horarios" id="horarios"></dl>
+      <p class="horas-resumo" id="horas-resumo"></p>
+      <ul class="horarios" id="horarios"></ul>
     </div>
   </div>
   <p class="rodape-fim">© <span id="ano"></span> Sorvetes Rocha · Sabores sujeitos à disponibilidade.</p>

@@ -20,6 +20,17 @@
     calda.innerHTML = html;
   }
   montarCalda();
+  // mesma calda, clara, no topo do rodapé
+  const caldaRod = document.querySelector(".rodape-calda");
+  if (caldaRod) {
+    let x = 14, html = "";
+    while (x < innerWidth) {
+      const w = 12 + Math.random() * 16, h = 10 + Math.random() * 26;
+      html += `<i style="left:${x.toFixed(0)}px;--w:${w.toFixed(0)}px;--h:${h.toFixed(0)}px;--t:${(2.8 + Math.random() * 2.4).toFixed(2)}s;--d:${(-Math.random() * 4).toFixed(2)}s"></i>`;
+      x += w + 22 + Math.random() * 40;
+    }
+    caldaRod.innerHTML = html;
+  }
   let larg = topo.clientWidth;
   addEventListener("resize", () => { if (Math.abs(topo.clientWidth - larg) > 40) { larg = topo.clientWidth; montarCalda(); } });
 

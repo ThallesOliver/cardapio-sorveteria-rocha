@@ -14,7 +14,7 @@
     return { dia, min: (+g("hour") % 24) * 60 + +g("minute") };
   }
   const paraMin = (h) => { const [a, b] = h.split(":"); return +a * 60 + +b; };
-  const hora = (h) => h.replace(":00", "h");
+  const hora = (h) => h.replace(":00", "h").replace(/^0/, "");
   function horario() {
     const { dia, min } = agoraSP();
     const h = C.horarios[dia];
@@ -32,11 +32,19 @@
     const el = $("#status");
     el.textContent = hr.aberto ? `Aberto agora · até ${hr.ate}` : `Fechado · ${hr.prox}`;
     el.className = "status " + (hr.aberto ? "aberto" : "fechado");
-    $("#horarios").innerHTML = [1, 2, 3, 4, 5, 6, 0].map((d) => {
-      const hh = C.horarios[d];
-      const cls = d === hr.dia ? ' class="hoje"' : "";
-      return `<dt${cls}>${DIAS[d]}</dt><dd${cls}>${hh ? `${hh[0]} – ${hh[1]}` : "Fechado"}</dd>`;
+    // Linha do tempo de cada dia (6h às 24h), com marcador do horário atual
+    const INI = 6 * 60, FIM = 24 * 60, pct = (m) => ((Math.min(FIM, Math.max(INI, m)) - INI) / (FIM - INI) * 100).toFixed(2);
+    const { min } = agoraSP();
+    $("#horarios").innerHTML = [1, 2, 3, 4, 5, 6, 0].map((d, i) => {
+      const hh = C.horarios[d], hoje = d === hr.dia;
+      const barra = hh ? `<span class="barra" style="--a:${pct(paraMin(hh[0]))}%;--b:${pct(paraMin(hh[1]))}%"></span>` : "";
+      const agora = hoje ? `<span class="agora" style="--p:${pct(min)}%"></span>` : "";
+      return `<li class="${hoje ? "hoje" : ""}" style="--i:${i}"><span class="dia">${DIAS[d]}${hoje ? " <em>hoje</em>" : ""}</span>
+        <span class="linha-tempo" aria-hidden="true">${barra}${agora}</span>
+        <span class="hora">${hh ? `${hora(hh[0])} – ${hora(hh[1])}` : "Fechado"}</span></li>`;
     }).join("");
+    $("#horas-resumo").textContent = hr.aberto ? `Aberto agora · fecha às ${hr.ate}` : `Fechado agora · ${hr.prox}`;
+    $("#horas-resumo").className = "horas-resumo " + (hr.aberto ? "aberto" : "fechado");
   }
 
   /* ---------- Cardápio ---------- */
@@ -242,8 +250,13 @@
   /* ---------- Início ---------- */
   $("#link-mapa").href = $("#link-mapa2").href = C.mapsUrl;
   $("#link-insta").href = C.instagram;
-  $("#endereco").textContent = C.endereco;
-  if (C.telefone) { const t = $("#telefone"); t.textContent = C.telefone; t.href = "tel:+55" + C.telefone.replace(/\D/g, ""); }
+  $("#endereco").textContent = C.endereco.split(" — ")[0] + " · Centro Histórico";
+  if (C.telefone) { const t = $("#telefone"); $("#telefone-num").textContent = C.telefone; t.href = "tel:+55" + C.telefone.replace(/\D/g, ""); }
+  // Rodapé: blocos surgem ao chegar na tela
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visivel"); io.unobserve(e.target); } }), { threshold: .2 });
+    document.querySelectorAll(".surge").forEach((el) => io.observe(el));
+  } else document.querySelectorAll(".surge").forEach((el) => el.classList.add("visivel"));
   $("#ano").textContent = new Date().getFullYear();
   renderCats(); render(); status();
   setInterval(status, 60000);

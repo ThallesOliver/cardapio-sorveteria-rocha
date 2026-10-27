@@ -9,15 +9,15 @@ window.CONFIG = {
   telefone: "(12) 3892-3629",
   endereco: "Av. Dr. Altino Arantes, 90 — Centro Histórico, São Sebastião/SP",
   mapsUrl: "https://www.google.com/maps/search/?api=1&query=Sorveteria+Rocha+Av.+Dr.+Altino+Arantes+90+S%C3%A3o+Sebasti%C3%A3o+SP",
-  // Horário por dia da semana (0 = domingo). null = fechado. CONFIRMAR COM A LOJA.
+  // Horário por dia da semana (0 = domingo). null = fechado.
   horarios: {
-    0: ["11:00", "22:00"],
-    1: ["12:00", "21:00"],
-    2: ["12:00", "21:00"],
-    3: ["12:00", "21:00"],
-    4: ["12:00", "21:00"],
-    5: ["11:00", "23:00"],
-    6: ["11:00", "23:00"]
+    0: ["09:00", "23:00"],
+    1: ["09:00", "22:00"],
+    2: ["09:00", "22:00"],
+    3: ["09:00", "22:00"],
+    4: ["09:00", "22:00"],
+    5: ["09:00", "23:00"],
+    6: ["09:00", "23:00"]
   },
   fuso: "America/Sao_Paulo"
 };
