@@ -97,7 +97,7 @@
 
   function pacotesHTML(p) {
     const n = p.fotos.length;
-    return `<div class="pacotes" role="img" aria-label="${esc(p.alt)}">${p.fotos.map((src, i) =>
+    return `<div class="pacotes${n > 2 ? " leque-pacotes" : ""}" role="img" aria-label="${esc(p.alt)}">${p.fotos.map((src, i) =>
       `<span class="pacote" style="--i:${i};--n:${n}"><img src="${esc(src)}" alt="" draggable="false"></span>`).join("")}</div>`;
   }
 

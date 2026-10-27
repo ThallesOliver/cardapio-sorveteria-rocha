@@ -267,7 +267,7 @@ window.CATEGORIAS = [
     capa: "fotos/capa-viagem.jpg",
     nome: "Para viagem",
     rotulo: "Para casa ou praia",
-    foto: { src: "fotos/picoles-embalados.jpg", alt: "Picolés Rocha embalados: Chocolate Zero, Coco Zero, Coco, Groselha e Uva" },
+    pacotes: { fotos: ["fotos/zero-choco.webp", "fotos/zero-coco.webp", "fotos/viagem-coco.webp", "fotos/viagem-groselha.webp", "fotos/viagem-uva.webp"], alt: "Picolés Rocha embalados: Chocolate Zero, Coco Zero, Coco, Groselha e Uva" },
     itens: [
       { nome: "Caixa com 12 picolés", desc: "Monte com os sabores que quiser" },
       { nome: "Isopor de sorvete", desc: "Tamanhos P, M e G" }

@@ -74,14 +74,14 @@ def selo(img, cx, cy, escala):
     texto("DESDE 1947", 224, fonte(SANS, round(13 * k), 600), 3)
 
 
-LOGO = Image.open("fotos/logo.png").convert("RGBA")
+LOGO = Image.open("fotos/logo-selo.png").convert("RGBA")
 
 # ---------- og.png (1200x630) ----------
 W, H = 1200, 630
 X = 2
 og = Image.new("RGB", (W * X, H * X), AMARELO)
-lg = LOGO.resize((420 * X, 420 * X), Image.LANCZOS)
-og.paste(lg, (W * X // 2 - lg.width // 2, 50 * X), lg)
+lg = LOGO.resize((640 * X, round(640 * X * LOGO.height / LOGO.width)), Image.LANCZOS)
+og.paste(lg, (W * X // 2 - lg.width // 2, 70 * X), lg)
 d = ImageDraw.Draw(og)
 f = fonte(SANS, 34 * X, 600)
 d.text((W * X // 2, 545 * X), "Picolés, sorvetes, taças, açaí e café", font=f, fill=CARVAO, anchor="mm")
@@ -90,8 +90,8 @@ og.save(os.path.join(OUT, "og.png"), optimize=True)
 
 # ---------- icone.png (180x180, tela inicial do celular) ----------
 ic = Image.new("RGB", (180, 180), AMARELO)
-lg = LOGO.resize((180, 180), Image.LANCZOS)
-ic.paste(lg, (0, 0), lg)
+lg = LOGO.resize((164, round(164 * LOGO.height / LOGO.width)), Image.LANCZOS)
+ic.paste(lg, (8, 90 - lg.height // 2), lg)
 ic.save(os.path.join(OUT, "icone.png"), optimize=True)
 
 print("site montado em", OUT, "com fotos, og.png e icone.png")
