@@ -341,10 +341,10 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 
 /* ---------- Rodapé ---------- */
 .rodape { position: relative; background: var(--carvao-fundo); color: #CFC8C3; margin-top: 30px; }
-/* calda clara escorrendo para dentro do rodapé (gotas montadas em topo.js) */
-.rodape-calda { position: absolute; left: 0; right: 0; top: -1px; height: 0; pointer-events: none; }
-.rodape-calda i { position: absolute; top: 0; width: var(--w); height: var(--h); margin-left: calc(var(--w) / -2); background: var(--papel); border-radius: 0 0 999px 999px; transform-origin: 50% 0; animation: escorre var(--t) ease-in-out infinite alternate; animation-delay: var(--d); }
-.rodape-calda::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--papel); }
+/* calda clara escorrendo para dentro do rodapé: um único SVG (sem emendas), montado em topo.js */
+.rodape-calda { position: absolute; left: 0; right: 0; top: -1px; height: 60px; pointer-events: none; }
+.rodape-calda svg { display: block; width: 100%; height: 60px; overflow: visible; }
+.rodape-calda .gota { fill: var(--papel); transform-box: fill-box; transform-origin: 50% 0; animation: escorre var(--t) ease-in-out infinite alternate; animation-delay: var(--d); }
 .rodape-in { max-width: 640px; margin: 0 auto; padding: 64px 20px 30px; display: grid; gap: 28px; }
 .rodape-marca { text-align: center; }
 .rodape-marca img { display: block; margin: 0 auto; width: min(220px, 60vw); height: auto; filter: drop-shadow(0 0 1px rgba(247,243,236,.5)) drop-shadow(0 8px 18px rgba(0,0,0,.5)); transition: transform .4s cubic-bezier(.3,1.5,.5,1); }
@@ -387,5 +387,5 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .surge { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
 .surge.visivel { opacity: 1; transform: none; }
 .rodape-acoes.surge.visivel { transition-delay: .1s; } .rodape-horas.surge.visivel { transition-delay: .2s; }
-@media (prefers-reduced-motion: reduce) { .surge { opacity: 1; transform: none; transition: none; } .barra { transform: none; transition: none; } .rodape-calda i, .agora, .horas-resumo::before { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .surge { opacity: 1; transform: none; transition: none; } .barra { transform: none; transition: none; } .rodape-calda .gota, .agora, .horas-resumo::before { animation: none; } }
 .rodape-fim { text-align: center; max-width: 640px; margin: 0 auto !important; padding: 16px 20px 28px; border-top: 1px solid rgba(255,255,255,.1); font-size: 13px !important; color: #9F9792; }

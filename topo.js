@@ -20,17 +20,23 @@
     calda.innerHTML = html;
   }
   montarCalda();
-  // mesma calda, clara, no topo do rodapé
+  // mesma calda, clara, no topo do rodapé (um SVG só: faixa + gotas sobrepostas, sem linhas)
   const caldaRod = document.querySelector(".rodape-calda");
-  if (caldaRod) {
-    let x = 14, html = "";
-    while (x < innerWidth) {
-      const w = 12 + Math.random() * 16, h = 10 + Math.random() * 26;
-      html += `<i style="left:${x.toFixed(0)}px;--w:${w.toFixed(0)}px;--h:${h.toFixed(0)}px;--t:${(2.8 + Math.random() * 2.4).toFixed(2)}s;--d:${(-Math.random() * 4).toFixed(2)}s"></i>`;
-      x += w + 22 + Math.random() * 40;
+  function montarCaldaRod() {
+    if (!caldaRod) return;
+    const W = caldaRod.clientWidth || innerWidth;
+    let x = 14, gotas = "";
+    while (x < W + 20) {
+      const w = 12 + Math.random() * 16, h = 14 + Math.random() * 26, r = w / 2, f = 9;
+      const l = x - r, d = (-Math.random() * 4).toFixed(2), tt = (2.8 + Math.random() * 2.4).toFixed(2);
+      // gota começa em y=0 (por cima da faixa) e tem cantinhos arredondados onde encosta na faixa
+      gotas += `<path class="gota" style="--t:${tt}s;--d:${d}s" d="M${(l - f).toFixed(1)} 0 H${(l + w + f).toFixed(1)} V7 Q${(l + w).toFixed(1)} 7 ${(l + w).toFixed(1)} ${7 + f} V${h} A${r.toFixed(1)} ${r.toFixed(1)} 0 0 1 ${l.toFixed(1)} ${h} V${7 + f} Q${l.toFixed(1)} 7 ${(l - f).toFixed(1)} 7 Z"/>`;
+      x += w + 24 + Math.random() * 40;
     }
-    caldaRod.innerHTML = html;
+    caldaRod.innerHTML = `<svg viewBox="0 0 ${W} 60" preserveAspectRatio="none" aria-hidden="true"><rect x="0" y="0" width="${W}" height="8" fill="var(--papel)"/>${gotas}</svg>`;
   }
+  montarCaldaRod();
+  addEventListener("resize", montarCaldaRod);
   let larg = topo.clientWidth;
   addEventListener("resize", () => { if (Math.abs(topo.clientWidth - larg) > 40) { larg = topo.clientWidth; montarCalda(); } });
 
