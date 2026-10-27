@@ -40,12 +40,45 @@ img { display: block; max-width: 100%; height: auto; }
 
 /* ---------- Cabeçalho amarelo com o selo ---------- */
 .topo { position: relative; background: var(--amarelo); padding: 36px 20px 22px; text-align: center; }
-/* calda escorrendo na borda do cabeçalho */
-.topo::after {
-  content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 22px; pointer-events: none;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 26'%3E%3Cpath fill='%23F6C31C' d='M0 0h120v6c-6 0-8 3-8 8a5 5 0 0 1-10 0c0-6-3-8-9-8-5 0-7 2-7 5s-2 4-4 4-4-1-4-4c0-3-3-5-8-5s-8 3-8 11a6 6 0 0 1-12 0c0-8-3-11-9-11-4 0-6 2-6 4a3 3 0 0 1-6 0c0-2-3-4-8-4-6 0-1 0-1 0z'/%3E%3C/svg%3E") repeat-x 0 0 / 120px 22px;
+/* calda escorrendo na borda do cabeçalho (gotas criadas em topo.js) */
+.calda { position: absolute; left: 0; right: 0; top: calc(100% - 1px); height: 0; pointer-events: none; z-index: 2; }
+.calda i {
+  position: absolute; top: 0; width: var(--w); height: var(--h); margin-left: calc(var(--w) / -2);
+  background: var(--amarelo); border-radius: 0 0 999px 999px; transform-origin: 50% 0;
+  animation: escorre var(--t) ease-in-out infinite alternate; animation-delay: var(--d);
 }
-.selo { display: block; width: min(300px, 78vw); height: auto; margin: 0 auto; filter: drop-shadow(0 6px 14px rgba(45, 41, 40, .22)); }
+.calda i::before, .calda i::after { content: ""; position: absolute; top: 0; width: 10px; height: 10px; background: radial-gradient(circle at 100% 100%, transparent 9.5px, var(--amarelo) 10px); }
+.calda i::before { left: -10px; transform: scaleX(-1); }
+.calda i::after { right: -10px; }
+.calda b {
+  position: absolute; top: 0; width: 7px; height: 9px; margin-left: -3.5px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: var(--amarelo); opacity: 0; animation: pinga 4.2s ease-in infinite; animation-delay: var(--d);
+}
+@keyframes escorre { from { transform: scaleY(.82); } to { transform: scaleY(1.12); } }
+@keyframes pinga { 0%, 55% { opacity: 0; transform: translateY(var(--y0)) scale(.4); } 62% { opacity: 1; transform: translateY(var(--y0)) scale(1); } 100% { opacity: 0; transform: translateY(calc(var(--y0) + 70px)) scale(.8); } }
+
+/* selo: inclina com o dedo/mouse, brilho que passa e granulados ao tocar */
+.selo-caixa { position: relative; width: min(300px, 78vw); margin: 0 auto; perspective: 700px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.selo-caixa .selo { width: 100%; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .5s cubic-bezier(.2,.8,.2,1); animation: respira 5s ease-in-out infinite; }
+@keyframes respira { 50% { translate: 0 -4px; } }
+.selo-caixa.toque .selo { animation: pulo .6s cubic-bezier(.3,1.6,.5,1); }
+@keyframes pulo { 30% { scale: .94; } 60% { scale: 1.05; } 100% { scale: 1; } }
+.selo-brilho { transform: translateX(-260px) skewX(-20deg); animation: brilho 6s ease-in-out infinite 1.2s; }
+@keyframes brilho { 0%, 70% { transform: translateX(-260px) skewX(-20deg); } 100% { transform: translateX(560px) skewX(-20deg); } }
+.granulado { position: absolute; left: 50%; top: 50%; width: 5px; height: 14px; border-radius: 3px; pointer-events: none; z-index: 3; }
+.topo-sub, .topo-info { position: relative; z-index: 1; }
+.topo-bolhas { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.topo-bolhas span { position: absolute; bottom: -20px; border-radius: 50%; background: rgba(255,255,255,.28); animation: sobe linear infinite; }
+@keyframes sobe { to { transform: translateY(calc(-1 * var(--alt, 400px))) translateX(var(--dx, 0)); opacity: 0; } }
+.link-mapa { transition: transform .2s, box-shadow .2s; }
+.link-mapa:hover, .link-mapa:active { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(45,41,40,.25); }
+.status.aberto::before { animation: pisca 1.8s ease-in-out infinite; }
+@keyframes pisca { 50% { box-shadow: 0 0 0 5px rgba(30,142,78,.18); } }
+@media (prefers-reduced-motion: reduce) {
+  .calda i, .calda b, .selo-caixa .selo, .selo-brilho, .topo-bolhas span, .status.aberto::before { animation: none; }
+  .calda b, .topo-bolhas { display: none; }
+}
+.selo { display: block; width: min(300px, 78vw); height: auto; margin: 0 auto; position: relative; z-index: 1; filter: drop-shadow(0 6px 14px rgba(45, 41, 40, .22)); }
 .selo-fundo { fill: var(--carvao); }
 .selo-borda { fill: none; stroke: var(--creme); stroke-width: 2; }
 .selo-icone circle, .selo-icone path { fill: none; stroke: var(--creme); stroke-width: 2; stroke-linejoin: round; }

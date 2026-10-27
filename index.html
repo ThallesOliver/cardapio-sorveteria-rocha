@@ -27,7 +27,13 @@
 
 <header class="topo">
   <h1 class="sr">Sorvetes Rocha, desde 1947</h1>
+  <div class="topo-bolhas" aria-hidden="true"></div>
+  <div class="selo-caixa" id="selo">
   <svg class="selo" viewBox="0 0 440 280" role="img" aria-label="Sorvetes Rocha, desde 1947">
+    <defs>
+      <clipPath id="selo-recorte"><path d="M30 70H60L75 55H150Q158 30 185 26H255Q282 30 290 55H365L380 70H410L425 85V195L410 210H380L365 225H290Q282 250 255 254H185Q158 250 150 225H75L60 210H30L15 195V85Z"/></clipPath>
+      <linearGradient id="selo-luz" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    </defs>
     <path class="selo-fundo" d="M30 70H60L75 55H150Q158 30 185 26H255Q282 30 290 55H365L380 70H410L425 85V195L410 210H380L365 225H290Q282 250 255 254H185Q158 250 150 225H75L60 210H30L15 195V85Z"/>
     <path class="selo-borda" d="M30 70H60L75 55H150Q158 30 185 26H255Q282 30 290 55H365L380 70H410L425 85V195L410 210H380L365 225H290Q282 250 255 254H185Q158 250 150 225H75L60 210H30L15 195V85Z" transform="translate(13.2 8.4) scale(.94)"/>
     <g class="selo-icone" transform="translate(220 52)">
@@ -39,12 +45,15 @@
     <text class="selo-nome" x="220" y="178">ROCHA</text>
     <line class="selo-linha" x1="110" y1="196" x2="330" y2="196"/>
     <text class="selo-sub selo-desde" x="220" y="224">DESDE 1947</text>
+    <g clip-path="url(#selo-recorte)"><rect class="selo-brilho" x="0" y="0" width="90" height="280" fill="url(#selo-luz)"/></g>
   </svg>
+  </div>
   <p class="topo-sub">Sorvetes e picolés artesanais · Centro Histórico de São Sebastião</p>
   <div class="topo-info">
     <span class="status" id="status">…</span>
     <a class="link-mapa" id="link-mapa" href="#" target="_blank" rel="noopener">Como chegar</a>
   </div>
+  <div class="calda" aria-hidden="true"></div>
 </header>
 
 <div class="ferramentas">
@@ -98,5 +107,6 @@
 <script src="dados.js"></script>
 <script src="app.js"></script>
 <script src="fundo.js"></script>
+<script src="topo.js"></script>
 </body>
 </html>
