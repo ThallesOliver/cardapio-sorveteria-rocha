@@ -85,15 +85,42 @@ img { display: block; max-width: 100%; height: auto; }
 @keyframes brilho { 0%, 70% { transform: translateX(-260px) skewX(-20deg); } 100% { transform: translateX(560px) skewX(-20deg); } }
 .granulado { position: absolute; left: 50%; top: 50%; width: 5px; height: 14px; border-radius: 3px; pointer-events: none; z-index: 3; }
 .topo-sub, .topo-info { position: relative; z-index: 1; }
+.topo-fundo { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.mancha {
+  position: absolute; width: 60vmax; height: 60vmax; max-width: 560px; max-height: 560px; opacity: .8; filter: blur(4px);
+  border-radius: 42% 58% 61% 39% / 45% 41% 59% 55%;
+  translate: calc(var(--px, 0) * var(--k)) calc(var(--py, 0) * var(--k));
+  transition: translate 1.2s cubic-bezier(.2,.7,.2,1);
+  animation: derrete 14s ease-in-out infinite alternate, gira 40s linear infinite;
+}
+.m1 { --k: 26px; left: -22%; top: -30%; background: radial-gradient(circle at 40% 40%, #FFE380, #F6C31C 70%); }
+.m2 { --k: -34px; right: -28%; top: 10%; background: radial-gradient(circle at 50% 50%, #EFB000, #F6C31C 72%); animation-duration: 18s, 55s; animation-direction: alternate, reverse; }
+.m3 { --k: 18px; left: 20%; bottom: -62%; background: radial-gradient(circle at 50% 40%, #F0B400, #F6C31C 72%); animation-duration: 16s, 48s; }
+@keyframes derrete {
+  0% { border-radius: 42% 58% 61% 39% / 45% 41% 59% 55%; }
+  50% { border-radius: 63% 37% 44% 56% / 58% 62% 38% 42%; }
+  100% { border-radius: 36% 64% 52% 48% / 39% 55% 45% 61%; }
+}
+@keyframes gira { to { rotate: 360deg; } }
+.luz {
+  position: absolute; left: 0; top: 0; width: 360px; height: 360px; margin: -180px 0 0 -180px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.35), rgba(255,255,255,0) 65%);
+  translate: var(--lx, 50vw) var(--ly, -400px); transition: translate .35s ease-out, opacity .4s; opacity: 0;
+}
+.topo.mexendo .luz { opacity: 1; }
+.onda { position: absolute; width: 20px; height: 20px; margin: -10px 0 0 -10px; border-radius: 50%; border: 3px solid rgba(255,255,255,.75); pointer-events: none; z-index: 0; }
+.gota-cor { position: absolute; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; pointer-events: none; z-index: 0; }
 .topo-bolhas { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-.topo-bolhas span { position: absolute; bottom: -20px; border-radius: 50%; background: rgba(255,255,255,.28); animation: sobe linear infinite; }
+.topo-bolhas span.estoura { animation: estoura .35s ease-out forwards !important; }
+@keyframes estoura { to { scale: 2.2; opacity: 0; } }
+.topo-bolhas span { position: absolute; bottom: -20px; border-radius: 50%; pointer-events: auto; cursor: pointer; background: rgba(255,255,255,.28); animation: sobe linear infinite; }
 @keyframes sobe { to { transform: translateY(calc(-1 * var(--alt, 400px))) translateX(var(--dx, 0)); opacity: 0; } }
 .link-mapa { transition: transform .2s, box-shadow .2s; }
 .link-mapa:hover, .link-mapa:active { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(45,41,40,.25); }
 .status.aberto::before { animation: pisca 1.8s ease-in-out infinite; }
 @keyframes pisca { 50% { box-shadow: 0 0 0 5px rgba(30,142,78,.18); } }
 @media (prefers-reduced-motion: reduce) {
-  .selo-caixa, .selo-caixa.chama, .calda i, .calda b, .selo-caixa .selo, .selo-brilho, .topo-bolhas span, .status.aberto::before { animation: none; }
+  .mancha, .selo-caixa, .selo-caixa.chama, .calda i, .calda b, .selo-caixa .selo, .selo-brilho, .topo-bolhas span, .status.aberto::before { animation: none; }
   .calda b, .topo-bolhas { display: none; }
 }
 .selo { display: block; width: min(300px, 78vw); height: auto; margin: 0 auto; position: relative; z-index: 1; filter: drop-shadow(0 6px 14px rgba(45, 41, 40, .22)); }

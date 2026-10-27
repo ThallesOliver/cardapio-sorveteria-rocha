@@ -32,6 +32,48 @@
     return `<span style="left:${(Math.random() * 100).toFixed(1)}%;width:${s.toFixed(0)}px;height:${s.toFixed(0)}px;--alt:${(260 + Math.random() * 260).toFixed(0)}px;--dx:${((Math.random() - .5) * 40).toFixed(0)}px;animation-duration:${(7 + Math.random() * 8).toFixed(1)}s;animation-delay:${(-Math.random() * 12).toFixed(1)}s"></span>`;
   }).join("");
 
+  // Fundo amarelo: manchas que derretem e seguem o dedo, luz que acompanha, ondas ao tocar
+  const fundoTopo = topo.querySelector(".topo-fundo");
+  let saiTimer;
+  function mexeFundo(x, y) {
+    const r = topo.getBoundingClientRect();
+    const lx = x - r.left, ly = y - r.top;
+    fundoTopo.style.setProperty("--lx", lx + "px"); fundoTopo.style.setProperty("--ly", ly + "px");
+    fundoTopo.style.setProperty("--px", ((lx / r.width) - .5) * 2);
+    fundoTopo.style.setProperty("--py", ((ly / r.height) - .5) * 2);
+    topo.classList.add("mexendo"); clearTimeout(saiTimer);
+    saiTimer = setTimeout(() => topo.classList.remove("mexendo"), 1600);
+  }
+  topo.addEventListener("pointermove", (e) => mexeFundo(e.clientX, e.clientY));
+  topo.addEventListener("touchmove", (e) => mexeFundo(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+  const SABORES = ["#F4B3C0", "#8FD3F4", "#B5C98A", "#F25C6E", "#C9A7E8", "#FFFFFF"];
+  topo.addEventListener("pointerdown", (e) => {
+    if (e.target.closest("a, button, #selo, .status")) return;
+    const r = topo.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    mexeFundo(e.clientX, e.clientY);
+    // bolha tocada estoura
+    const b = e.target.closest(".topo-bolhas span");
+    if (b) { b.classList.add("estoura"); setTimeout(() => b.classList.remove("estoura"), 2000); }
+    for (let k = 0; k < 2; k++) {
+      const o = document.createElement("span"); o.className = "onda";
+      o.style.left = x + "px"; o.style.top = y + "px"; topo.appendChild(o);
+      o.animate([{ transform: "scale(.2)", opacity: 1 }, { transform: "scale(9)", opacity: 0 }],
+        { duration: 900, delay: k * 160, easing: "cubic-bezier(.2,.7,.3,1)", fill: "backwards" }).onfinish = () => o.remove();
+    }
+    for (let i = 0; i < 9; i++) {
+      const g = document.createElement("span"); g.className = "gota-cor";
+      g.style.left = x + "px"; g.style.top = y + "px"; g.style.background = SABORES[i % SABORES.length];
+      const s = 6 + Math.random() * 10; g.style.width = g.style.height = s + "px";
+      topo.appendChild(g);
+      const a = Math.random() * Math.PI * 2, d = 40 + Math.random() * 60;
+      g.animate([
+        { transform: "translate(0,0) scale(.3)", opacity: 1 },
+        { transform: `translate(${Math.cos(a) * d}px, ${Math.sin(a) * d - 20}px) scale(1)`, opacity: .9, offset: .5 },
+        { transform: `translate(${Math.cos(a) * d * 1.1}px, ${Math.sin(a) * d + 40}px) scale(.6)`, opacity: 0 }
+      ], { duration: 1000 + Math.random() * 300, easing: "cubic-bezier(.2,.7,.3,1)" }).onfinish = () => g.remove();
+    }
+  });
+
   // Selo inclina seguindo o dedo/mouse
   topo.addEventListener("pointermove", (e) => {
     const r = caixa.getBoundingClientRect();
