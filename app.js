@@ -52,7 +52,11 @@
   };
 
   // Desenhos para categorias sem foto
+  const bola = (c1, c2, c3) => `<path d="M14 25l10 16 10-16z" fill="#E2B474" stroke="#9C6B3F" stroke-width="1.2"/><path d="M17 29l12 4M19 34l8-6" stroke="#9C6B3F" stroke-width="1"/><circle cx="24" cy="18" r="10" fill="${c1}"/><path d="M14 20q2.5 4 5 1t5 1 5-1 5 1v-2H14z" fill="${c1}"/><circle cx="20" cy="15" r="2" fill="${c2}"/><circle cx="27" cy="13.5" r="1.6" fill="${c3}"/><circle cx="26" cy="19" r="1.3" fill="${c2}"/>`;
   const ICONES = {
+    "massa-agua": bola("#F1C232", "#8E5A9B", "#D7263D"),
+    "massa-zero": bola("#F6F2E7", "#6B3E26", "#F4B3C0"),
+    "massa-premium": bola("#3A2A22", "#F6C31C", "#B5C98A") + '<path d="M24 2l1.6 3.4 3.6.4-2.7 2.4.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.4 3.6-.4z" fill="#F6C31C" stroke="#8A6A00" stroke-width=".8"/>',
     especiais: '<path d="M17 6a7 7 0 0 1 14 0v20H17z" fill="#6B3E26"/><path d="M17 15c3 2 5-1 7 1s4-1 7 1v-5H17z" fill="#F3E2B3"/><path d="M17 13c2.5 1.5 5-1 7 .5s4.5-1.2 7 .3" fill="none" stroke="#4E2A1A" stroke-width="1.4"/><rect x="22" y="26" width="4" height="12" rx="2" fill="#D9B98A"/>',
     acai: '<ellipse cx="24" cy="21" rx="15" ry="4" fill="#4B1F3E"/><circle cx="18" cy="18" r="3" fill="#F6C31C"/><circle cx="24" cy="16.5" r="3" fill="#F25C6E"/><circle cx="30" cy="18" r="3" fill="#F3E2B3"/><path d="M8 21h32a16 14 0 0 1-32 0z" fill="#8E5A9B"/><path d="M8 21h32" stroke="#2D2928" stroke-width="1.6"/><rect x="18" y="34" width="12" height="4" rx="2" fill="#5B1E3A"/>',
     bebidas: '<path d="M14 16h20l-2.5 20a3 3 0 0 1-3 2.6h-9a3 3 0 0 1-3-2.6z" fill="#F7F3EC" stroke="#2D2928" stroke-width="1.6"/><path d="M15.2 24h17.6l-1.2 9H16.4z" fill="#8A5A35"/><path d="M34 20h2.5a4 4 0 0 1 0 8H33" fill="none" stroke="#2D2928" stroke-width="1.6"/><path d="M20 12c0-2 2-2 2-4M26 12c0-2 2-2 2-4" stroke="#C9965A" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
@@ -117,7 +121,7 @@
       const marca = proprias.length ? ` <small>· ${proprias.map((t) => TAGS[t]).join(" · ")}</small>` : "";
       return `<li class="picole${s.esgotado ? " off" : ""}" style="--c:${s.cor};--i:${i}"><i aria-hidden="true"></i><span>${esc(s.nome)}${extra}${marca}</span></li>`;
     }).join("");
-    return `${selos}<ul class="picoles">${chips}</ul>`;
+    return `${selos}<ul class="picoles${cat.id.startsWith("massa") ? " bolas" : ""}">${chips}</ul>`;
   }
 
   function itensHTML(itens) {
