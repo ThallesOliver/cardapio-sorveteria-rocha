@@ -90,6 +90,12 @@
     return `<div class="leque-palco" role="img" aria-label="${esc(l.alt)}"><div class="leque-base">${pecas}</div></div>`;
   }
 
+  function pacotesHTML(p) {
+    const n = p.fotos.length;
+    return `<div class="pacotes" role="img" aria-label="${esc(p.alt)}">${p.fotos.map((src, i) =>
+      `<span class="pacote" style="--i:${i};--n:${n}"><img src="${esc(src)}" alt="" draggable="false"></span>`).join("")}</div>`;
+  }
+
   const fotoHTML = (f) => `<img class="secao-foto" src="${esc(f.src)}" alt="${esc(f.alt)}" width="1000" height="1250" loading="lazy">`;
   function carrosselHTML(cat) {
     const n = cat.fotos.length;
@@ -145,6 +151,7 @@
       total++;
       const topo = `${cat.nota ? `<p class="nota">${esc(cat.nota)}</p>` : ""}
         ${cat.leque ? lequeHTML(cat.leque) : ""}
+        ${cat.pacotes ? pacotesHTML(cat.pacotes) : ""}
         ${cat.foto ? `<div class="foto-moldura">${fotoHTML(cat.foto)}</div>` : ""}
         ${cat.fotos ? carrosselHTML(cat) : ""}`;
       const cab = cat.grupo && cat.grupo !== grupoAtual ? `<h3 class="grupo">${esc(cat.grupo)}</h3>` : "";
@@ -163,6 +170,12 @@
   document.addEventListener("click", (e) => {
     const ir = e.target.closest("[data-ir]");
     if (ir) { mexeuEm = Date.now(); irPara(ir.closest("[data-carrossel]"), +ir.dataset.ir); return; }
+    const pac = e.target.closest(".pacote");
+    if (pac) {
+      pac.classList.remove("balanca"); void pac.offsetWidth; pac.classList.add("balanca");
+      pac.addEventListener("animationend", () => pac.classList.remove("balanca"), { once: true });
+      return;
+    }
     const base = e.target.closest(".leque-base");
     if (base) {
       // descobre qual picolé foi tocado pelo ângulo em relação ao palito

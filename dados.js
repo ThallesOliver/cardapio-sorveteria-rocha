@@ -29,6 +29,7 @@ window.CONFIG = {
    - itens: lista de produtos { nome, desc }
    - foto: { src, alt } foto no topo da categoria (pasta fotos/), no formato 4:5 (ex.: 1000x1250)
    - fotos: [ { src, alt, legenda } ] várias fotos em carrossel, também 4:5
+   - pacotes: { fotos, alt } embalagens recortadas que se abrem e balançam ao toque
    - leque: { pasta, alt } picolés recortados (fotos/<pasta>-1..5.webp) que abrem em leque
    - nota: frase curta abaixo do título
    - grupo: título que separa blocos de categorias
@@ -95,10 +96,10 @@ window.CATEGORIAS = [
   {
     id: "zero",
     grupo: "Picolés",
-    capa: "fotos/capa-zero.jpg",
+    capa: "fotos/capa-zero.webp",
     nome: "Picolés zero açúcar",
     rotulo: "Sem açúcar",
-    foto: { src: "fotos/picoles-zero.jpg", alt: "Picolés Rocha Chocolate Zero e Coco Zero na embalagem" },
+    pacotes: { fotos: ["fotos/zero-choco.webp", "fotos/zero-coco.webp"], alt: "Picolés Rocha Chocolate Zero e Coco Zero na embalagem" },
     sabores: [
       { nome: "Chocolate zero açúcar", cor: "#5A3420", tags: ["zero"] },
       { nome: "Coco zero açúcar", cor: "#F6F2E7", tags: ["zero"] }
@@ -141,7 +142,7 @@ window.CATEGORIAS = [
       { src: "fotos/taca-sundae.jpg", alt: "Taça de sorvete de chocolate com chantilly, calda e farofa de amendoim" },
       { src: "fotos/taca-colorida.jpg", alt: "Taça de sorvete com chantilly, calda de morango e banana" },
       { src: "fotos/petit-gateau.jpg", alt: "Petit gâteau com bola de sorvete e calda de chocolate", legenda: "Petit gâteau" },
-      { src: "fotos/milk-shake.jpg", alt: "Milk shake com chantilly e calda de chocolate", legenda: "Milk shake" },
+      { src: "fotos/milk-shake.jpg", alt: "Milk shake com chantilly e calda de chocolate" },
       { src: "fotos/tacas.jpg", alt: "Taça de sorvete com calda e farofa de amendoim" }
     ],
     itens: [
