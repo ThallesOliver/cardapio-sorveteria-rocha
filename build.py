@@ -4,7 +4,7 @@ import os, shutil, urllib.request
 from PIL import Image, ImageDraw, ImageFont
 
 OUT = "public"
-ARQUIVOS = ["index.html", "styles.css", "app.js", "dados.js"]
+ARQUIVOS = ["index.html", "styles.css", "app.js", "dados.js", "fundo.js"]
 PASTAS = ["fotos"]
 BASE = "https://raw.githubusercontent.com/google/fonts/main/ofl/"
 FONTES = {
