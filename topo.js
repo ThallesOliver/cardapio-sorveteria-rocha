@@ -42,9 +42,48 @@
   });
   topo.addEventListener("pointerleave", () => { caixa.style.setProperty("--ry", "0deg"); caixa.style.setProperty("--rx", "0deg"); });
 
-  // Toque no selo: pulinho + chuva de granulados
+  // Inclina também ao arrastar o dedo sobre o selo (celular)
+  caixa.addEventListener("touchmove", (e) => {
+    const t = e.touches[0], r = caixa.getBoundingClientRect();
+    caixa.style.setProperty("--ry", (((t.clientX - r.left) / r.width - .5) * 26).toFixed(1) + "deg");
+    caixa.style.setProperty("--rx", (-((t.clientY - r.top) / r.height - .5) * 22).toFixed(1) + "deg");
+  }, { passive: true });
+  caixa.addEventListener("touchend", () => { caixa.style.setProperty("--ry", "0deg"); caixa.style.setProperty("--rx", "0deg"); });
+
+  // Ao rolar a página, o selo diminui e inclina de leve
+  addEventListener("scroll", () => {
+    const p = Math.min(1, scrollY / 320);
+    caixa.style.scale = (1 - p * .12).toFixed(3);
+    if (!caixa.matches(":hover")) caixa.style.setProperty("--rx", (p * 14).toFixed(1) + "deg");
+  }, { passive: true });
+
+  // Dica "Toque no selo" e balançadinha de tempos em tempos até a pessoa tocar
+  let tocou = false;
+  const dica = setTimeout(() => { if (!tocou) caixa.classList.add("dica"); }, 2200);
+  const chamar = setInterval(() => {
+    if (tocou || scrollY > 200 || document.hidden) return;
+    caixa.classList.remove("chama"); void caixa.offsetWidth; caixa.classList.add("chama");
+  }, 6500);
+  caixa.addEventListener("animationend", (e) => { if (e.animationName === "chega") caixa.style.animation = "none"; });
+
+  // Toque no selo: pulinho + chuva de granulados e mini picolés
   const CORES = ["#F4B3C0", "#8FD3F4", "#B5C98A", "#F25C6E", "#FFFFFF", "#6B3E26", "#C9A7E8"];
+  const PICOLES = ["#F25C6E", "#8FD3F4", "#F4B3C0", "#B5C98A", "#F1C232", "#8E5A9B"];
   caixa.addEventListener("click", () => {
+    if (!tocou) { tocou = true; clearTimeout(dica); clearInterval(chamar); caixa.classList.remove("dica"); }
+    for (let i = 0; i < 6; i++) {
+      const m = document.createElement("span");
+      m.className = "mini-picole";
+      m.innerHTML = `<svg viewBox="0 0 16 28"><path d="M2 20V8a6 6 0 0 1 12 0v12z" fill="${PICOLES[i]}"/><path d="M2 12q3 2 6 0t6 0" stroke="#fff" stroke-opacity=".5" fill="none"/><rect x="6.5" y="19" width="3" height="9" rx="1.5" fill="#D9B98A"/></svg>`;
+      caixa.appendChild(m);
+      const ang = -Math.PI / 2 + (i - 2.5) * .45, dist = 120 + Math.random() * 60;
+      const x = Math.cos(ang) * dist, y = Math.sin(ang) * dist * .8, rot = (i - 2.5) * 30;
+      m.animate([
+        { transform: "translate(-50%,-50%) scale(.3) rotate(0deg)", opacity: 0 },
+        { transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(1.2) rotate(${rot}deg)`, opacity: 1, offset: .45 },
+        { transform: `translate(calc(-50% + ${x * 1.15}px), calc(-50% + ${y + 140}px)) scale(1) rotate(${rot * 2}deg)`, opacity: 0 }
+      ], { duration: 1400, easing: "cubic-bezier(.2,.7,.3,1)", delay: i * 40 }).onfinish = () => m.remove();
+    }
     caixa.classList.remove("toque"); void caixa.offsetWidth; caixa.classList.add("toque");
     for (let i = 0; i < 26; i++) {
       const g = document.createElement("span");
