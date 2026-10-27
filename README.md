@@ -12,7 +12,7 @@ Tudo que muda no dia a dia fica em **`dados.js`**. Não precisa mexer no layout.
 
 - **Horário de funcionamento:** em `CONFIG.horarios` (0 = domingo; `null` = fechado).
 - **Categorias, sabores e produtos:** em `CATEGORIAS`. Categorias de picolé usam `sabores` (com `cor` e `tags`: `sem-lactose`, `vegano`, `zero`); as demais usam `itens` (`nome` e `desc`). Para marcar um sabor como acabado, use `esgotado: true`.
-- **Fotos:** campo `foto` de cada categoria, apontando para a pasta `fotos/`.
+- **Fotos:** campo `foto` (uma foto) ou `fotos` (carrossel que passa sozinho) de cada categoria, na pasta `fotos/`. Os picolés de fruta e cremosos usam `leque`: cada picolé recortado (`agua-1.webp`…`leite-5.webp`) abre em leque e balança ao toque.
 
 Os sabores de sorvete de massa ainda não estão no site; o horário é provisório e precisa ser confirmado.
 

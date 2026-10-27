@@ -68,6 +68,26 @@
     </section>`;
   }
 
+  /* Picolés recortados que abrem em leque: [altura em %, posição do palito em %] */
+  const LEQUE = {"agua": [[95.72, 65.65], [97.06, 80.1], [96.79, 73.91], [97.06, 64.43], [96.52, 48.45]], "leite": [[98.13, 61.44], [98.4, 57.33], [98.4, 70.83], [98.4, 54.27], [98.4, 50.0]]};
+  const GIRO = [-34, -17, 0, 17, 34];
+  function lequeHTML(l) {
+    const pecas = LEQUE[l.pasta].map(([h, ox], i) =>
+      `<span class="leque-picole" style="height:${h}%;--ox:${ox}%;--g:${GIRO[i]}deg;--i:${i}">
+        <img src="fotos/${l.pasta}-${i + 1}.webp" alt="" draggable="false">
+      </span>`).join("");
+    return `<div class="leque-palco" role="img" aria-label="${esc(l.alt)}"><div class="leque-base">${pecas}</div></div>`;
+  }
+
+  const fotoHTML = (f) => `<img class="secao-foto" src="${esc(f.src)}" alt="${esc(f.alt)}" loading="lazy"${f.pos ? ` style="object-position:${f.pos}"` : ""}>`;
+  function carrosselHTML(cat) {
+    const n = cat.fotos.length;
+    return `<div class="carrossel" data-carrossel>
+      <div class="carrossel-trilho" tabindex="0" aria-label="Fotos: ${esc(cat.nome)}">${cat.fotos.map((f, i) => `<figure class="foto-moldura slide" aria-label="${i + 1} de ${n}">${fotoHTML(f)}${f.legenda ? `<figcaption>${esc(f.legenda)}</figcaption>` : ""}</figure>`).join("")}</div>
+      <div class="carrossel-pontos">${cat.fotos.map((f, i) => `<button type="button" data-ir="${i}" aria-label="Ver foto ${i + 1}"${i ? "" : ' aria-current="true"'}></button>`).join("")}</div>
+    </div>`;
+  }
+
   const qtd = (n, um, varios) => `${n} ${n === 1 ? um : varios}`;
 
   function saboresHTML(cat, lista) {
@@ -112,7 +132,9 @@
       }
       total++;
       const topo = `${cat.nota ? `<p class="nota">${esc(cat.nota)}</p>` : ""}
-        ${cat.foto ? `<img class="secao-foto" onerror="this.remove()" src="${esc(cat.foto.src)}" alt="${esc(cat.foto.alt)}" width="1200" height="760" loading="lazy">` : ""}`;
+        ${cat.leque ? lequeHTML(cat.leque) : ""}
+        ${cat.foto ? `<div class="foto-moldura">${fotoHTML(cat.foto)}</div>` : ""}
+        ${cat.fotos ? carrosselHTML(cat) : ""}`;
       return painel(cat.id, cat.nome, resumo, cores, topo + corpo);
     }).join("");
     $("#secoes").innerHTML = html;
@@ -125,6 +147,19 @@
   }
 
   document.addEventListener("click", (e) => {
+    const ir = e.target.closest("[data-ir]");
+    if (ir) { mexeuEm = Date.now(); irPara(ir.closest("[data-carrossel]"), +ir.dataset.ir); return; }
+    const base = e.target.closest(".leque-base");
+    if (base) {
+      // descobre qual picolé foi tocado pelo ângulo em relação ao palito
+      const r = base.getBoundingClientRect();
+      const ang = Math.atan2(e.clientX - (r.left + r.width / 2), r.bottom - e.clientY) * 180 / Math.PI;
+      const i = GIRO.reduce((m, g, j) => Math.abs(g - ang) < Math.abs(GIRO[m] - ang) ? j : m, 0);
+      const pic = base.children[i];
+      pic.classList.remove("balanca"); void pic.offsetWidth; pic.classList.add("balanca");
+      pic.addEventListener("animationend", () => pic.classList.remove("balanca"), { once: true });
+      return;
+    }
     const cab = e.target.closest("[data-painel]");
     if (cab) {
       const id = cab.dataset.painel, sec = cab.closest(".secao"), corpo = sec.querySelector(".leque-corpo");
@@ -133,6 +168,7 @@
       cab.setAttribute("aria-expanded", abrir);
       corpo.inert = !abrir;
       abrir ? abertos.add(id) : abertos.delete(id);
+      if (abrir) setTimeout(parallax, 60);
       if (abrir) setTimeout(() => {
         const r = sec.getBoundingClientRect();
         if (r.top < 0 || r.top > innerHeight * 0.6) sec.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -146,6 +182,46 @@
     render();
   });
   $("#busca").addEventListener("input", (e) => { termo = norm(e.target.value.trim()); render(); });
+
+  const calmoMov = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* Carrossel de fotos: arrasta com o dedo, pontinhos, e passa sozinho a cada 4 s */
+  let mexeuEm = 0;
+  const trilhoDe = (c) => c.querySelector(".carrossel-trilho");
+  const atual = (t) => Math.round(t.scrollLeft / t.clientWidth);
+  function irPara(c, i) { const t = trilhoDe(c); t.scrollTo({ left: i * t.clientWidth, behavior: "smooth" }); }
+  document.addEventListener("scroll", (e) => {
+    const t = e.target;
+    if (!(t instanceof Element) || !t.classList.contains("carrossel-trilho")) return;
+    const i = atual(t);
+    t.parentNode.querySelectorAll("[data-ir]").forEach((b, j) => b.toggleAttribute("aria-current", j === i));
+  }, { capture: true, passive: true });
+  ["pointerdown", "touchstart", "wheel"].forEach((ev) => document.addEventListener(ev, (e) => {
+    if (e.target.closest?.(".carrossel")) mexeuEm = Date.now();
+  }, { passive: true }));
+  setInterval(() => {
+    if (calmoMov() || Date.now() - mexeuEm < 8000 || document.hidden) return;
+    document.querySelectorAll(".secao.aberto [data-carrossel]").forEach((c) => {
+      const r = c.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      const t = trilhoDe(c), n = t.children.length;
+      irPara(c, (atual(t) + 1) % n);
+    });
+  }, 4000);
+
+  /* Fotos com leve movimento ao rolar a página */
+  const calmo = matchMedia("(prefers-reduced-motion: reduce)");
+  let pedido = 0;
+  function parallax() {
+    pedido = 0;
+    if (calmo.matches) return;
+    document.querySelectorAll(".secao.aberto .secao-foto").forEach((img) => {
+      const r = img.parentNode.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      const p = (r.top + r.height / 2) / innerHeight - 0.5;
+      img.style.setProperty("--py", (p * -9).toFixed(2) + "%");
+    });
+  }
+  addEventListener("scroll", () => { if (!pedido) pedido = requestAnimationFrame(parallax); }, { passive: true });
 
   /* ---------- Início ---------- */
   $("#link-mapa").href = $("#link-mapa2").href = C.mapsUrl;
