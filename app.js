@@ -1,13 +1,10 @@
 (() => {
   const C = window.CONFIG;
-  const LISTAS = { SABORES: window.SABORES, PICOLES_FRUTA: window.PICOLES_FRUTA, PICOLES_CREMOSOS: window.PICOLES_CREMOSOS };
-  const ADIC = { ADICIONAIS_SORVETE: window.ADICIONAIS_SORVETE, ADICIONAIS_ACAI: window.ADICIONAIS_ACAI };
   const $ = (s, el = document) => el.querySelector(s);
-  const brl = (v) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   const esc = (s) => String(s).replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
   const norm = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
   const DIAS = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
-  const TAGS = { fruta: "Fruta", cremoso: "Cremoso", classico: "Clássico", "sem-lactose": "Sem lactose", zero: "Zero açúcar" };
+  const TAGS = { "sem-lactose": "Sem lactose", vegano: "Vegano", zero: "Zero açúcar" };
 
   /* ---------- Horário ---------- */
   function agoraSP() {
@@ -45,28 +42,14 @@
   /* ---------- Cardápio ---------- */
   let filtro = "todos", termo = "";
   const bate = (texto) => !termo || norm(texto).includes(termo);
-
-  // Descrição automática para itens montados com bolas/sabores
-  function descricao(it) {
-    if (it.desc) return it.desc;
-    const s = it.opcoes?.sabores;
-    if (!s || s.de !== "SABORES") return "";
-    const n = s.min === s.max ? s.max : `até ${s.max}`;
-    const um = s.max === 1;
-    return s.repetir ? `${n} ${um ? "bola" : "bolas"}, ${um ? "sabor" : "sabores"} à escolha` : `${n} ${um ? "sabor" : "sabores"} à escolha`;
-  }
-
-  function secaoSabores() {
-    const lista = window.SABORES.filter((s) => (filtro === "todos" || s.tags.includes(filtro)) && bate(s.nome));
-    if (!lista.length) return "";
-    const disp = lista.filter((s) => !s.esgotado).length;
-    const corpo = `<p class="nota">Servidos em copos, casquinhas, potes, taças e milkshakes.</p>
-      <ul class="sabores">${lista.map((s) => `<li class="sabor${s.esgotado ? " off" : ""}">
-        <span class="ponto" style="--c:${s.cor}" aria-hidden="true"></span>
-        <span><span class="nome">${esc(s.nome)}</span>${s.esgotado ? "<small>Esgotado hoje</small>" : s.casa ? "<small class=\"mais\">Especialidade da casa</small>" : s.estacao ? "<small>Da estação</small>" : ""}</span>
-      </li>`).join("")}</ul>`;
-    return painel("sabores", "Sabores de massa", `${disp} ${disp === 1 ? "sabor disponível" : "sabores disponíveis"}`, lista.slice(0, 6).map((s) => s.cor), corpo);
-  }
+  // Cores do leque para categorias sem sabores (taças, açaí etc.)
+  const CORES = {
+    massa: ["#F3E2B3", "#6B3E26", "#F4B3C0", "#B5C98A"],
+    tacas: ["#F6F2E7", "#6B3E26", "#D7263D", "#F3DE8A"],
+    acai: ["#4B1F3E", "#5B1E3A", "#8E5A9B"],
+    bebidas: ["#5A3420", "#C9965A", "#8FD3F4"],
+    viagem: ["#F6C31C", "#F4B3C0", "#F1C232", "#6B3E26"]
+  };
 
   /* Um painel do leque: cabeçalho que abre e fecha + conteúdo */
   const abertos = new Set();
@@ -85,71 +68,52 @@
     </section>`;
   }
 
-  function itemVisivel(it) {
-    if (filtro !== "todos") {
-      const s = it.opcoes?.sabores;
-      if (s?.de === "SABORES") { if (!window.SABORES.some((x) => x.tags.includes(filtro) && !x.esgotado)) return false; }
-      else if (!(it.tags || []).includes(filtro)) return false;
-    }
-    let texto = it.nome + " " + descricao(it);
-    if (it.opcoes?.sabores) texto += " " + LISTAS[it.opcoes.sabores.de].map((x) => x.nome).join(" ");
-    return bate(texto);
+  const qtd = (n, um, varios) => `${n} ${n === 1 ? um : varios}`;
+
+  function saboresHTML(cat, lista) {
+    // Selos comuns a todos os sabores da categoria vão no topo, não em cada sabor
+    const comuns = Object.keys(TAGS).filter((t) => cat.sabores.every((s) => (s.tags || []).includes(t)));
+    const selos = comuns.length ? `<p class="selos">${comuns.map((t) => `<span>${TAGS[t]}</span>`).join("")}</p>` : "";
+    const chips = lista.map((s, i) => {
+      const proprias = (s.tags || []).filter((t) => !comuns.includes(t));
+      const extra = s.esgotado ? " <small>(esgotado)</small>" : s.casa ? ' <small class="mais">da casa</small>' : "";
+      const marca = proprias.length ? ` <small>· ${proprias.map((t) => TAGS[t]).join(" · ")}</small>` : "";
+      return `<li class="picole${s.esgotado ? " off" : ""}" style="--c:${s.cor};--i:${i}"><i aria-hidden="true"></i><span>${esc(s.nome)}${extra}${marca}</span></li>`;
+    }).join("");
+    return `${selos}<ul class="picoles">${chips}</ul>`;
   }
 
-  function itemHTML(it) {
-    const selos = [];
-    if (it.destaque) selos.push("<span>Mais pedido</span>");
-    (it.tags || []).forEach((t) => selos.push(`<span>${TAGS[t]}</span>`));
-    if (it.esgotado) selos.push('<span class="esgotado">Esgotado hoje</span>');
-    const s = it.opcoes?.sabores;
-    const lista = s && s.de !== "SABORES"
-      ? `<ul class="picoles">${LISTAS[s.de].map((x, i) => `<li class="picole${x.esgotado ? " off" : ""}" style="--c:${x.cor};--i:${i}"><i aria-hidden="true"></i>${esc(x.nome)}${x.esgotado ? " <small>(esgotado)</small>" : ""}</li>`).join("")}</ul>`
-      : "";
-    const d = descricao(it);
-    return `<li class="item${it.esgotado ? " off" : ""}">
-      <div class="linha"><span class="item-nome">${esc(it.nome)}</span><span class="pontos" aria-hidden="true"></span><span class="preco">${brl(it.preco)}</span></div>
-      ${d ? `<p class="item-desc">${esc(d)}</p>` : ""}
-      ${lista}
-      ${selos.length ? `<p class="selos">${selos.join("")}</p>` : ""}
-    </li>`;
-  }
-
-  function extrasHTML(cat) {
-    const chave = cat.itens.map((i) => i.opcoes?.adicionais).find(Boolean);
-    if (!chave) return "";
-    const gratis = cat.itens.map((i) => i.opcoes?.gratis).find(Boolean);
-    const titulo = gratis ? "Acompanhamentos" : "Adicionais";
-    const nota = gratis ? `<p class="extras-nota">Escolha até ${gratis} sem custo. A partir do ${gratis + 1}º, ${brl(2)} cada.</p>` : "";
-    return `<div class="extras"><h3>${titulo}</h3>${nota}
-      <ul>${ADIC[chave].map((a) => a.preco
-        ? `<li><span>${esc(a.nome)}</span><span class="pontos" aria-hidden="true"></span><span class="valor">+ ${brl(a.preco)}</span></li>`
-        : `<li><span>${esc(a.nome)}</span></li>`).join("")}</ul>
-    </div>`;
-  }
-
-  function resumoCat(cat, itens) {
-    const menor = Math.min(...itens.map((i) => i.preco));
-    const s = itens.map((i) => i.opcoes?.sabores).find((x) => x && x.de !== "SABORES");
-    const extra = s ? ` · ${LISTAS[s.de].filter((x) => !x.esgotado).length} sabores` : ` · ${itens.length} ${itens.length === 1 ? "opção" : "opções"}`;
-    return `a partir de ${brl(menor)}${extra}`;
-  }
-  function coresCat(itens) {
-    const s = itens.map((i) => i.opcoes?.sabores).find((x) => x && x.de !== "SABORES");
-    return (s ? LISTAS[s.de].map((x) => x.cor) : itens.map((i) => i.cor)).slice(0, 6);
+  function itensHTML(itens) {
+    return `<ul class="itens">${itens.map((it) => `<li class="item">
+      <span class="item-nome">${esc(it.nome)}</span>
+      ${it.desc ? `<span class="item-desc">${esc(it.desc)}</span>` : ""}
+    </li>`).join("")}</ul>`;
   }
 
   function render() {
-    let html = secaoSabores();
-    let total = html ? 1 : 0;
-    html += window.CATEGORIAS.map((cat) => {
-      const itens = cat.itens.filter(itemVisivel);
-      if (!itens.length) return "";
+    let total = 0;
+    const html = window.CATEGORIAS.map((cat) => {
+      const doNome = bate(cat.nome + " " + (cat.rotulo || ""));
+      let corpo, resumo, cores;
+      if (cat.sabores) {
+        const lista = cat.sabores.filter((s) => (filtro === "todos" || (s.tags || []).includes(filtro)) && (doNome || bate(s.nome)));
+        if (!lista.length) return "";
+        const disp = lista.filter((s) => !s.esgotado).length;
+        resumo = `${cat.rotulo ? cat.rotulo + " · " : ""}${qtd(disp, "sabor", "sabores")}`;
+        cores = lista.slice(0, 6).map((s) => s.cor);
+        corpo = saboresHTML(cat, lista);
+      } else {
+        if (filtro !== "todos") return "";
+        const itens = cat.itens.filter((it) => doNome || bate(it.nome + " " + (it.desc || "")));
+        if (!itens.length) return "";
+        resumo = `${cat.rotulo ? cat.rotulo + " · " : ""}${qtd(itens.length, "opção", "opções")}`;
+        cores = CORES[cat.id] || [];
+        corpo = itensHTML(itens);
+      }
       total++;
-      const corpo = `${cat.nota ? `<p class="nota">${esc(cat.nota)}</p>` : ""}
-        ${cat.foto ? `<img class="secao-foto" onerror="this.remove()" src="${esc(cat.foto.src)}" alt="${esc(cat.foto.alt)}" width="1200" height="760" loading="lazy">` : ""}
-        <ul class="itens">${itens.map(itemHTML).join("")}</ul>
-        ${extrasHTML(cat)}`;
-      return painel(cat.id, cat.nome, resumoCat(cat, itens), coresCat(itens), corpo);
+      const topo = `${cat.nota ? `<p class="nota">${esc(cat.nota)}</p>` : ""}
+        ${cat.foto ? `<img class="secao-foto" onerror="this.remove()" src="${esc(cat.foto.src)}" alt="${esc(cat.foto.alt)}" width="1200" height="760" loading="lazy">` : ""}`;
+      return painel(cat.id, cat.nome, resumo, cores, topo + corpo);
     }).join("");
     $("#secoes").innerHTML = html;
     $("#vazio").hidden = total > 0;

@@ -4,19 +4,17 @@ Cardápio digital dos Sorvetes Rocha (@rocha.sorvetes), desde 1947 na Av. Dr. Al
 
 No ar em: https://cardapio-sorveteria-rocha.vercel.app
 
-O site é só para consulta: mostra os sabores do dia, os preços, os adicionais e o horário de funcionamento, com busca e filtros (fruta, cremoso, sem lactose etc.).
+O site é só para consulta e não mostra preços: apresenta o que a loja vende (picolés de fruta à base de água, picolés cremosos à base de leite, zero açúcar, especiais, sorvete de massa, taças, açaí, café e bebidas, itens para viagem) e o horário de funcionamento, com busca e filtros (sem lactose, vegano, zero açúcar).
 
 ## Como atualizar o cardápio
 
 Tudo que muda no dia a dia fica em **`dados.js`**. Não precisa mexer no layout.
 
 - **Horário de funcionamento:** em `CONFIG.horarios` (0 = domingo; `null` = fechado).
-- **Sabores de massa:** em `SABORES`. Para marcar um sabor como acabado, use `esgotado: true`; para destacar, `estacao: true`.
-- **Picolés:** em `PICOLES_FRUTA` e `PICOLES_CREMOSOS`.
-- **Adicionais e acompanhamentos:** em `ADICIONAIS_SORVETE` e `ADICIONAIS_ACAI`.
-- **Produtos e preços:** em `CATEGORIAS`.
+- **Categorias, sabores e produtos:** em `CATEGORIAS`. Categorias de picolé usam `sabores` (com `cor` e `tags`: `sem-lactose`, `vegano`, `zero`); as demais usam `itens` (`nome` e `desc`). Para marcar um sabor como acabado, use `esgotado: true`.
+- **Fotos:** campo `foto` de cada categoria, apontando para a pasta `fotos/`.
 
-Os sabores e preços que estão no arquivo hoje são exemplos e precisam ser trocados pelos reais.
+Os sabores de sorvete de massa ainda não estão no site; o horário é provisório e precisa ser confirmado.
 
 ## Arquivos
 
@@ -25,7 +23,7 @@ Os sabores e preços que estão no arquivo hoje são exemplos e precisam ser tro
 | `index.html` | Estrutura da página |
 | `styles.css` | Visual |
 | `app.js` | Monta o cardápio a partir dos dados, busca, filtros e status aberto/fechado |
-| `dados.js` | Sabores, preços e horários |
+| `dados.js` | Categorias, sabores, produtos e horários |
 | `build.py` | Usado na publicação: copia os arquivos para `public/` e gera a imagem de prévia do link (`og.png`) e o ícone (`icone.png`) |
 
 ## Publicação na Vercel

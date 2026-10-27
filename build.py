@@ -1,5 +1,5 @@
 """Monta o site em ./public e gera a imagem de prévia (og.png) e o ícone (icone.png).
-Roda na Vercel a cada publicação. Não precisa mexer aqui para trocar preços ou sabores."""
+Roda na Vercel a cada publicação. Não precisa mexer aqui para trocar sabores."""
 import os, shutil, urllib.request
 from PIL import Image, ImageDraw, ImageFont
 
@@ -81,7 +81,7 @@ og = Image.new("RGB", (W * X, H * X), AMARELO)
 selo(og, W * X // 2, 265 * X, 1.5 * X)
 d = ImageDraw.Draw(og)
 f = fonte(SANS, 34 * X, 600)
-t = "Cardápio, sabores do dia e horário"
+t = "Picolés, sorvetes, taças, açaí e café"
 d.text((W * X // 2, 560 * X), t, font=f, fill=CARVAO, anchor="mm")
 og = og.resize((W, H), Image.LANCZOS)
 og.save(os.path.join(OUT, "og.png"), optimize=True)
