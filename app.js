@@ -127,7 +127,7 @@
     const selos = comuns.length ? `<p class="selos">${comuns.map((t) => `<span>${TAGS[t]}</span>`).join("")}</p>` : "";
     const chips = lista.map((s, i) => {
       const proprias = (s.tags || []).filter((t) => !comuns.includes(t));
-      const extra = s.esgotado ? " <small>(esgotado)</small>" : s.casa ? ' <small class="mais">da casa</small>' : "";
+      const extra = s.esgotado ? " <small>(esgotado)</small>" : s.novo ? ' <small class="novo">novo</small>' : s.casa ? ' <small class="mais">da casa</small>' : "";
       const marca = proprias.length ? ` <small>· ${proprias.map((t) => TAGS[t]).join(" · ")}</small>` : "";
       return `<li class="picole${s.esgotado ? " off" : ""}" style="--c:${s.cor};--i:${i}"><i aria-hidden="true"></i><span>${esc(s.nome)}${extra}${marca}</span></li>`;
     }).join("");
@@ -252,6 +252,15 @@
   $("#link-mapa").href = $("#link-mapa2").href = C.mapsUrl;
   $("#link-insta").href = C.instagram;
   $("#endereco").textContent = C.endereco.split(" — ")[0] + " · Centro Histórico";
+  // Compartilhar o cardápio (menu do celular; no computador, copia o link)
+  const comp = $("#compartilhar");
+  if (comp) comp.addEventListener("click", async () => {
+    const dados = { title: C.nome + " — Cardápio", text: "Olha o cardápio dos " + C.nome + ":", url: location.origin + "/" };
+    if (navigator.share) { try { await navigator.share(dados); } catch (e) {} return; }
+    try { await navigator.clipboard.writeText(dados.url); comp.textContent = "Link copiado!"; }
+    catch (e) { comp.textContent = dados.url.replace(/^https?:\/\//, ""); }
+    setTimeout(() => { comp.textContent = "Compartilhar"; }, 2200);
+  });
   const zap = C.whatsapp || C.telefone;
   if (zap) { const t = $("#telefone"); $("#telefone-num").textContent = zap; t.href = "https://wa.me/55" + zap.replace(/\D/g, ""); }
   // Rodapé: blocos surgem ao chegar na tela
