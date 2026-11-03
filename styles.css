@@ -359,6 +359,8 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 }
 .acao:hover, .acao:active { transform: translateY(-3px); background: rgba(246,195,28,.12); border-color: rgba(246,195,28,.5); }
 .acao svg { flex: none; width: 40px; height: 40px; padding: 9px; border-radius: 50%; background: var(--amarelo); fill: none; stroke: var(--carvao); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .35s cubic-bezier(.3,1.6,.5,1); }
+.acao-zap svg { background: #25D366; stroke: #fff; }
+.acao-zap svg .fone { fill: #fff; stroke: none; }
 .acao:hover svg, .acao:active svg { transform: rotate(-12deg) scale(1.1); }
 .acao span { display: flex; flex-direction: column; min-width: 0; }
 .acao b { font-size: 15.5px; }
