@@ -32,7 +32,7 @@ window.CONFIG = {
    - foto: { src, alt } foto no topo da categoria (pasta fotos/), no formato 4:5 (ex.: 1000x1250)
    - fotos: [ { src, alt, legenda } ] várias fotos em carrossel, também 4:5
    - pacotes: { fotos, alt } embalagens recortadas que se abrem e balançam ao toque
-   - leque: { pasta, alt } picolés recortados (fotos/<pasta>-1..5.webp) que abrem em leque
+   - leque: { pasta, alt } picolés recortados (fotos/<pasta>-1, -2, ….webp) que abrem em leque
    - nota: frase curta abaixo do título
    - grupo: título que separa blocos de categorias
    - capa: miniatura redonda no cabeçalho (sem capa, usa um desenho) */
@@ -98,8 +98,10 @@ window.CATEGORIAS = [
   {
     id: "zero",
     grupo: "Picolés",
+    capa: "fotos/capa-zero.webp",
     nome: "Picolés zero açúcar",
     rotulo: "Sem açúcar",
+    leque: { pasta: "zero", alt: "Picolés Rocha zero açúcar de coco e de chocolate abrindo em leque" },
     sabores: [
       { nome: "Chocolate zero açúcar", cor: "#5A3420", tags: ["zero"] },
       { nome: "Coco zero açúcar", cor: "#F6F2E7", tags: ["zero"] }
@@ -108,8 +110,10 @@ window.CATEGORIAS = [
   {
     id: "especiais",
     grupo: "Picolés",
+    capa: "fotos/capa-especiais.webp",
     nome: "Picolés especiais",
     rotulo: "Com cobertura",
+    leque: { pasta: "especiais", alt: "Seis picolés especiais Rocha com cobertura abrindo em leque" },
     sabores: [
       { nome: "Skimo", cor: "#4E2A1A" },
       { nome: "Skimenta", cor: "#7FC8A9" },
