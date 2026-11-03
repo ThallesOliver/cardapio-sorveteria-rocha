@@ -94,9 +94,11 @@
   }
 
   /* Picolés recortados que abrem em leque: [altura em %, posição do palito em %] */
-  const LEQUE = {"agua": [[95.72, 65.65], [97.06, 80.1], [96.79, 73.91], [97.06, 64.43], [96.52, 48.45]], "leite": [[98.13, 61.44], [98.4, 57.33], [98.4, 70.83], [98.4, 54.27], [98.4, 50.0]]};
-  const GIRO = [-34, -17, 0, 17, 34];
+  const LEQUE = {"agua": [[95.72, 65.65], [97.06, 80.1], [96.79, 73.91], [97.06, 64.43], [96.52, 48.45]], "leite": [[98.13, 61.44], [98.4, 57.33], [98.4, 70.83], [98.4, 54.27], [98.4, 50.0]], "zero": [[97, 45.9], [97, 48.99]], "especiais": [[97, 50.81], [97, 50.71], [97, 49.73], [97, 45.74], [97, 49.29], [97, 50.91]]};
+  // ângulos do leque conforme a quantidade de picolés (5 → -34, -17, 0, 17, 34)
+  const giros = (n) => n < 2 ? [0] : Array.from({ length: n }, (_, i) => Math.round((-1 + 2 * i / (n - 1)) * Math.min(34, 8 * n)));
   function lequeHTML(l) {
+    const GIRO = giros(LEQUE[l.pasta].length);
     const pecas = LEQUE[l.pasta].map(([h, ox], i) =>
       `<span class="leque-picole" style="height:${h}%;--ox:${ox}%;--g:${GIRO[i]}deg;--i:${i}">
         <img src="fotos/${l.pasta}-${i + 1}.webp" alt="" draggable="false">
@@ -195,6 +197,7 @@
       // descobre qual picolé foi tocado pelo ângulo em relação ao palito
       const r = base.getBoundingClientRect();
       const ang = Math.atan2(e.clientX - (r.left + r.width / 2), r.bottom - e.clientY) * 180 / Math.PI;
+      const GIRO = giros(base.children.length);
       const i = GIRO.reduce((m, g, j) => Math.abs(g - ang) < Math.abs(GIRO[m] - ang) ? j : m, 0);
       const pic = base.children[i];
       pic.classList.remove("balanca"); void pic.offsetWidth; pic.classList.add("balanca");
