@@ -342,6 +342,8 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 /* ---------- Rodapé ---------- */
 .rodape { position: relative; background: var(--carvao-fundo); color: #CFC8C3; margin-top: 30px; }
 /* calda clara escorrendo para dentro do rodapé: um único SVG (sem emendas), montado em topo.js */
+.rodape-fundo { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.rodape-in, .rodape-fim { position: relative; }
 .rodape-calda { position: absolute; left: 0; right: 0; top: -1px; height: 60px; pointer-events: none; }
 .rodape-calda svg { display: block; width: 100%; height: 60px; overflow: visible; }
 .rodape-calda .gota { fill: var(--papel); transform-box: fill-box; transform-origin: 50% 0; animation: escorre var(--t) ease-in-out infinite alternate; animation-delay: var(--d); }
