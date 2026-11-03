@@ -7,6 +7,7 @@ window.CONFIG = {
   nome: "Sorvetes Rocha",
   instagram: "https://www.instagram.com/rocha.sorvetes/",
   telefone: "(12) 3892-3629",
+  whatsapp: "(12) 3892-3629", // número do WhatsApp da loja
   endereco: "Av. Dr. Altino Arantes, 90 — Centro Histórico, São Sebastião/SP",
   mapsUrl: "https://www.google.com/maps/search/?api=1&query=Sorveteria+Rocha+Av.+Dr.+Altino+Arantes+90+S%C3%A3o+Sebasti%C3%A3o+SP",
   // Horário por dia da semana (0 = domingo). null = fechado.
@@ -96,10 +97,8 @@ window.CATEGORIAS = [
   {
     id: "zero",
     grupo: "Picolés",
-    capa: "fotos/capa-zero.webp",
     nome: "Picolés zero açúcar",
     rotulo: "Sem açúcar",
-    pacotes: { fotos: ["fotos/zero-choco.webp", "fotos/zero-coco.webp"], alt: "Picolés Rocha Chocolate Zero e Coco Zero na embalagem" },
     sabores: [
       { nome: "Chocolate zero açúcar", cor: "#5A3420", tags: ["zero"] },
       { nome: "Coco zero açúcar", cor: "#F6F2E7", tags: ["zero"] }
@@ -136,7 +135,7 @@ window.CATEGORIAS = [
   {
     id: "massa-leite",
     grupo: "Sorvetes de massa",
-    nome: "Massa cremosa",
+    nome: "Massa",
     rotulo: "Base de leite",
     nota: "No copinho ou no cascão, com 1 ou 2 bolas. Peça também a cobertura de chocolate.",
     sabores: [
@@ -210,7 +209,9 @@ window.CATEGORIAS = [
     rotulo: "Sabores especiais",
     nota: "No copinho ou no cascão, com 1 ou 2 bolas.",
     sabores: [
+      { nome: "Bolo de rolo", cor: "#C77A4A" },
       { nome: "Caramelo salgado", cor: "#C98A4B" },
+      { nome: "Mousse de maracujá trufado", cor: "#F1C232" },
       { nome: "Pistacchio premium", cor: "#9DB86A" },
       { nome: "Super Black", cor: "#1E1B1A", tags: ["sem-lactose", "vegano"] }
     ]
@@ -224,10 +225,10 @@ window.CATEGORIAS = [
     fotos: [
       { src: "fotos/taca-sundae.jpg", alt: "Taça de sorvete de chocolate com chantilly, calda e farofa de amendoim" },
       { src: "fotos/taca-colorida.jpg", alt: "Taça de sorvete com chantilly, calda de morango e banana" },
-      { src: "fotos/petit-gateau.jpg", alt: "Petit gâteau com bola de sorvete e calda de chocolate", legenda: "Petit gâteau" },
+      { src: "fotos/petit-gateau.jpg", alt: "Petit gateau com bola de sorvete e calda de chocolate", legenda: "Petit gateau" },
       { src: "fotos/milk-shake.jpg", alt: "Milk shake com chantilly e calda de chocolate" },
       { src: "fotos/tacas.jpg", alt: "Taça de sorvete com calda e farofa de amendoim" },
-      { src: "fotos/massa.jpg", alt: "Brownie com bola de sorvete, calda de chocolate e farofa de amendoim", legenda: "Brownie com sorvete" }
+      { src: "fotos/massa.jpg", alt: "Brownie com bola de sorvete, calda de chocolate e farofa de amendoim", legenda: "Brownie" }
     ],
     itens: [
       { nome: "Colegial" },
@@ -235,8 +236,8 @@ window.CATEGORIAS = [
       { nome: "Banana split" },
       { nome: "Milk shake" },
       { nome: "Vaca preta" },
-      { nome: "Petit gâteau" },
-      { nome: "Brownie com sorvete" }
+      { nome: "Petit gateau" },
+      { nome: "Brownie" }
     ]
   },
   {
