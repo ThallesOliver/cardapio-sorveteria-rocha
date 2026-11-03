@@ -76,7 +76,7 @@ img { display: block; max-width: 100%; height: auto; }
 @keyframes dica-pula { 50% { translate: 0 -4px; } }
 .mini-picole { position: absolute; left: 50%; top: 50%; width: 16px; height: 28px; pointer-events: none; z-index: 3; }
 .selo-img { height: auto; filter: drop-shadow(0 8px 16px rgba(45, 41, 40, .28)); }
-.selo-luz { position: absolute; inset: 0; overflow: hidden; -webkit-mask: url(fotos/logo-selo.png) center / 100% 100% no-repeat; mask: url(fotos/logo-selo.png) center / 100% 100% no-repeat; pointer-events: none; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .5s cubic-bezier(.2,.8,.2,1); animation: respira 5s ease-in-out infinite; }
+.selo-luz { position: absolute; inset: 0; overflow: hidden; -webkit-mask: url(fotos/logo-selo.webp) center / 100% 100% no-repeat; mask: url(fotos/logo-selo.webp) center / 100% 100% no-repeat; pointer-events: none; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .5s cubic-bezier(.2,.8,.2,1); animation: respira 5s ease-in-out infinite; }
 .selo-luz::after { content: ""; position: absolute; top: 0; bottom: 0; width: 35%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent); transform: translateX(-150%) skewX(-20deg); animation: brilho-luz 6s ease-in-out infinite 1.2s; }
 @keyframes brilho-luz { 0%, 70% { transform: translateX(-150%) skewX(-20deg); } 100% { transform: translateX(420%) skewX(-20deg); } }
 .selo-caixa.toque .selo-luz { animation: pulo .6s cubic-bezier(.3,1.6,.5,1); }
@@ -140,6 +140,7 @@ img { display: block; max-width: 100%; height: auto; }
 .status.aberto::before { background: #1E8E4E; }
 .status.fechado::before { background: var(--vinho); }
 .link-mapa { padding: 7px 14px; border-radius: 999px; background: var(--carvao); color: var(--creme); font-weight: 600; text-decoration: none; }
+.link-mapa.compartilhar { padding: 5.5px 12.5px; border: 1.5px solid var(--carvao); background: transparent; color: var(--carvao); font-family: inherit; font-size: inherit; line-height: inherit; cursor: pointer; }
 
 /* ---------- Busca e filtros ---------- */
 .ferramentas { max-width: 640px; margin: 0 auto; padding: 32px 20px 0; }
@@ -330,6 +331,7 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .selos { margin: 0 0 10px; display: flex; flex-wrap: wrap; gap: 6px; }
 .selos span { padding: 3px 10px; border-radius: 999px; background: var(--creme); border: 1px solid var(--linha); font-size: 12.5px; font-weight: 700; color: var(--amarelo-escuro); }
 .picole small.mais { color: var(--amarelo-escuro); font-weight: 700; }
+.picole small.novo { display: inline-block; margin-left: 2px; padding: 1px 7px; border-radius: 999px; background: var(--amarelo); color: var(--carvao); font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; vertical-align: 1px; }
 .vazio { text-align: center; color: var(--suave); padding: 40px 0; }
 
 /* ---------- História ---------- */
