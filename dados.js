@@ -27,6 +27,7 @@ window.CONFIG = {
    - sabores: lista de sabores, mostrados como picolezinhos coloridos.
        tags: "sem-lactose", "vegano", "zero"
        esgotado: true mostra o sabor riscado
+       novo: true mostra o selinho "novo" ao lado do sabor
    - itens: lista de produtos { nome, desc }
    - foto: { src, alt } foto no topo da categoria (pasta fotos/), no formato 4:5 (ex.: 1000x1250)
    - fotos: [ { src, alt, legenda } ] várias fotos em carrossel, também 4:5
@@ -209,9 +210,9 @@ window.CATEGORIAS = [
     rotulo: "Sabores especiais",
     nota: "No copinho ou no cascão, com 1 ou 2 bolas.",
     sabores: [
-      { nome: "Bolo de rolo", cor: "#C77A4A" },
+      { nome: "Bolo de rolo", cor: "#C77A4A", novo: true },
       { nome: "Caramelo salgado", cor: "#C98A4B" },
-      { nome: "Mousse de maracujá trufado", cor: "#F1C232" },
+      { nome: "Mousse de maracujá trufado", cor: "#F1C232", novo: true },
       { nome: "Pistacchio premium", cor: "#9DB86A" },
       { nome: "Super Black", cor: "#1E1B1A", tags: ["sem-lactose", "vegano"] }
     ]
