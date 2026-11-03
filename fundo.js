@@ -83,9 +83,8 @@
   calmo.addEventListener?.("change", iniciar);
 })();
 
-/* Fundo do rodapé: granulados coloridos que sobem devagar e brilham no escuro.
-   O dedo/mouse leva uma luz e mexe neles como uma colher; um toque solta uma
-   chuva de granulados com uma onda de luz. */
+/* Fundo do rodapé: os mesmos picolés, casquinhas e granulados do fundo do site,
+   em traço fino, subindo devagar e se afastando do dedo/mouse. */
 (() => {
   const rod = document.querySelector(".rodape");
   if (!rod) return;
@@ -95,118 +94,78 @@
   const ctx = cv.getContext("2d");
   if (!ctx) return;
   const calmo = matchMedia("(prefers-reduced-motion: reduce)");
-  const CORES = ["#F6C31C", "#F4B3C0", "#8FD3F4", "#B5C98A", "#F7F3EC", "#F25C6E", "#C9A7E8"];
-  const sorteia = (a) => a[(Math.random() * a.length) | 0];
+  const CORES = ["#F6C31C", "#F4B3C0", "#8FD3F4", "#B5C98A", "#C99A62"];
+  const FORMAS = {
+    picole: (c) => { c.beginPath(); c.moveTo(12, 30); c.lineTo(12, 12); c.arc(20, 12, 8, Math.PI, 0); c.lineTo(28, 30); c.closePath(); c.moveTo(20, 30); c.lineTo(20, 38); },
+    casquinha: (c) => { c.beginPath(); c.arc(20, 14, 9, Math.PI * .9, Math.PI * 2.1); c.moveTo(11, 17); c.lineTo(20, 38); c.lineTo(29, 17); c.moveTo(14, 22); c.lineTo(25, 28); c.moveTo(26, 22); c.lineTo(16, 30); },
+    bola: (c) => { c.beginPath(); c.arc(20, 18, 11, Math.PI * .95, Math.PI * 2.05); c.quadraticCurveTo(26, 34, 22, 26); c.quadraticCurveTo(18, 34, 15, 27); c.quadraticCurveTo(11, 32, 9, 21); },
+    granulado: (c) => { c.beginPath(); c.moveTo(15, 18); c.lineTo(25, 22); },
+    estrela: (c) => { c.beginPath(); c.moveTo(20, 12); c.lineTo(20, 28); c.moveTo(12, 20); c.lineTo(28, 20); }
+  };
+  const TIPOS = ["picole", "picole", "casquinha", "bola", "granulado", "granulado", "granulado", "estrela"];
 
-  let W = 0, H = 0, dpr = 1, gran = [], soltos = [], ondas = [], dedo = null, luz = null;
-  let visivel = false, rodando = false, ultimo = 0;
+  let W = 0, H = 0, dpr = 1, itens = [], dedo = null, ultimo = 0, rodando = false, visivel = false;
 
-  function novo(y) {
-    const prof = .35 + Math.random() * .65;
-    return {
-      x: Math.random() * W, y: y ?? Math.random() * H, prof,
-      comp: 7 + Math.random() * 7, ang: Math.random() * 6.28, giro: (Math.random() - .5) * .002,
-      vy: -(.008 + Math.random() * .018), fase: Math.random() * 6.28,
-      cor: sorteia(CORES), vx: 0, ey: 0, brilho: 0
-    };
-  }
   function criar() {
     dpr = Math.min(devicePixelRatio || 1, 2);
     W = rod.clientWidth; H = rod.clientHeight;
     cv.width = W * dpr; cv.height = H * dpr;
-    const n = Math.round(Math.min(90, Math.max(30, (W * H) / 9000)));
-    gran = Array.from({ length: n }, () => novo());
+    const n = Math.round(Math.min(34, Math.max(16, (W * H) / 30000)));
+    itens = Array.from({ length: n }, (_, i) => {
+      const tipo = TIPOS[i % TIPOS.length];
+      const peq = tipo === "granulado" || tipo === "estrela";
+      return {
+        tipo, x: Math.random() * W, y: Math.random() * H,
+        prof: .25 + Math.random() * .75,
+        tam: (peq ? .55 : .9) + Math.random() * .5,
+        ang: (Math.random() - .5) * 1.2, giro: (Math.random() - .5) * .004,
+        vy: -(.06 + Math.random() * .12), fase: Math.random() * 6.28,
+        cor: CORES[i % CORES.length], ex: 0, ey: 0
+      };
+    });
   }
 
-  function bastao(x, y, comp, ang, cor, alfa, larg) {
-    const dx = Math.cos(ang) * comp / 2, dy = Math.sin(ang) * comp / 2;
-    ctx.globalAlpha = alfa; ctx.strokeStyle = cor; ctx.lineWidth = larg;
-    ctx.beginPath(); ctx.moveTo(x - dx, y - dy); ctx.lineTo(x + dx, y + dy); ctx.stroke();
-  }
-
-  function quadro(t) {
-    const dt = Math.min(50, t - (ultimo || t)); ultimo = t;
-    const mexe = !calmo.matches;
+  function desenhar(t) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
-    ctx.lineCap = "round";
-
-    // luz que segue o dedo
-    if (dedo) luz = luz ? { x: luz.x + (dedo.x - luz.x) * .12, y: luz.y + (dedo.y - luz.y) * .12, a: Math.min(1, luz.a + .05) } : { ...dedo, a: 0 };
-    else if (luz) { luz.a -= .03; if (luz.a <= 0) luz = null; }
-    if (luz) {
-      const g = ctx.createRadialGradient(luz.x, luz.y, 0, luz.x, luz.y, 170);
-      g.addColorStop(0, `rgba(246,195,28,${.16 * luz.a})`); g.addColorStop(1, "rgba(246,195,28,0)");
-      ctx.globalAlpha = 1; ctx.fillStyle = g; ctx.fillRect(luz.x - 170, luz.y - 170, 340, 340);
-    }
-
-    // ondas de luz dos toques
-    ondas = ondas.filter((o) => (o.r += dt * .35) < 160);
-    for (const o of ondas) {
-      ctx.globalAlpha = (1 - o.r / 160) * .5; ctx.strokeStyle = "#F6C31C"; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.arc(o.x, o.y, o.r, 0, 6.29); ctx.stroke();
-    }
-
-    // granulados que flutuam
-    for (const p of gran) {
-      if (mexe) {
+    const dt = Math.min(50, t - (ultimo || t)); ultimo = t;
+    for (const p of itens) {
+      if (!calmo.matches) {
         p.y += p.vy * dt * p.prof;
         p.ang += p.giro * dt;
-        if (luz) {
-          const dx = p.x - luz.x, dy = p.y + p.ey - luz.y, d = Math.hypot(dx, dy) || 1;
-          if (d < 130) {
-            const f = (1 - d / 130);
-            // gira em volta do dedo, como colher mexendo
-            p.vx += (-dy / d * .5 + dx / d * .35) * f; p.ey += (dx / d * .5 + dy / d * .35) * f;
-            p.giro += (Math.random() - .5) * .002 * f; p.brilho = Math.max(p.brilho, f);
-          }
+        if (dedo) {
+          const dx = p.x + p.ex - dedo.x, dy = p.y + p.ey - dedo.y, d2 = dx * dx + dy * dy;
+          if (d2 < 140 * 140) { const f = (1 - Math.sqrt(d2) / 140) * 2.2; const d = Math.sqrt(d2) || 1; p.ex += dx / d * f; p.ey += dy / d * f; p.giro += (Math.random() - .5) * .0008; }
         }
-        p.x += p.vx; p.vx *= .93; p.ey *= .96; p.brilho *= .97;
-        p.giro *= .99; if (Math.abs(p.giro) < .0004) p.giro = (Math.random() - .5) * .0015;
-        if (p.y < -20) Object.assign(p, novo(H + 20));
-        if (p.x < -20) p.x += W + 40; else if (p.x > W + 20) p.x -= W + 40;
+        p.ex *= .965; p.ey *= .965;
+        p.giro *= .995; if (Math.abs(p.giro) < .0005) p.giro = (Math.random() - .5) * .002;
       }
-      const pisca = .5 + .5 * Math.sin(t / 900 + p.fase);
-      const x = p.x + Math.sin(t / 2600 + p.fase) * 6 * p.prof, y = p.y + p.ey;
-      const alfa = (.18 + p.prof * .32) * (.75 + pisca * .25) + p.brilho * .45;
-      if (p.brilho > .05 || pisca > .96) { ctx.shadowColor = p.cor; ctx.shadowBlur = 10 + p.brilho * 10; }
-      bastao(x, y, p.comp * (.7 + p.prof * .5), p.ang, p.cor, Math.min(1, alfa), 3 + p.prof * 1.6);
-      ctx.shadowBlur = 0;
+      const y = ((p.y % (H + 80)) + H + 80) % (H + 80) - 40;
+      const x = p.x + p.ex + Math.sin(t / 2200 + p.fase) * 8 * p.prof;
+      const s = p.tam * (.7 + p.prof * .6);
+      ctx.save();
+      ctx.translate(x, y + p.ey); ctx.rotate(p.ang); ctx.scale(s, s); ctx.translate(-20, -20);
+      ctx.globalAlpha = .16 + p.prof * .24;
+      ctx.lineWidth = p.tipo === "granulado" ? 4 : 2.2; ctx.lineCap = "round"; ctx.lineJoin = "round";
+      ctx.strokeStyle = p.cor;
+      FORMAS[p.tipo](ctx); ctx.stroke();
+      ctx.restore();
     }
-
-    // granulados soltos pelo toque (caem com gravidade)
-    soltos = soltos.filter((s) => (s.vida -= dt) > 0 && s.y < H + 20);
-    for (const s of soltos) {
-      s.vy += .0009 * dt; s.x += s.vx * dt; s.y += s.vy * dt; s.ang += s.giro * dt; s.vx *= .995;
-      bastao(s.x, s.y, s.comp, s.ang, s.cor, Math.min(1, s.vida / 600), 4);
-    }
-
-    if (mexe && visivel && !document.hidden) requestAnimationFrame(quadro); else rodando = false;
+    if (!calmo.matches && visivel && !document.hidden) requestAnimationFrame(desenhar); else rodando = false;
   }
-  function iniciar() { if (!rodando) { rodando = true; ultimo = 0; requestAnimationFrame(quadro); } }
+  function iniciar() { if (!rodando) { rodando = true; ultimo = 0; requestAnimationFrame(desenhar); } }
 
-  const ponto = (e) => { const r = rod.getBoundingClientRect(); const q = e.touches ? e.touches[0] : e; return q ? { x: q.clientX - r.left, y: q.clientY - r.top } : null; };
-  rod.addEventListener("pointermove", (e) => { dedo = ponto(e); iniciar(); }, { passive: true });
-  rod.addEventListener("touchmove", (e) => { dedo = ponto(e); }, { passive: true });
-  ["pointerleave", "pointercancel", "touchend"].forEach((ev) => rod.addEventListener(ev, () => { dedo = null; }, { passive: true }));
-  rod.addEventListener("pointerdown", (e) => {
-    const p = ponto(e); if (!p) return;
-    dedo = e.pointerType === "mouse" ? p : dedo;
-    if (calmo.matches) return;
-    ondas.push({ x: p.x, y: p.y, r: 0 });
-    for (let i = 0; i < 22; i++) {
-      const a = -Math.PI / 2 + (Math.random() - .5) * 2.4, v = .18 + Math.random() * .3;
-      soltos.push({ x: p.x, y: p.y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, ang: Math.random() * 6.28, giro: (Math.random() - .5) * .02, comp: 8 + Math.random() * 6, cor: sorteia(CORES), vida: 1400 + Math.random() * 600 });
-    }
-    if (soltos.length > 200) soltos.splice(0, soltos.length - 200);
-    iniciar();
-  }, { passive: true });
+  const mexe = (e) => { const r = rod.getBoundingClientRect(); const q = e.touches ? e.touches[0] : e; if (q) dedo = { x: q.clientX - r.left, y: q.clientY - r.top }; };
+  rod.addEventListener("pointermove", mexe, { passive: true });
+  rod.addEventListener("touchmove", mexe, { passive: true });
+  rod.addEventListener("pointerdown", mexe, { passive: true });
+  ["pointerup", "pointerleave", "pointercancel", "touchend"].forEach((ev) => rod.addEventListener(ev, () => { dedo = null; }, { passive: true }));
 
   criar();
-  if ("ResizeObserver" in window) new ResizeObserver(() => { criar(); if (calmo.matches) requestAnimationFrame(quadro); else iniciar(); }).observe(rod);
+  if ("ResizeObserver" in window) new ResizeObserver(() => { criar(); if (calmo.matches) requestAnimationFrame(desenhar); else iniciar(); }).observe(rod);
   if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => { visivel = e.isIntersecting; if (visivel) iniciar(); }).observe(rod);
   else { visivel = true; iniciar(); }
   document.addEventListener("visibilitychange", () => { if (!document.hidden && visivel) iniciar(); });
   calmo.addEventListener?.("change", iniciar);
-  requestAnimationFrame(quadro);
+  requestAnimationFrame(desenhar);
 })();
