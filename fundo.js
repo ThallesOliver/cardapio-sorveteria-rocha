@@ -83,18 +83,16 @@
   calmo.addEventListener?.("change", iniciar);
 })();
 
-/* Fundo do rodapé: os mesmos picolés, casquinhas e granulados do fundo do site,
+/* Cabeçalho e rodapé: os mesmos picolés, casquinhas e granulados do fundo do site,
    em traço fino, subindo devagar e se afastando do dedo/mouse. */
-(() => {
-  const rod = document.querySelector(".rodape");
+function animarSecao(rod, CORES) {
   if (!rod) return;
   const cv = document.createElement("canvas");
-  cv.className = "rodape-fundo"; cv.setAttribute("aria-hidden", "true");
+  cv.className = "fundo-secao"; cv.setAttribute("aria-hidden", "true");
   rod.prepend(cv);
   const ctx = cv.getContext("2d");
   if (!ctx) return;
   const calmo = matchMedia("(prefers-reduced-motion: reduce)");
-  const CORES = ["#F6C31C", "#F4B3C0", "#8FD3F4", "#B5C98A", "#C99A62"];
   const FORMAS = {
     picole: (c) => { c.beginPath(); c.moveTo(12, 30); c.lineTo(12, 12); c.arc(20, 12, 8, Math.PI, 0); c.lineTo(28, 30); c.closePath(); c.moveTo(20, 30); c.lineTo(20, 38); },
     casquinha: (c) => { c.beginPath(); c.arc(20, 14, 9, Math.PI * .9, Math.PI * 2.1); c.moveTo(11, 17); c.lineTo(20, 38); c.lineTo(29, 17); c.moveTo(14, 22); c.lineTo(25, 28); c.moveTo(26, 22); c.lineTo(16, 30); },
@@ -168,4 +166,6 @@
   document.addEventListener("visibilitychange", () => { if (!document.hidden && visivel) iniciar(); });
   calmo.addEventListener?.("change", iniciar);
   requestAnimationFrame(desenhar);
-})();
+}
+animarSecao(document.querySelector(".topo"), ["#2D2928", "#F4B3C0", "#8FD3F4", "#FFFFFF", "#C99A62"]);
+animarSecao(document.querySelector(".rodape"), ["#F6C31C", "#F4B3C0", "#8FD3F4", "#B5C98A", "#C99A62"]);
