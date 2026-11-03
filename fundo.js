@@ -89,7 +89,9 @@ function animarSecao(rod, CORES) {
   if (!rod) return;
   const cv = document.createElement("canvas");
   cv.className = "fundo-secao"; cv.setAttribute("aria-hidden", "true");
-  rod.prepend(cv);
+  // fica por cima das manchas amarelas do cabeçalho, quando houver
+  const base = rod.querySelector(":scope > .topo-fundo");
+  if (base) base.after(cv); else rod.prepend(cv);
   const ctx = cv.getContext("2d");
   if (!ctx) return;
   const calmo = matchMedia("(prefers-reduced-motion: reduce)");
