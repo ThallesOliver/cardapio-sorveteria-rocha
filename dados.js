@@ -119,8 +119,10 @@ window.CATEGORIAS = [
     sabores: [
       { nome: "Skimo", cor: "#4E2A1A" },
       { nome: "Skimenta", cor: "#7FC8A9" },
-      { nome: "Skimo doce de leite", cor: "#C98A4B" },
-      { nome: "Pão de mel", cor: "#8A5A35" }
+      { nome: "Pão de mel", cor: "#8A5A35" },
+      { nome: "Pistache premium", cor: "#A9B26A" },
+      { nome: "Bolo de rolo", cor: "#E9D3B0" },
+      { nome: "Morango cravejado", cor: "#F4C6CF" }
     ]
   },
   {
