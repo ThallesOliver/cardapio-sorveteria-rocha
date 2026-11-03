@@ -92,7 +92,9 @@ window.CATEGORIAS = [
       { nome: "Pistache", cor: "#B5C98A" },
       { nome: "Torta de limão", cor: "#E4EDB5" },
       { nome: "Trufado", cor: "#3E2418" },
-      { nome: "Unicórnio", cor: "#C9A7E8" }
+      { nome: "Unicórnio", cor: "#C9A7E8" },
+      { nome: "Whey de chocolate", cor: "#6B3E26", novo: true },
+      { nome: "Whey de doce de leite", cor: "#C98A4B", novo: true }
     ]
   },
   {
