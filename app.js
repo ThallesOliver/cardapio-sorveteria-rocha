@@ -62,6 +62,7 @@
   // Desenhos para categorias sem foto
   const bola = (c1, c2, c3) => `<path d="M14 25l10 16 10-16z" fill="#E2B474" stroke="#9C6B3F" stroke-width="1.2"/><path d="M17 29l12 4M19 34l8-6" stroke="#9C6B3F" stroke-width="1"/><circle cx="24" cy="18" r="10" fill="${c1}"/><path d="M14 20q2.5 4 5 1t5 1 5-1 5 1v-2H14z" fill="${c1}"/><circle cx="20" cy="15" r="2" fill="${c2}"/><circle cx="27" cy="13.5" r="1.6" fill="${c3}"/><circle cx="26" cy="19" r="1.3" fill="${c2}"/>`;
   const ICONES = {
+    zero: '<path d="M17 7a7 7 0 0 1 14 0v19H17z" fill="#5A3420"/><path d="M24 0a7 7 0 0 1 7 7v19h-7z" fill="#F6F2E7"/><path d="M17 7a7 7 0 0 1 14 0v19H17z" fill="none" stroke="#2D2928" stroke-width="1.2"/><rect x="22" y="26" width="4" height="12" rx="2" fill="#D9B98A"/><circle cx="35" cy="10" r="6" fill="#F6C31C" stroke="#2D2928" stroke-width="1"/><path d="M32.6 8h4.8l-4.8 4h4.8" fill="none" stroke="#2D2928" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>',
     "massa-agua": bola("#F1C232", "#8E5A9B", "#D7263D"),
     "massa-leite": bola("#C98A4B", "#F4B3C0", "#6B3E26"),
     "massa-zero": bola("#F6F2E7", "#6B3E26", "#F4B3C0"),
@@ -251,7 +252,8 @@
   $("#link-mapa").href = $("#link-mapa2").href = C.mapsUrl;
   $("#link-insta").href = C.instagram;
   $("#endereco").textContent = C.endereco.split(" — ")[0] + " · Centro Histórico";
-  if (C.telefone) { const t = $("#telefone"); $("#telefone-num").textContent = C.telefone; t.href = "tel:+55" + C.telefone.replace(/\D/g, ""); }
+  const zap = C.whatsapp || C.telefone;
+  if (zap) { const t = $("#telefone"); $("#telefone-num").textContent = zap; t.href = "https://wa.me/55" + zap.replace(/\D/g, ""); }
   // Rodapé: blocos surgem ao chegar na tela
   if ("IntersectionObserver" in window) {
     const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visivel"); io.unobserve(e.target); } }), { threshold: .2 });
