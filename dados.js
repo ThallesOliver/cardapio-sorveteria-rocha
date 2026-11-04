@@ -275,12 +275,11 @@ window.CATEGORIAS = [
     capa: "fotos/capa-bebidas.webp",
     nome: "Café e bebidas",
     rotulo: "Quente ou gelado",
-    vitrine: [
-      { src: "fotos/refri-1.webp", alt: "Lata de refrigerante", altura: 62 },
-      { src: "fotos/agua-sem-gas.webp", alt: "Água mineral sem gás", altura: 100 },
-      { src: "fotos/xicara-cafe.webp", alt: "Xícara de café", altura: 52, vapor: true },
-      { src: "fotos/agua-com-gas.webp", alt: "Água mineral com gás", altura: 100, bolhas: true },
-      { src: "fotos/suco-2.webp", alt: "Suco Del Valle", altura: 88 }
+    fotos: [
+      { src: "fotos/bebida-cafe.webp", alt: "Xícara de café", legenda: "Café" },
+      { src: "fotos/bebida-agua.webp", alt: "Garrafas de água mineral sem gás e com gás", legenda: "Água sem gás e com gás" },
+      { src: "fotos/bebida-refri.webp", alt: "Latas de Coca-Cola, Guaraná Antarctica, Fanta laranja, Fanta uva e Sprite", legenda: "Refrigerantes" },
+      { src: "fotos/bebida-suco.webp", alt: "Sucos Del Valle de laranja, uva e pêssego", legenda: "Sucos Del Valle" }
     ],
     itens: [
       { nome: "Café" },
