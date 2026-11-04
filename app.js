@@ -94,20 +94,25 @@
   }
 
   /* Picolés recortados que abrem em leque: [altura em %, posição do palito em %] */
-  const LEQUE = {"agua": [[95.72, 65.65], [97.06, 80.1], [96.79, 73.91], [97.06, 64.43], [96.52, 48.45]], "leite": [[98.13, 61.44], [98.4, 57.33], [98.4, 70.83], [98.4, 54.27], [98.4, 50.0]], "zero": [[97, 45.9], [97, 48.99]], "especiais": [[97, 50.81], [97, 50.71], [97, 49.73], [97, 45.74], [97, 49.29], [97, 50.91]]};
+  const LEQUE = {"agua": [[95.72, 65.65], [97.06, 80.1], [96.79, 73.91], [97.06, 64.43], [96.52, 48.45]], "leite": [[98.13, 61.44], [98.4, 57.33], [98.4, 70.83], [98.4, 54.27], [98.4, 50.0]], "zero": [[97, 45.9], [97, 48.99]], "especiais": [[97, 50.81], [97, 50.71], [97, 49.73], [97, 45.74], [97, 49.29], [97, 50.91]], "refri": [[70, 50], [70, 50], [70, 50], [70, 50], [70, 50]], "suco": [[94, 50], [100, 50], [90, 50]]};
   // ângulos do leque conforme a quantidade de picolés (5 → -34, -17, 0, 17, 34)
-  const giros = (n) => n < 2 ? [0] : Array.from({ length: n }, (_, i) => Math.round((-1 + 2 * i / (n - 1)) * Math.min(34, 8 * n)));
+  // abertura maior para recortes largos (latas e caixinhas)
+  const ABERTURA = { refri: 52, suco: 30 };
+  const giros = (n, max) => n < 2 ? [0] : Array.from({ length: n }, (_, i) => Math.round((-1 + 2 * i / (n - 1)) * (max || Math.min(34, 8 * n))));
   function lequeHTML(l) {
-    const GIRO = giros(LEQUE[l.pasta].length);
+    const GIRO = giros(LEQUE[l.pasta].length, ABERTURA[l.pasta]);
     const pecas = LEQUE[l.pasta].map(([h, ox], i) =>
       `<span class="leque-picole" style="height:${h}%;--ox:${ox}%;--g:${GIRO[i]}deg;--i:${i}">
         <img src="fotos/${l.pasta}-${i + 1}.webp" alt="" draggable="false">
       </span>`).join("");
-    return `<div class="leque-palco" role="img" aria-label="${esc(l.alt)}"><div class="leque-base">${pecas}</div></div>`;
+    return `<div class="leque-palco" role="img" aria-label="${esc(l.alt)}"><div class="leque-base" data-pasta="${esc(l.pasta)}">${pecas}</div></div>`;
   }
 
   /* Casquinha recortada que sobe ao abrir, flutua e balança ao toque */
   const casquinhaHTML = (c) => `<div class="casquinha-palco"><button type="button" class="casquinha" aria-label="${esc(c.alt)}"><img src="${esc(c.src)}" alt="" draggable="false"></button><span class="casquinha-sombra" aria-hidden="true"></span></div>`;
+
+  /* Vitrine: bebidas recortadas lado a lado (café solta vapor, água com gás faz bolhinhas) */
+  const vitrineHTML = (v) => `<div class="vitrine">${v.map((it, i) => `<button type="button" class="vitrine-item" style="--h:${it.altura || 100}%;--i:${i}" aria-label="${esc(it.alt)}"><img src="${esc(it.src)}" alt="" draggable="false">${it.vapor ? '<span class="vapor" aria-hidden="true"><svg viewBox="0 0 60 80"><path d="M14 78c-8-12 8-18 0-30s8-20 2-32"/><path d="M30 78c-8-12 8-18 0-30s8-20 2-32"/><path d="M46 78c-8-12 8-18 0-30s8-20 2-32"/></svg></span>' : ""}${it.bolhas ? `<span class="bolhas" aria-hidden="true">${"<i></i>".repeat(8)}</span>` : ""}</button>`).join("")}</div>`;
 
   function pacotesHTML(p) {
     const n = p.fotos.length;
@@ -169,7 +174,8 @@
       }
       total++;
       const topo = `${cat.nota ? `<p class="nota">${esc(cat.nota)}</p>` : ""}
-        ${cat.leque ? lequeHTML(cat.leque) : ""}
+        ${cat.vitrine ? vitrineHTML(cat.vitrine) : ""}
+        ${cat.leque ? [].concat(cat.leque).map(lequeHTML).join("") : ""}
         ${cat.pacotes ? pacotesHTML(cat.pacotes) : ""}
         ${cat.casquinha ? casquinhaHTML(cat.casquinha) : ""}
         ${cat.foto ? `<div class="foto-moldura">${fotoHTML(cat.foto)}</div>` : ""}
@@ -190,7 +196,7 @@
   document.addEventListener("click", (e) => {
     const ir = e.target.closest("[data-ir]");
     if (ir) { mexeuEm = Date.now(); irPara(ir.closest("[data-carrossel]"), +ir.dataset.ir); return; }
-    const casq = e.target.closest(".casquinha");
+    const casq = e.target.closest(".casquinha, .vitrine-item");
     if (casq) {
       casq.classList.remove("balanca"); void casq.offsetWidth; casq.classList.add("balanca");
       casq.addEventListener("animationend", () => casq.classList.remove("balanca"), { once: true });
@@ -207,7 +213,7 @@
       // descobre qual picolé foi tocado pelo ângulo em relação ao palito
       const r = base.getBoundingClientRect();
       const ang = Math.atan2(e.clientX - (r.left + r.width / 2), r.bottom - e.clientY) * 180 / Math.PI;
-      const GIRO = giros(base.children.length);
+      const GIRO = giros(base.children.length, ABERTURA[base.dataset.pasta]);
       const i = GIRO.reduce((m, g, j) => Math.abs(g - ang) < Math.abs(GIRO[m] - ang) ? j : m, 0);
       const pic = base.children[i];
       pic.classList.remove("balanca"); void pic.offsetWidth; pic.classList.add("balanca");
