@@ -94,7 +94,8 @@
   }
 
   /* Picolés recortados que abrem em leque: [altura em %, posição do palito em %] */
-  const LEQUE = {"agua": [[95.72, 65.65], [97.06, 80.1], [96.79, 73.91], [97.06, 64.43], [96.52, 48.45]], "leite": [[98.13, 61.44], [98.4, 57.33], [98.4, 70.83], [98.4, 54.27], [98.4, 50.0]], "zero": [[97, 45.9], [97, 48.99]], "especiais": [[97, 50.81], [97, 50.71], [97, 49.73], [97, 45.74], [97, 49.29], [97, 50.91]], "refri": [[70, 50], [70, 50], [70, 50], [70, 50], [70, 50]], "suco": [[94, 50], [100, 50], [90, 50]]};
+  const LEQUE = {"agua": [[95.72, 69.59], [97.06, 87.02], [96.79, 77.53], [97.06, 64.31], [96.52, 47.13]], "leite": [[98.13, 64.74], [98.4, 59.67], [98.4, 74.0], [98.4, 54.85], [98.4, 50.27]], "zero": [[97, 46.06], [97, 48.9]], "especiais": [[97, 51.11], [97, 51.17], [97, 50.3], [97, 45.75], [97, 49.48], [97, 51.64]], "refri": [[70, 50], [70, 50], [70, 50], [70, 50], [70, 50]], "suco": [[94, 50], [100, 50], [90, 50]]};
+  const HD = ["agua", "leite", "zero", "especiais"]; // recortes em alta resolução: fotos/hd-<pasta>-N.webp
   // ângulos do leque conforme a quantidade de picolés (5 → -34, -17, 0, 17, 34)
   // abertura maior para recortes largos (latas e caixinhas)
   const ABERTURA = { refri: 52, suco: 30 };
@@ -103,7 +104,7 @@
     const GIRO = giros(LEQUE[l.pasta].length, ABERTURA[l.pasta]);
     const pecas = LEQUE[l.pasta].map(([h, ox], i) =>
       `<span class="leque-picole" style="height:${h}%;--ox:${ox}%;--g:${GIRO[i]}deg;--i:${i}">
-        <img src="fotos/${l.pasta}-${i + 1}.webp" alt="" draggable="false">
+        <img src="fotos/${HD.includes(l.pasta) ? "hd-" : ""}${l.pasta}-${i + 1}.webp" alt="" draggable="false">
       </span>`).join("");
     return `<div class="leque-palco" role="img" aria-label="${esc(l.alt)}"><div class="leque-base" data-pasta="${esc(l.pasta)}">${pecas}</div></div>`;
   }
