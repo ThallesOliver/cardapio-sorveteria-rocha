@@ -32,8 +32,9 @@ window.CONFIG = {
    - foto: { src, alt } foto no topo da categoria (pasta fotos/), no formato 4:5 (ex.: 1000x1250)
    - fotos: [ { src, alt, legenda } ] várias fotos em carrossel, também 4:5
    - pacotes: { fotos, alt } embalagens recortadas que se abrem e balançam ao toque
+   - vitrine: [ { src, alt, altura, vapor, bolhas } ] bebidas recortadas lado a lado
    - casquinha: { src, alt } casquinha recortada que flutua e balança ao toque
-   - leque: { pasta, alt } picolés recortados (fotos/<pasta>-1, -2, ….webp) que abrem em leque
+   - leque: { pasta, alt } recortes (fotos/<pasta>-1, -2, ….webp) que abrem em leque; pode ser uma lista de leques
    - nota: frase curta abaixo do título
    - grupo: título que separa blocos de categorias
    - capa: miniatura redonda no cabeçalho (sem capa, usa um desenho) */
@@ -271,13 +272,23 @@ window.CATEGORIAS = [
   {
     id: "bebidas",
     grupo: "Bebidas e para levar",
+    capa: "fotos/capa-bebidas.webp",
     nome: "Café e bebidas",
     rotulo: "Quente ou gelado",
+    vitrine: [
+      { src: "fotos/agua-sem-gas.webp", alt: "Água mineral sem gás", altura: 100 },
+      { src: "fotos/xicara-cafe.webp", alt: "Xícara de café", altura: 52, vapor: true },
+      { src: "fotos/agua-com-gas.webp", alt: "Água mineral com gás", altura: 100, bolhas: true }
+    ],
+    leque: [
+      { pasta: "refri", alt: "Latas de refrigerante: Coca-Cola, Guaraná Antarctica, Fanta laranja, Fanta uva e Sprite" },
+      { pasta: "suco", alt: "Sucos Del Valle de laranja, uva e pêssego" }
+    ],
     itens: [
       { nome: "Café" },
       { nome: "Água", desc: "Sem gás ou com gás" },
-      { nome: "Refrigerante" },
-      { nome: "Suco em lata" }
+      { nome: "Refrigerante", desc: "Coca-Cola, Guaraná Antarctica, Fanta laranja, Fanta uva e Sprite" },
+      { nome: "Suco Del Valle", desc: "Laranja, uva ou pêssego" }
     ]
   },
   {
