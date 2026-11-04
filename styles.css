@@ -223,6 +223,16 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
   100% { transform: none; }
 }
 @media (prefers-reduced-motion: reduce) { .pacote { transition: none; } .pacote img, .pacote.balanca img { animation: none; } }
+/* Casquinha recortada (sorvetes de massa) */
+.casquinha-palco { position: relative; height: clamp(220px, 58vw, 300px); margin: 6px 0 10px; display: flex; justify-content: center; align-items: flex-end; }
+.casquinha { position: relative; z-index: 1; height: 100%; padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; transform: translateY(40%) scale(.7); opacity: 0; transition: transform .8s cubic-bezier(.3,1.5,.5,1), opacity .4s; }
+.secao.aberto .casquinha { transform: none; opacity: 1; transition-delay: .12s; }
+.casquinha img { display: block; height: 100%; width: auto; pointer-events: none; filter: drop-shadow(0 8px 12px rgba(45,41,40,.18)); transform-origin: 50% 100%; animation: flutua 3.6s ease-in-out infinite; }
+.casquinha.balanca img { animation: balanca .75s ease; }
+.casquinha-sombra { position: absolute; bottom: -4px; left: 50%; width: 70px; height: 12px; margin-left: -35px; border-radius: 50%; background: radial-gradient(rgba(45,41,40,.22), rgba(45,41,40,0) 70%); animation: sombra 3.6s ease-in-out infinite; }
+@keyframes flutua { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-5%) rotate(2deg); } }
+@keyframes sombra { 0%, 100% { transform: scaleX(1); opacity: 1; } 50% { transform: scaleX(.75); opacity: .6; } }
+@media (prefers-reduced-motion: reduce) { .casquinha { transition: none; } .casquinha img, .casquinha-sombra, .casquinha.balanca img { animation: none; } }
 .carrossel { margin: 4px auto 10px; max-width: 420px; }
 .carrossel-trilho { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 10px; overscroll-behavior-x: contain; }
 .carrossel-trilho::-webkit-scrollbar { display: none; }
