@@ -278,14 +278,14 @@ window.CATEGORIAS = [
     fotos: [
       { src: "fotos/bebida-cafe_2.webp", alt: "Xícara de café", legenda: "Café" },
       { src: "fotos/bebida-agua_2.webp", alt: "Garrafas de água mineral sem gás e com gás", legenda: "Água sem gás e com gás" },
-      { src: "fotos/bebida-refri_2.webp", alt: "Latas de Coca-Cola, Guaraná Antarctica, Fanta laranja, Fanta uva e Sprite", legenda: "Refrigerantes" },
-      { src: "fotos/bebida-suco_2.webp", alt: "Sucos Del Valle de laranja, uva e pêssego", legenda: "Sucos Del Valle" }
+      { src: "fotos/bebida-refri_3.webp", alt: "Latas de Coca-Cola, Guaraná Antarctica, Fanta laranja, Fanta uva e Sprite", legenda: "Refrigerantes" },
+      { src: "fotos/bebida-suco_4.webp", alt: "Latas de suco Del Valle de uva, manga, pêssego, goiaba e maracujá", legenda: "Sucos Del Valle em lata" }
     ],
     itens: [
       { nome: "Café" },
       { nome: "Água", desc: "Sem gás ou com gás" },
       { nome: "Refrigerante", desc: "Coca-Cola, Guaraná Antarctica, Fanta laranja, Fanta uva e Sprite" },
-      { nome: "Suco Del Valle", desc: "Laranja, uva ou pêssego" }
+      { nome: "Suco Del Valle em lata", desc: "Uva, manga, pêssego, goiaba ou maracujá" }
     ]
   },
   {
