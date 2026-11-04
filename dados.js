@@ -32,6 +32,7 @@ window.CONFIG = {
    - foto: { src, alt } foto no topo da categoria (pasta fotos/), no formato 4:5 (ex.: 1000x1250)
    - fotos: [ { src, alt, legenda } ] várias fotos em carrossel, também 4:5
    - pacotes: { fotos, alt } embalagens recortadas que se abrem e balançam ao toque
+   - casquinha: { src, alt } casquinha recortada que flutua e balança ao toque
    - leque: { pasta, alt } picolés recortados (fotos/<pasta>-1, -2, ….webp) que abrem em leque
    - nota: frase curta abaixo do título
    - grupo: título que separa blocos de categorias
@@ -128,6 +129,8 @@ window.CATEGORIAS = [
   {
     id: "massa-agua",
     grupo: "Sorvetes de massa",
+    capa: "fotos/capa-casquinha-agua.webp",
+    casquinha: { src: "fotos/casquinha-agua.webp", alt: "Casquinha Rocha com duas bolas de sorvete de amora" },
     nome: "Massa de fruta",
     rotulo: "Base de água",
     nota: "Feitos com fruta, à base de água. Todos sem lactose e veganos. No copinho ou no cascão, com 1 ou 2 bolas.",
@@ -144,6 +147,8 @@ window.CATEGORIAS = [
   {
     id: "massa-leite",
     grupo: "Sorvetes de massa",
+    capa: "fotos/capa-casquinha-leite.webp",
+    casquinha: { src: "fotos/casquinha-leite.webp", alt: "Casquinha Rocha com duas bolas de sorvete de menta" },
     nome: "Massa",
     rotulo: "Base de leite",
     nota: "No copinho ou no cascão, com 1 ou 2 bolas. Peça também a cobertura de chocolate.",
@@ -197,6 +202,8 @@ window.CATEGORIAS = [
   {
     id: "massa-zero",
     grupo: "Sorvetes de massa",
+    capa: "fotos/capa-casquinha-zero.webp",
+    casquinha: { src: "fotos/casquinha-zero.webp", alt: "Casquinha Rocha com duas bolas de sorvete de morango zero açúcar" },
     nome: "Massa zero açúcar",
     rotulo: "Sem açúcar",
     nota: "No copinho ou no cascão, com 1 ou 2 bolas.",
@@ -214,6 +221,8 @@ window.CATEGORIAS = [
   {
     id: "massa-premium",
     grupo: "Sorvetes de massa",
+    capa: "fotos/capa-casquinha-premium.webp",
+    casquinha: { src: "fotos/casquinha-premium.webp", alt: "Casquinha Rocha com duas bolas de sorvete de caramelo salgado" },
     nome: "Linha premium",
     rotulo: "Sabores especiais",
     nota: "No copinho ou no cascão, com 1 ou 2 bolas.",
