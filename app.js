@@ -106,6 +106,9 @@
     return `<div class="leque-palco" role="img" aria-label="${esc(l.alt)}"><div class="leque-base">${pecas}</div></div>`;
   }
 
+  /* Casquinha recortada que sobe ao abrir, flutua e balança ao toque */
+  const casquinhaHTML = (c) => `<div class="casquinha-palco"><button type="button" class="casquinha" aria-label="${esc(c.alt)}"><img src="${esc(c.src)}" alt="" draggable="false"></button><span class="casquinha-sombra" aria-hidden="true"></span></div>`;
+
   function pacotesHTML(p) {
     const n = p.fotos.length;
     return `<div class="pacotes${n > 2 ? " leque-pacotes" : ""}" role="img" aria-label="${esc(p.alt)}">${p.fotos.map((src, i) =>
@@ -168,6 +171,7 @@
       const topo = `${cat.nota ? `<p class="nota">${esc(cat.nota)}</p>` : ""}
         ${cat.leque ? lequeHTML(cat.leque) : ""}
         ${cat.pacotes ? pacotesHTML(cat.pacotes) : ""}
+        ${cat.casquinha ? casquinhaHTML(cat.casquinha) : ""}
         ${cat.foto ? `<div class="foto-moldura">${fotoHTML(cat.foto)}</div>` : ""}
         ${cat.fotos ? carrosselHTML(cat) : ""}`;
       const cab = cat.grupo && cat.grupo !== grupoAtual ? `<h3 class="grupo">${esc(cat.grupo)}</h3>` : "";
@@ -186,6 +190,12 @@
   document.addEventListener("click", (e) => {
     const ir = e.target.closest("[data-ir]");
     if (ir) { mexeuEm = Date.now(); irPara(ir.closest("[data-carrossel]"), +ir.dataset.ir); return; }
+    const casq = e.target.closest(".casquinha");
+    if (casq) {
+      casq.classList.remove("balanca"); void casq.offsetWidth; casq.classList.add("balanca");
+      casq.addEventListener("animationend", () => casq.classList.remove("balanca"), { once: true });
+      return;
+    }
     const pac = e.target.closest(".pacote");
     if (pac) {
       pac.classList.remove("balanca"); void pac.offsetWidth; pac.classList.add("balanca");
