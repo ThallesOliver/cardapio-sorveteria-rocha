@@ -272,14 +272,14 @@ window.CATEGORIAS = [
   {
     id: "bebidas",
     grupo: "Bebidas e para levar",
-    capa: "fotos/capa-bebidas.webp",
+    capa: "fotos/capa-bebidas_1.webp",
     nome: "Café e bebidas",
     rotulo: "Quente ou gelado",
     fotos: [
-      { src: "fotos/bebida-cafe.webp", alt: "Xícara de café", legenda: "Café" },
-      { src: "fotos/bebida-agua.webp", alt: "Garrafas de água mineral sem gás e com gás", legenda: "Água sem gás e com gás" },
-      { src: "fotos/bebida-refri.webp", alt: "Latas de Coca-Cola, Guaraná Antarctica, Fanta laranja, Fanta uva e Sprite", legenda: "Refrigerantes" },
-      { src: "fotos/bebida-suco.webp", alt: "Sucos Del Valle de laranja, uva e pêssego", legenda: "Sucos Del Valle" }
+      { src: "fotos/bebida-cafe_2.webp", alt: "Xícara de café", legenda: "Café" },
+      { src: "fotos/bebida-agua_2.webp", alt: "Garrafas de água mineral sem gás e com gás", legenda: "Água sem gás e com gás" },
+      { src: "fotos/bebida-refri_2.webp", alt: "Latas de Coca-Cola, Guaraná Antarctica, Fanta laranja, Fanta uva e Sprite", legenda: "Refrigerantes" },
+      { src: "fotos/bebida-suco_2.webp", alt: "Sucos Del Valle de laranja, uva e pêssego", legenda: "Sucos Del Valle" }
     ],
     itens: [
       { nome: "Café" },
