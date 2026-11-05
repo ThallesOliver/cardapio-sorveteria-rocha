@@ -334,6 +334,15 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .picole i::after { content: ""; position: absolute; left: 50%; bottom: -6px; width: 3px; height: 7px; margin-left: -1.5px; border-radius: 2px; background: #D9B98A; }
 .picoles.bolas .picole i { width: 16px; height: 16px; margin: 0; border-radius: 50% 50% 46% 46%; }
 .picoles.bolas .picole i::after { display: none; }
+/* "Ver mais sabores" */
+.picoles:not(.todos) .picole.extra { display: none; }
+.picoles.todos .picole.extra { animation: aparece .35s ease both; animation-delay: calc((var(--i) - 10) * 25ms); }
+@keyframes aparece { from { opacity: 0; transform: translateY(6px); } }
+.ver-mais { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin: 10px 0 4px; padding: 11px 16px; border: 1.5px dashed var(--amarelo-escuro); border-radius: 12px; background: #FFF8E1; color: var(--carvao); font: inherit; font-weight: 700; font-size: 14.5px; cursor: pointer; transition: background .2s, transform .15s; }
+.ver-mais:hover { background: #FFEFB8; } .ver-mais:active { transform: scale(.98); }
+.ver-mais svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: transform .3s; }
+.ver-mais[aria-expanded="true"] svg { transform: rotate(180deg); }
+@media (prefers-reduced-motion: reduce) { .picoles.todos .picole.extra { animation: none; } }
 .leque-capa.desenho svg { width: 44px; height: 44px; }
 .picole.off { color: var(--suave); text-decoration: line-through; }
 .picole small { font-size: 12px; }
