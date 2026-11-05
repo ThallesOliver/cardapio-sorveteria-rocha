@@ -470,3 +470,35 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .leque-cab:hover .ic-balanca, .secao.aberto .ic-balanca { animation-duration: 1.6s; }
 .leque-cab:hover .ic-vapor path, .secao.aberto .ic-vapor path { animation-duration: 1.6s; }
 @media (prefers-reduced-motion: reduce) { .leque-capa.desenho svg * { animation: none !important; } .ic-gota { opacity: 1; } }
+
+/* Slides montados sobre o fundo amarelo (recortes e tamanhos dentro do carrossel) */
+.slide.palco { background: var(--fundo-foto); overflow: hidden; }
+.slide figcaption small { display: block; margin-top: 1px; font-family: var(--sans, Figtree, sans-serif); font-size: 11.5px; letter-spacing: .03em; opacity: .78; text-align: center; }
+.slide.palco figcaption { border-radius: 16px; text-align: center; }
+.recorte { position: absolute; left: 50%; top: 58%; width: 68%; padding: 0; border: 0; background: none; cursor: pointer; z-index: 1; -webkit-tap-highlight-color: transparent; transform: translate(-50%, -50%); }
+.recorte img { display: block; width: 100%; height: auto; pointer-events: none; filter: drop-shadow(0 14px 18px rgba(45,41,40,.22)); animation: recorte-flutua 5s ease-in-out infinite; }
+.recorte-sombra { position: absolute; left: 50%; bottom: 13%; width: 50%; height: 18px; translate: -50% 0; border-radius: 50%; background: radial-gradient(rgba(45,41,40,.18), rgba(45,41,40,0) 70%); animation: sombra 5s ease-in-out infinite; }
+@keyframes recorte-flutua { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-3%) rotate(1.5deg); } }
+.recorte.balanca img { animation: pula .8s ease; }
+/* Isopor P, M e G: desenhados lado a lado, do menor ao maior */
+.tamanhos { position: absolute; left: 3%; right: 3%; bottom: 8%; top: 24%; display: flex; align-items: flex-end; justify-content: center; gap: 3%; }
+.tamanho { flex: none; width: var(--w); display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  opacity: 0; transform: translateY(18%); transition: transform .7s cubic-bezier(.3,1.4,.5,1), opacity .4s; transition-delay: calc(.12s + var(--i) * .14s); }
+.secao.aberto .slide.visivel .tamanho { opacity: 1; transform: none; }
+.tamanho svg { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 6px 10px rgba(45,41,40,.10)); transition: transform .45s cubic-bezier(.3,1.4,.5,1); }
+.iso-tampa { transform-box: fill-box; transform-origin: 96% 100%; transition: transform .55s cubic-bezier(.3,1.5,.5,1); }
+.iso-dentro { transform: translateY(14px); transition: transform .5s cubic-bezier(.3,1.4,.5,1) .05s; }
+.iso-sombra { transform-box: fill-box; transform-origin: center; transition: transform .45s, opacity .45s; }
+.tamanho[aria-pressed="true"] svg { transform: translateY(-5%); }
+.tamanho[aria-pressed="true"] .iso-tampa { transform: translate(4%, -38%) rotate(16deg); }
+.tamanho[aria-pressed="true"] .iso-dentro { transform: none; }
+.tamanho[aria-pressed="true"] .iso-sombra { transform: translateY(6%) scaleX(.82); opacity: .7; }
+@media (hover: hover) { .tamanho:hover svg { transform: translateY(-3%); } .tamanho[aria-pressed="true"]:hover svg { transform: translateY(-5%); } }
+.tamanho-tag { display: flex; align-items: center; gap: 0; padding: 3px; border-radius: 999px; background: rgba(255,255,255,.9); box-shadow: 0 3px 10px rgba(45,41,40,.12); color: var(--carvao); white-space: nowrap; transition: background .25s, padding .3s, gap .3s; }
+.tamanho-tag b { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--amarelo); font-family: var(--serif); font-size: 17px; transition: background .25s, color .25s; }
+.tamanho-tag span { max-width: 0; overflow: hidden; font-size: 13px; font-weight: 700; transition: max-width .35s; }
+.tamanho[aria-pressed="true"] .tamanho-tag { padding-right: 11px; gap: 6px; background: #fff; }
+.tamanho[aria-pressed="true"] .tamanho-tag span { max-width: 80px; }
+.tamanho[aria-pressed="true"] .tamanho-tag b { background: var(--carvao); color: #fff; }
+.tamanhos:has([aria-pressed="true"]) .tamanho:not([aria-pressed="true"]) svg { opacity: .78; }
+@media (prefers-reduced-motion: reduce) { .recorte img, .recorte-sombra, .recorte.balanca img { animation: none; } .tamanho, .tamanho svg, .iso-tampa, .iso-dentro { transition: none; } .tamanho { opacity: 1; transform: none; } }
