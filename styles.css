@@ -178,7 +178,9 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .secao.aberto .secao-foto { opacity: 1; transform: none; transition-delay: .1s; }
 
 /* Leque de picolés: fechados um atrás do outro, abrem girando a partir do palito */
-.leque-palco { margin: 4px auto 10px; max-width: 420px; padding: 22px 0 18px; overflow: hidden; border-radius: 10px; background: var(--fundo-foto); }
+.leque-palco { position: relative; margin: 4px auto 10px; max-width: 420px; padding: 22px 0 18px; overflow: hidden; border-radius: 10px; background: var(--fundo-foto); }
+/* selo Rocha no canto das fotos (igual às fotos das taças e bebidas) */
+.leque-palco::after, .casquinha-palco::after { content: ""; position: absolute; right: 3%; bottom: 3%; width: 20%; aspect-ratio: 900 / 566; background: url(fotos/logo-selo.webp) center / contain no-repeat; pointer-events: none; z-index: 2; }
 .leque-base { cursor: pointer; -webkit-tap-highlight-color: transparent; position: relative; height: clamp(220px, 58vw, 300px); margin-top: 6px; }
 .leque-picole {
   position: absolute; left: 50%; bottom: 0; pointer-events: none;
