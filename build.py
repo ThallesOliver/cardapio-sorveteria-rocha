@@ -1,15 +1,17 @@
 """Monta o site em ./public e gera a imagem de prévia (og.png) e o ícone (icone.png).
 Roda na Vercel a cada publicação. Não precisa mexer aqui para trocar sabores."""
-import os, shutil, urllib.request
+import hashlib, os, shutil, urllib.request
 from PIL import Image, ImageDraw, ImageFont
 
 OUT = "public"
 ARQUIVOS = ["index.html", "styles.css", "app.js", "dados.js", "fundo.js", "topo.js"]
 PASTAS = ["fotos"]
-BASE = "https://raw.githubusercontent.com/google/fonts/main/ofl/"
+# Fontes fixadas numa versão (commit) do repositório do Google e conferidas pelo SHA-256,
+# para o build nunca usar um arquivo diferente do esperado.
+BASE = "https://raw.githubusercontent.com/google/fonts/eb20e9cf19d97cf579fa3867d729d4222d6c59e1/ofl/"
 FONTES = {
-    "Playfair.ttf": BASE + "playfairdisplay/PlayfairDisplay%5Bwght%5D.ttf",
-    "Figtree.ttf": BASE + "figtree/Figtree%5Bwght%5D.ttf",
+    "Playfair.ttf": (BASE + "playfairdisplay/PlayfairDisplay%5Bwght%5D.ttf", "c40f2293766a503bc70cce9e512ef844a4ccb7cbcde792fe2ea31d191917d8d6"),
+    "Figtree.ttf": (BASE + "figtree/Figtree%5Bwght%5D.ttf", "26ad3db9b31ff7dde67a91ff515d022d2f495cd506590699cf264f0bfe6fb714"),
 }
 CARVAO = (45, 41, 40); CREME = (247, 243, 236); AMARELO = (246, 195, 28)
 
@@ -21,10 +23,18 @@ for p in PASTAS:
         shutil.copytree(p, os.path.join(OUT, p), dirs_exist_ok=True)
 
 os.makedirs("/tmp/fontes", exist_ok=True)
-for nome, url in FONTES.items():
+def sha256(caminho):
+    with open(caminho, "rb") as f:
+        return hashlib.sha256(f.read()).hexdigest()
+
+
+for nome, (url, esperado) in FONTES.items():
     destino = "/tmp/fontes/" + nome
-    if not os.path.exists(destino):
+    if not os.path.exists(destino) or sha256(destino) != esperado:
         urllib.request.urlretrieve(url, destino)
+    if sha256(destino) != esperado:
+        os.remove(destino)
+        raise SystemExit(f"Fonte {nome} não confere com o SHA-256 esperado; build interrompido.")
 MARCA, SANS = "/tmp/fontes/Playfair.ttf", "/tmp/fontes/Figtree.ttf"
 
 
