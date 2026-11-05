@@ -130,6 +130,7 @@
     </div>`;
   }
 
+  const LIMITE = 10; // sabores visíveis antes do "Ver mais"
   const qtd = (n, um, varios) => `${n} ${n === 1 ? um : varios}`;
 
   function saboresHTML(cat, lista) {
@@ -140,9 +141,14 @@
       const proprias = (s.tags || []).filter((t) => !comuns.includes(t));
       const extra = s.esgotado ? " <small>(esgotado)</small>" : s.novo ? ' <small class="novo">novo</small>' : s.casa ? ' <small class="mais">da casa</small>' : "";
       const marca = proprias.length ? ` <small>· ${proprias.map((t) => TAGS[t]).join(" · ")}</small>` : "";
-      return `<li class="picole${s.esgotado ? " off" : ""}" style="--c:${s.cor};--i:${i}"><i aria-hidden="true"></i><span>${esc(s.nome)}${extra}${marca}</span></li>`;
+      const escondido = i >= LIMITE && !termo && filtro === "todos" ? " extra" : "";
+      return `<li class="picole${s.esgotado ? " off" : ""}${escondido}" style="--c:${s.cor};--i:${i}"><i aria-hidden="true"></i><span>${esc(s.nome)}${extra}${marca}</span></li>`;
     }).join("");
-    return `${selos}<ul class="picoles${cat.id.startsWith("massa") ? " bolas" : ""}">${chips}</ul>`;
+    // Mais de 10 sabores: mostra 10 e um botão "Ver mais sabores" (na busca/filtro mostra todos)
+    const resto = lista.length - LIMITE;
+    const mais = resto > 0 && !termo && filtro === "todos"
+      ? `<button type="button" class="ver-mais" data-ver-mais aria-expanded="false"><span>Ver mais ${resto} sabores</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>` : "";
+    return `${selos}<ul class="picoles${cat.id.startsWith("massa") ? " bolas" : ""}">${chips}</ul>${mais}`;
   }
 
   function itensHTML(itens) {
@@ -197,6 +203,15 @@
   document.addEventListener("click", (e) => {
     const ir = e.target.closest("[data-ir]");
     if (ir) { mexeuEm = Date.now(); irPara(ir.closest("[data-carrossel]"), +ir.dataset.ir); return; }
+    const vm = e.target.closest("[data-ver-mais]");
+    if (vm) {
+      const ul = vm.previousElementSibling, abrir = !ul.classList.contains("todos");
+      ul.classList.toggle("todos", abrir); vm.setAttribute("aria-expanded", abrir);
+      const n = ul.querySelectorAll(".extra").length;
+      vm.querySelector("span").textContent = abrir ? "Ver menos" : `Ver mais ${n} sabores`;
+      if (!abrir) ul.closest(".secao").scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
     const casq = e.target.closest(".casquinha, .vitrine-item");
     if (casq) {
       casq.classList.remove("balanca"); void casq.offsetWidth; casq.classList.add("balanca");
