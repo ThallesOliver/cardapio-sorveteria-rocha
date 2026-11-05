@@ -180,7 +180,7 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 /* Leque de picolés: fechados um atrás do outro, abrem girando a partir do palito */
 .leque-palco { position: relative; margin: 4px auto 10px; max-width: 420px; padding: 22px 0 18px; overflow: hidden; border-radius: 10px; background: var(--fundo-foto); }
 /* selo Rocha no canto das fotos (igual às fotos das taças e bebidas) */
-.leque-palco::after, .casquinha-palco::after, .slide.com-selo::after { content: ""; position: absolute; right: 3%; bottom: 3%; width: 20%; aspect-ratio: 900 / 566; background: url(fotos/logo-selo.webp) center / contain no-repeat; pointer-events: none; z-index: 2; }
+.leque-palco::after, .casquinha-palco::after, .leque-pacotes::after, .slide.com-selo::after { content: ""; position: absolute; right: 3%; bottom: 3%; width: 20%; aspect-ratio: 900 / 566; background: url(fotos/logo-selo.webp) center / contain no-repeat; pointer-events: none; z-index: 2; }
 .leque-base { cursor: pointer; -webkit-tap-highlight-color: transparent; position: relative; height: clamp(220px, 58vw, 300px); margin-top: 6px; }
 .leque-picole {
   position: absolute; left: 50%; bottom: 0; pointer-events: none;
@@ -213,8 +213,8 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 @media (hover: hover) { .pacote:hover { z-index: 2; } .pacote:hover img { translate: 0 -4%; transition: translate .25s; } }
 .pacote.balanca { z-index: 3; }
 .pacote.balanca img { animation: pula .8s ease; }
-.leque-pacotes { height: clamp(250px, 70vw, 330px); max-width: 420px; }
-.leque-pacotes .pacote { top: auto; bottom: 0; height: 72%; transform-origin: 50% 120%; transform: translateX(-50%) rotate(calc((var(--i) - 2) * 3deg)) scale(.92); }
+.leque-pacotes { height: clamp(280px, 76vw, 360px); max-width: 420px; border-radius: 10px; background: var(--fundo-foto); overflow: hidden; }
+.leque-pacotes .pacote { top: auto; bottom: 8%; height: 72%; transform-origin: 50% 120%; transform: translateX(-50%) rotate(calc((var(--i) - 2) * 3deg)) scale(.92); }
 .secao.aberto .leque-pacotes .pacote { transform: translateX(calc(-50% + (var(--i) - 2) * 36%)) translateY(calc(var(--i) * (4 - var(--i)) * -2.5%)) rotate(calc((var(--i) - 2) * 11deg)); transition-delay: calc(.12s + var(--i) * 70ms); }
 .secao.aberto .leque-pacotes .pacote:nth-child(1), .secao.aberto .leque-pacotes .pacote:nth-child(2) { transform: translateX(calc(-50% + (var(--i) - 2) * 36%)) translateY(calc(var(--i) * (4 - var(--i)) * -2.5%)) rotate(calc((var(--i) - 2) * 9deg)); }
 @keyframes flutua { 0%, 100% { translate: 0 0; } 50% { translate: 0 -2.5%; } }
@@ -261,7 +261,7 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .carrossel-trilho { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 10px; overscroll-behavior-x: contain; }
 .carrossel-trilho::-webkit-scrollbar { display: none; }
 .carrossel .slide { flex: 0 0 100%; margin: 0; max-width: none; aspect-ratio: 4 / 5; scroll-snap-align: start; position: relative; }
-.slide figcaption { position: absolute; left: 10px; bottom: 10px; padding: 4px 12px; border-radius: 999px; background: rgba(35,31,30,.78); color: #fff; font-size: 13px; font-weight: 600; }
+.slide figcaption { position: absolute; left: 50%; top: 12px; transform: translateX(-50%); white-space: nowrap; padding: 6px 16px; border-radius: 999px; background: rgba(35,31,30,.82); color: #fff; font-family: var(--serif); font-size: 17px; letter-spacing: .02em; box-shadow: 0 4px 12px rgba(0,0,0,.18); }
 .carrossel-pontos { display: flex; justify-content: center; gap: 4px; margin-top: 8px; }
 .carrossel-pontos button { width: 26px; height: 26px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
 .carrossel-pontos button::before { content: ""; width: 7px; height: 7px; border-radius: 999px; background: var(--linha); transition: width .25s, background .25s; }
