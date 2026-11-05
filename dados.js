@@ -261,8 +261,13 @@ window.CATEGORIAS = [
   {
     id: "acai",
     grupo: "Sobremesas",
+    capa: "fotos/acai-tigela-selo.jpg",
     nome: "Açaí",
     rotulo: "Na tigela ou no copo",
+    fotos: [
+      { src: "fotos/acai-tigela-selo.jpg", alt: "Açaí na tigela branca Sorvetes Rocha", legenda: "Açaí na tigela" },
+      { src: "fotos/acai-copo.jpg", alt: "Açaí no copo com leite em pó", legenda: "Açaí no copo" }
+    ],
     itens: [
       { nome: "Açaí na tigela" },
       { nome: "Açaí no copo", desc: "300 ml ou 500 ml" }
