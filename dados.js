@@ -302,6 +302,7 @@ window.CATEGORIAS = [
     nome: "Para viagem",
     rotulo: "Para casa ou praia",
     fotos: [
+      { recorte: "fotos/viagem-caixa_1.webp", alt: "Bandeja com picolés Rocha embalados de vários sabores", legenda: "Picolés para viagem", nota: "Monte com os sabores que quiser", selo: true },
       { alt: "Isopores de sorvete nos tamanhos P, M e G", legenda: "Isopor de sorvete", nota: "Toque num tamanho para abrir",
         tamanhos: [
           { rotulo: "P", nome: "Pequeno", largura: 26, altura: .74 },
