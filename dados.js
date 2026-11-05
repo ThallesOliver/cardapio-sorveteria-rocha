@@ -30,7 +30,7 @@ window.CONFIG = {
        novo: true mostra o selinho "novo" ao lado do sabor
    - itens: lista de produtos { nome, desc }
    - foto: { src, alt } foto no topo da categoria (pasta fotos/), no formato 4:5 (ex.: 1000x1250)
-   - fotos: [ { src, alt, legenda } ] várias fotos em carrossel, também 4:5
+   - fotos: [ { src, alt, legenda, selo } ] várias fotos em carrossel, também 4:5 (selo: true põe o selo Rocha no canto)
    - pacotes: { fotos, alt } embalagens recortadas que se abrem e balançam ao toque
    - vitrine: [ { src, alt, altura, vapor, bolhas } ] bebidas recortadas lado a lado
    - casquinha: { src, alt } casquinha recortada que flutua e balança ao toque
@@ -245,7 +245,7 @@ window.CATEGORIAS = [
       { src: "fotos/taca-sundae.jpg", alt: "Colegial: taça de sorvete de chocolate com chantilly, calda e farofa de amendoim", legenda: "Colegial" },
       { src: "fotos/petit-gateau.jpg", alt: "Petit gateau com bola de sorvete e calda de chocolate", legenda: "Petit gateau" },
       { src: "fotos/milk-shake-selo.jpg", alt: "Milk shake com chantilly e calda de chocolate", legenda: "Milk shake" },
-      { src: "fotos/tacas.jpg", alt: "Sundae: taça de sorvete com calda e farofa de amendoim", legenda: "Sundae" },
+      { src: "fotos/tacas.jpg", alt: "Sundae: taça de sorvete com calda e farofa de amendoim", legenda: "Sundae", selo: true },
       { src: "fotos/massa.jpg", alt: "Brownie com bola de sorvete, calda de chocolate e farofa de amendoim", legenda: "Brownie" }
     ],
     itens: [
