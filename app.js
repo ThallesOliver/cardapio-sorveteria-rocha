@@ -136,10 +136,42 @@
   }
 
   const fotoHTML = (f) => `<img class="secao-foto" src="${esc(f.src)}" alt="${esc(f.alt)}" width="1000" height="1250" loading="lazy">`;
+  /* Slide com recorte que flutua sobre o fundo amarelo (toque: balança) */
+  const recorteHTML = (f) => `<button type="button" class="recorte" aria-label="${esc(f.alt)}"><img src="${esc(f.recorte)}" alt="" draggable="false" loading="lazy"></button><span class="recorte-sombra" aria-hidden="true"></span>`;
+  /* Slide de tamanhos: isopores desenhados lado a lado; o toque abre a tampa e mostra o sorvete */
+  function isoporSVG(r, k) {
+    const H = Math.round(100 * r), y0 = 34, base = y0 + 14 + H;
+    const bolas = [["#F4B3C0", 30], ["#6B3E26", 50], ["#F3E2B3", 70]].map(([c, x], j) =>
+      `<circle cx="${x}" cy="${y0 + 16}" r="${j === 1 ? 15 : 13}" fill="${c}" stroke="#2D2928" stroke-opacity=".15"/>`).join("");
+    return `<svg viewBox="0 0 100 ${base + 4}" aria-hidden="true">
+      <defs>
+        <pattern id="iso-p${k}" width="3.2" height="3.2" patternUnits="userSpaceOnUse"><circle cx="1.6" cy="1.6" r=".6" fill="#D6CFC1" fill-opacity=".35"/><circle cx="0" cy="0" r=".5" fill="#D6CFC1" fill-opacity=".25"/></pattern>
+        <linearGradient id="iso-c${k}" x1="0" x2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#F7F5F0"/><stop offset="1" stop-color="#E4DFD5"/></linearGradient>
+        <linearGradient id="iso-t${k}" y1="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EDE9E1"/></linearGradient>
+        <clipPath id="iso-b${k}"><rect x="0" y="0" width="100" height="${y0 + 15}"/></clipPath>
+      </defs>
+      <ellipse class="iso-sombra" cx="50" cy="${base + 1}" rx="46" ry="3.2" fill="#2D2928" fill-opacity=".14"/>
+      <g class="iso-dentro" clip-path="url(#iso-b${k})">${bolas}</g>
+      <path d="M7 ${y0 + 12}h86l-3.4 ${H}a4 4 0 0 1-4 3.6H14.4a4 4 0 0 1-4-3.6z" fill="url(#iso-c${k})" stroke="#CFC8BA" stroke-width=".8"/>
+      <path d="M7 ${y0 + 12}h86l-3.4 ${H}a4 4 0 0 1-4 3.6H14.4a4 4 0 0 1-4-3.6z" fill="url(#iso-p${k})"/>
+      <path d="M13 ${y0 + 18}l2.4 ${H - 10}" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>
+      <image href="fotos/logo-selo.webp" x="30" y="${y0 + 12 + H / 2 - 12}" width="40" height="25"/>
+      <g class="iso-tampa">
+        <rect x="3" y="${y0}" width="94" height="14" rx="4" fill="url(#iso-t${k})" stroke="#CFC8BA" stroke-width=".8"/>
+        <rect x="3" y="${y0}" width="94" height="14" rx="4" fill="url(#iso-p${k})"/>
+        <path d="M6 ${y0 + 10.5}h88" stroke="#D9D3C7" stroke-width=".8"/>
+        <path d="M9 ${y0 + 3.5}h40" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+      </g>
+    </svg>`;
+  }
+  const tamanhosHTML = (f) => `<div class="tamanhos" role="group" aria-label="${esc(f.alt)}">${f.tamanhos.map((t, i) =>
+    `<button type="button" class="tamanho" style="--w:${num(t.largura, 30)}%;--i:${i}" aria-label="Isopor ${esc(t.nome || t.rotulo)}" aria-pressed="false">${isoporSVG(Math.min(1.2, Math.max(.4, num(t.altura, .6))), i)}<span class="tamanho-tag"><b>${esc(t.rotulo)}</b><span>${esc(t.nome || "")}</span></span></button>`).join("")}</div>`;
   function carrosselHTML(cat) {
     const n = cat.fotos.length;
+    const conteudo = (f) => f.tamanhos ? tamanhosHTML(f) : f.recorte ? recorteHTML(f) : fotoHTML(f);
+    const palco = (f) => f.tamanhos || f.recorte ? " palco" : "";
     return `<div class="carrossel" data-carrossel>
-      <div class="carrossel-trilho" tabindex="0" aria-label="Fotos: ${esc(cat.nome)}">${cat.fotos.map((f, i) => `<figure class="foto-moldura slide${f.selo ? " com-selo" : ""}" aria-label="${i + 1} de ${n}">${fotoHTML(f)}${f.legenda ? `<figcaption>${esc(f.legenda)}</figcaption>` : ""}</figure>`).join("")}</div>
+      <div class="carrossel-trilho" tabindex="0" aria-label="Fotos: ${esc(cat.nome)}">${cat.fotos.map((f, i) => `<figure class="foto-moldura slide${palco(f)}${f.selo ? " com-selo" : ""}${i ? "" : " visivel"}" aria-label="${i + 1} de ${n}">${conteudo(f)}${f.legenda ? `<figcaption>${esc(f.legenda)}${f.nota ? `<small>${esc(f.nota)}</small>` : ""}</figcaption>` : ""}</figure>`).join("")}</div>
       <div class="carrossel-pontos">${cat.fotos.map((f, i) => `<button type="button" data-ir="${i}" aria-label="Ver foto ${i + 1}"${i ? "" : ' aria-current="true"'}></button>`).join("")}</div>
     </div>`;
   }
@@ -226,7 +258,14 @@
       if (!abrir) ul.closest(".secao").scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
-    const casq = e.target.closest(".casquinha, .vitrine-item");
+    const tam = e.target.closest(".tamanho");
+    if (tam) {
+      mexeuEm = Date.now();
+      const ligar = tam.getAttribute("aria-pressed") !== "true";
+      tam.parentNode.querySelectorAll(".tamanho").forEach((b) => b.setAttribute("aria-pressed", b === tam && ligar));
+      return;
+    }
+    const casq = e.target.closest(".casquinha, .vitrine-item, .recorte");
     if (casq) {
       casq.classList.remove("balanca"); void casq.offsetWidth; casq.classList.add("balanca");
       casq.addEventListener("animationend", () => casq.classList.remove("balanca"), { once: true });
@@ -283,6 +322,7 @@
     if (!(t instanceof Element) || !t.classList.contains("carrossel-trilho")) return;
     const i = atual(t);
     t.parentNode.querySelectorAll("[data-ir]").forEach((b, j) => b.toggleAttribute("aria-current", j === i));
+    [...t.children].forEach((s, j) => s.classList.toggle("visivel", j === i));
   }, { capture: true, passive: true });
   ["pointerdown", "touchstart", "wheel"].forEach((ev) => document.addEventListener(ev, (e) => {
     if (e.target.closest?.(".carrossel")) mexeuEm = Date.now();
