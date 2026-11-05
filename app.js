@@ -125,7 +125,7 @@
   function carrosselHTML(cat) {
     const n = cat.fotos.length;
     return `<div class="carrossel" data-carrossel>
-      <div class="carrossel-trilho" tabindex="0" aria-label="Fotos: ${esc(cat.nome)}">${cat.fotos.map((f, i) => `<figure class="foto-moldura slide" aria-label="${i + 1} de ${n}">${fotoHTML(f)}${f.legenda ? `<figcaption>${esc(f.legenda)}</figcaption>` : ""}</figure>`).join("")}</div>
+      <div class="carrossel-trilho" tabindex="0" aria-label="Fotos: ${esc(cat.nome)}">${cat.fotos.map((f, i) => `<figure class="foto-moldura slide${f.selo ? " com-selo" : ""}" aria-label="${i + 1} de ${n}">${fotoHTML(f)}${f.legenda ? `<figcaption>${esc(f.legenda)}</figcaption>` : ""}</figure>`).join("")}</div>
       <div class="carrossel-pontos">${cat.fotos.map((f, i) => `<button type="button" data-ir="${i}" aria-label="Ver foto ${i + 1}"${i ? "" : ' aria-current="true"'}></button>`).join("")}</div>
     </div>`;
   }
