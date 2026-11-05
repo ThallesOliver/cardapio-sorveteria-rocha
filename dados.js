@@ -31,6 +31,9 @@ window.CONFIG = {
    - itens: lista de produtos { nome, desc }
    - foto: { src, alt } foto no topo da categoria (pasta fotos/), no formato 4:5 (ex.: 1000x1250)
    - fotos: [ { src, alt, legenda, selo } ] várias fotos em carrossel, também 4:5 (selo: true põe o selo Rocha no canto)
+     no lugar de src, um slide pode ter: recorte (imagem sem fundo que flutua) ou tamanhos
+     ([ { rotulo, nome, largura em %, altura em proporção da largura } ] isopores desenhados que abrem ao toque)
+     nota: frase pequena abaixo da legenda
    - pacotes: { fotos, alt } embalagens recortadas que se abrem e balançam ao toque
    - vitrine: [ { src, alt, altura, vapor, bolhas } ] bebidas recortadas lado a lado
    - casquinha: { src, alt } casquinha recortada que flutua e balança ao toque
@@ -298,7 +301,14 @@ window.CATEGORIAS = [
     capa: "fotos/capa-viagem.jpg",
     nome: "Para viagem",
     rotulo: "Para casa ou praia",
-    pacotes: { fotos: ["fotos/zero-choco.webp", "fotos/zero-coco.webp", "fotos/viagem-coco.webp", "fotos/viagem-groselha.webp", "fotos/viagem-uva.webp"], alt: "Picolés Rocha embalados: Chocolate Zero, Coco Zero, Coco, Groselha e Uva" },
+    fotos: [
+      { alt: "Isopores de sorvete nos tamanhos P, M e G", legenda: "Isopor de sorvete", nota: "Toque num tamanho para abrir",
+        tamanhos: [
+          { rotulo: "P", nome: "Pequeno", largura: 26, altura: .74 },
+          { rotulo: "M", nome: "Médio", largura: 31, altura: .8 },
+          { rotulo: "G", nome: "Grande", largura: 38, altura: .86 }
+        ] }
+    ],
     itens: [
       { nome: "Caixa com 12 picolés", desc: "Monte com os sabores que quiser" },
       { nome: "Isopor de sorvete", desc: "Tamanhos P, M e G" }
