@@ -2,6 +2,10 @@
   const C = window.CONFIG;
   const $ = (s, el = document) => el.querySelector(s);
   const esc = (s) => String(s).replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
+  // Valores que vão dentro de style/atributos: só aceita o formato esperado
+  const cor = (c) => /^#[0-9a-f]{3,8}$/i.test(String(c)) ? c : "#E8E2D6";
+  const num = (n, padrao) => Number.isFinite(+n) ? +n : padrao;
+  const slug = (s) => String(s).replace(/[^a-z0-9-]/gi, "");
   const norm = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
   const DIAS = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
   const TAGS = { "sem-lactose": "Sem lactose", vegano: "Vegano", zero: "Zero açúcar" };
@@ -84,13 +88,13 @@
   /* Um painel do leque: cabeçalho que abre e fecha + conteúdo */
   const abertos = new Set();
   function painel(cat, resumo, qtdTexto, cores, corpo) {
-    const id = cat.id;
+    const id = slug(cat.id);
     const aberto = abertos.has(id) || !!termo || filtro !== "todos";
     const ic = ICONES[id];
     const capa = ic
-      ? `<span class="leque-capa desenho" style="--fundo:${ic.fundo}" aria-hidden="true"><svg viewBox="3 1.5 42 42">${ic.svg}</svg></span>`
+      ? `<span class="leque-capa desenho" style="--fundo:${cor(ic.fundo)}" aria-hidden="true"><svg viewBox="3 1.5 42 42">${ic.svg}</svg></span>`
       : cat.capa ? `<span class="leque-capa" aria-hidden="true"><img src="${esc(cat.capa)}" alt="" loading="lazy"></span>`
-      : `<span class="leque-cores" aria-hidden="true">${cores.map((c) => `<i style="--c:${c}"></i>`).join("")}</span>`;
+      : `<span class="leque-cores" aria-hidden="true">${cores.map((c) => `<i style="--c:${cor(c)}"></i>`).join("")}</span>`;
     return `<section class="secao${aberto ? " aberto" : ""}" id="cat-${id}">
       <h2 class="leque-titulo">
         <button type="button" class="leque-cab" id="cab-${id}" data-painel="${id}" aria-expanded="${aberto}" aria-controls="corpo-${id}">
@@ -114,7 +118,7 @@
     const GIRO = giros(LEQUE[l.pasta].length, ABERTURA[l.pasta]);
     const pecas = LEQUE[l.pasta].map(([h, ox], i) =>
       `<span class="leque-picole" style="height:${h}%;--ox:${ox}%;--g:${GIRO[i]}deg;--i:${i}">
-        <img src="fotos/${HD.includes(l.pasta) ? "hd-" : ""}${l.pasta}-${i + 1}.webp" alt="" draggable="false">
+        <img src="fotos/${HD.includes(l.pasta) ? "hd-" : ""}${slug(l.pasta)}-${i + 1}.webp" alt="" draggable="false">
       </span>`).join("");
     return `<div class="leque-palco" role="img" aria-label="${esc(l.alt)}"><div class="leque-base" data-pasta="${esc(l.pasta)}">${pecas}</div></div>`;
   }
@@ -123,7 +127,7 @@
   const casquinhaHTML = (c) => `<div class="casquinha-palco"><button type="button" class="casquinha" aria-label="${esc(c.alt)}"><img src="${esc(c.src)}" alt="" draggable="false"></button><span class="casquinha-sombra" aria-hidden="true"></span></div>`;
 
   /* Vitrine: bebidas recortadas lado a lado (café solta vapor, água com gás faz bolhinhas) */
-  const vitrineHTML = (v) => `<div class="vitrine">${v.map((it, i) => `<button type="button" class="vitrine-item" style="--h:${it.altura || 100}%;--i:${i}" aria-label="${esc(it.alt)}"><img src="${esc(it.src)}" alt="" draggable="false">${it.vapor ? '<span class="vapor" aria-hidden="true"><svg viewBox="0 0 60 80"><path d="M14 78c-8-12 8-18 0-30s8-20 2-32"/><path d="M30 78c-8-12 8-18 0-30s8-20 2-32"/><path d="M46 78c-8-12 8-18 0-30s8-20 2-32"/></svg></span>' : ""}${it.bolhas ? `<span class="bolhas" aria-hidden="true">${"<i></i>".repeat(8)}</span>` : ""}</button>`).join("")}</div>`;
+  const vitrineHTML = (v) => `<div class="vitrine">${v.map((it, i) => `<button type="button" class="vitrine-item" style="--h:${num(it.altura, 100)}%;--i:${i}" aria-label="${esc(it.alt)}"><img src="${esc(it.src)}" alt="" draggable="false">${it.vapor ? '<span class="vapor" aria-hidden="true"><svg viewBox="0 0 60 80"><path d="M14 78c-8-12 8-18 0-30s8-20 2-32"/><path d="M30 78c-8-12 8-18 0-30s8-20 2-32"/><path d="M46 78c-8-12 8-18 0-30s8-20 2-32"/></svg></span>' : ""}${it.bolhas ? `<span class="bolhas" aria-hidden="true">${"<i></i>".repeat(8)}</span>` : ""}</button>`).join("")}</div>`;
 
   function pacotesHTML(p) {
     const n = p.fotos.length;
@@ -152,7 +156,7 @@
       const extra = s.esgotado ? " <small>(esgotado)</small>" : s.novo ? ' <small class="novo">novo</small>' : s.casa ? ' <small class="mais">da casa</small>' : "";
       const marca = proprias.length ? ` <small>· ${proprias.map((t) => TAGS[t]).join(" · ")}</small>` : "";
       const escondido = i >= LIMITE && !termo && filtro === "todos" ? " extra" : "";
-      return `<li class="picole${s.esgotado ? " off" : ""}${escondido}" style="--c:${s.cor};--i:${i}"><i aria-hidden="true"></i><span>${esc(s.nome)}${extra}${marca}</span></li>`;
+      return `<li class="picole${s.esgotado ? " off" : ""}${escondido}" style="--c:${cor(s.cor)};--i:${i}"><i aria-hidden="true"></i><span>${esc(s.nome)}${extra}${marca}</span></li>`;
     }).join("");
     // Mais de 10 sabores: mostra 10 e um botão "Ver mais sabores" (na busca/filtro mostra todos)
     const resto = lista.length - LIMITE;
