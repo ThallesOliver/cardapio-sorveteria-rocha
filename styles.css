@@ -289,8 +289,8 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 }
 .leque-capa { flex: none; width: 56px; height: 56px; border-radius: 50%; overflow: hidden; background: var(--creme); box-shadow: 0 0 0 1px var(--linha), 0 3px 8px rgba(45,41,40,.10); transition: transform .35s cubic-bezier(.3,1.4,.5,1); }
 .leque-capa img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.leque-capa.desenho { display: grid; place-items: center; background: #FDF1C7; }
-.leque-capa.desenho svg { width: 36px; height: 36px; }
+.leque-capa.desenho { display: grid; place-items: center; background: radial-gradient(circle at 35% 28%, #fff 0, var(--fundo, #FDF1C7) 62%); box-shadow: 0 0 0 1px var(--linha), inset 0 -3px 6px rgba(45,41,40,.06), 0 3px 8px rgba(45,41,40,.10); }
+.leque-capa.desenho svg { width: 52px; height: 52px; }
 .leque-cab:hover .leque-capa, .secao.aberto .leque-capa { transform: rotate(-6deg) scale(1.04); }
 .leque-qtd { color: var(--amarelo-escuro); font-weight: 600; white-space: nowrap; }
 .grupo { margin: 22px 2px 2px; display: flex; align-items: center; gap: 12px; font-family: var(--texto); font-size: 12.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--amarelo-escuro); }
@@ -343,7 +343,6 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .ver-mais svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: transform .3s; }
 .ver-mais[aria-expanded="true"] svg { transform: rotate(180deg); }
 @media (prefers-reduced-motion: reduce) { .picoles.todos .picole.extra { animation: none; } }
-.leque-capa.desenho svg { width: 44px; height: 44px; }
 .picole.off { color: var(--suave); text-decoration: line-through; }
 .picole small { font-size: 12px; }
 @media (prefers-reduced-motion: reduce) { .picole { transition: none; opacity: 1; transform: none; } }
@@ -438,3 +437,36 @@ main { max-width: 640px; margin: 0 auto; padding: 0 20px; }
 .rodape-acoes.surge.visivel { transition-delay: .1s; } .rodape-horas.surge.visivel { transition-delay: .2s; }
 @media (prefers-reduced-motion: reduce) { .surge { opacity: 1; transform: none; transition: none; } .barra { transform: none; transition: none; } .rodape-calda .gota, .agora, .horas-resumo::before { animation: none; } }
 .rodape-fim { text-align: center; max-width: 640px; margin: 0 auto !important; padding: 16px 20px 28px; border-top: 1px solid rgba(255,255,255,.1); font-size: 13px !important; color: #9F9792; }
+
+/* Desenhos das categorias: movimento leve sempre; mais vivo ao tocar ou abrir */
+.leque-capa.desenho [class^="ic-"] { transform-box: fill-box; }
+.ic-gota { transform-origin: 50% 0; animation: ic-gota 3.6s ease-in infinite; }
+@keyframes ic-gota { 0%, 55% { transform: translateY(0) scale(.2); opacity: 0; } 65% { transform: translateY(0) scale(1); opacity: 1; } 90% { transform: translateY(5px) scale(1); opacity: 1; } 100% { transform: translateY(7px) scale(.9); opacity: 0; } }
+.ic-folha { transform-origin: 0% 100%; animation: ic-folha 3.2s ease-in-out infinite; }
+@keyframes ic-folha { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(10deg); } }
+.ic-brilho { transform-origin: center; animation: ic-brilho 2.4s ease-in-out infinite var(--d, 0s); }
+@keyframes ic-brilho { 0%, 100% { transform: scale(.4) rotate(0); opacity: .3; } 50% { transform: scale(1.15) rotate(45deg); opacity: 1; } }
+.ic-pula { transform-origin: 50% 100%; animation: ic-pula 3s cubic-bezier(.3,1.4,.5,1) infinite; }
+@keyframes ic-pula { 0%, 70%, 100% { transform: translateY(0); } 80% { transform: translateY(-3px) scale(1.06); } 90% { transform: translateY(0) scale(.97, 1.03); } }
+.ic-granulado { transform-origin: center; }
+.ic-calda { stroke-dasharray: 40; stroke-dashoffset: 0; }
+.ic-coroa { transform-origin: 50% 100%; animation: ic-coroa 3.4s ease-in-out infinite; }
+@keyframes ic-coroa { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg) translateY(-1px); } }
+.ic-wafer { transform-origin: 0% 100%; }
+.ic-vapor path { fill: none; stroke: #C9965A; stroke-width: 1.5; stroke-linecap: round; animation: ic-vapor 2.6s ease-in-out infinite; }
+.ic-vapor path:nth-child(2) { animation-delay: .5s; } .ic-vapor path:nth-child(3) { animation-delay: 1s; }
+@keyframes ic-vapor { 0% { transform: translateY(2px); opacity: 0; } 40% { opacity: .9; } 100% { transform: translateY(-4px); opacity: 0; } }
+.ic-balanca { transform-origin: 50% 50%; animation: ic-balanca 4s ease-in-out infinite; }
+@keyframes ic-balanca { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+.leque-cab:hover .ic-granulado, .secao.aberto .ic-granulado { animation: ic-granulado .9s ease-in-out infinite alternate; }
+@keyframes ic-granulado { to { transform: translateY(-1.2px) rotate(3deg); } }
+.leque-cab:hover .ic-calda, .secao.aberto .ic-calda { animation: ic-calda 1.8s ease-in-out; }
+@keyframes ic-calda { from { stroke-dashoffset: 40; } }
+.leque-cab:hover .ic-wafer, .secao.aberto .ic-wafer { animation: ic-wafer 1.4s ease-in-out infinite alternate; }
+@keyframes ic-wafer { to { transform: rotate(-12deg); } }
+.leque-cab:hover .ic-pula, .secao.aberto .ic-pula { animation-duration: 1.2s; }
+.leque-cab:hover .ic-gota, .secao.aberto .ic-gota { animation-duration: 1.8s; }
+.leque-cab:hover .ic-folha, .secao.aberto .ic-folha { animation-duration: 1.4s; }
+.leque-cab:hover .ic-balanca, .secao.aberto .ic-balanca { animation-duration: 1.6s; }
+.leque-cab:hover .ic-vapor path, .secao.aberto .ic-vapor path { animation-duration: 1.6s; }
+@media (prefers-reduced-motion: reduce) { .leque-capa.desenho svg * { animation: none !important; } .ic-gota { opacity: 1; } }
