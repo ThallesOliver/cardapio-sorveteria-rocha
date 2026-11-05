@@ -242,21 +242,20 @@ window.CATEGORIAS = [
     nome: "Taças",
     rotulo: "Montadas na hora",
     fotos: [
-      { src: "fotos/taca-sundae.jpg", alt: "Taça de sorvete de chocolate com chantilly, calda e farofa de amendoim" },
-      { src: "fotos/taca-colorida.jpg", alt: "Taça de sorvete com chantilly, calda de morango e banana" },
+      { src: "fotos/taca-sundae.jpg", alt: "Colegial: taça de sorvete de chocolate com chantilly, calda e farofa de amendoim", legenda: "Colegial" },
       { src: "fotos/petit-gateau.jpg", alt: "Petit gateau com bola de sorvete e calda de chocolate", legenda: "Petit gateau" },
-      { src: "fotos/milk-shake.jpg", alt: "Milk shake com chantilly e calda de chocolate" },
-      { src: "fotos/tacas.jpg", alt: "Taça de sorvete com calda e farofa de amendoim" },
+      { src: "fotos/milk-shake-selo.jpg", alt: "Milk shake com chantilly e calda de chocolate", legenda: "Milk shake" },
+      { src: "fotos/tacas.jpg", alt: "Sundae: taça de sorvete com calda e farofa de amendoim", legenda: "Sundae" },
       { src: "fotos/massa.jpg", alt: "Brownie com bola de sorvete, calda de chocolate e farofa de amendoim", legenda: "Brownie" }
     ],
     itens: [
       { nome: "Colegial" },
-      { nome: "Sundae" },
-      { nome: "Banana split" },
-      { nome: "Milk shake" },
-      { nome: "Vaca preta" },
       { nome: "Petit gateau" },
-      { nome: "Brownie" }
+      { nome: "Milk shake" },
+      { nome: "Sundae" },
+      { nome: "Brownie" },
+      { nome: "Banana split" },
+      { nome: "Vaca preta" }
     ]
   },
   {
@@ -276,10 +275,10 @@ window.CATEGORIAS = [
     nome: "Café e bebidas",
     rotulo: "Quente ou gelado",
     fotos: [
-      { src: "fotos/bebida-cafe_2.webp", alt: "Xícara de café", legenda: "Café" },
-      { src: "fotos/bebida-agua_2.webp", alt: "Garrafas de água mineral sem gás e com gás", legenda: "Água sem gás e com gás" },
-      { src: "fotos/bebida-refri_3.webp", alt: "Latas de Coca-Cola, Guaraná Antarctica, Fanta laranja, Fanta uva e Sprite", legenda: "Refrigerantes" },
-      { src: "fotos/bebida-suco_4.webp", alt: "Latas de suco Del Valle de uva, manga, pêssego, goiaba e maracujá", legenda: "Sucos Del Valle em lata" }
+      { src: "fotos/bebida-cafe-selo.webp", alt: "Xícara de café", legenda: "Café" },
+      { src: "fotos/bebida-agua-selo.webp", alt: "Garrafas de água mineral sem gás e com gás", legenda: "Água sem gás e com gás" },
+      { src: "fotos/bebida-refri-selo.webp", alt: "Latas de Coca-Cola, Guaraná Antarctica, Fanta laranja, Fanta uva e Sprite", legenda: "Refrigerantes" },
+      { src: "fotos/bebida-suco-selo.webp", alt: "Latas de suco Del Valle de uva, manga, pêssego, goiaba e maracujá", legenda: "Sucos Del Valle em lata" }
     ],
     itens: [
       { nome: "Café" },
